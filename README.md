@@ -71,7 +71,7 @@ you should create a Python virtual environment and use the `requirements.txt` fi
 ### Installation
 
 ```bash
-git clone 
+git clone https://github.com/micag2025/Toolkit_Google_ADK.git
 cd Toolkit_Google_AKD
 pip install -r requirements.txt
 ```
