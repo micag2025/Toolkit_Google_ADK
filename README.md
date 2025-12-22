@@ -91,10 +91,10 @@ pip install -r requirements.txt
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE]() file for details.
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/micag2025/Toolkit_Google_ADK/blob/d18bda56849caea6efeda3803da893b29d5bfa23/LICENSE) file for details.
 
 ---
 
 ## Contact
 
-If you encounter bugs, have questions, or want to request a new feature, please [open an issue]() on this repository.   
+If you encounter bugs, have questions, or want to request a new feature, please [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues) on this repository.   
