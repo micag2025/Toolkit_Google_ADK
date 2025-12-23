@@ -187,15 +187,60 @@ The application is built using a **multi-agent architecture powered by Gemini mo
 └──────────────────┘   └────────────────────┘
 ```
 
+## Agents  
 
+### RootAgent (Central Orchestrator)
 
+The **RootAgent** is the intelligence hub of the system. It is responsible for:
 
+- Intent detection
+- Deterministic workflow control
+- Tool and agent selection
+- Context aggregation
+- Final response assembly
 
+The RootAgent has **direct access** to:
+- Gemini-powered specialist agents
+- Third-party developer APIs
 
+### Gemini-Powered Agents
 
+- **AIDevSearchAgent**
+  - Discovers and summarizes AI developer news
+  - Uses `google_search`
+  - Manages headline selection and summaries
 
+- **CodeAgent**
+  - Executes Python code only
+  - Uses `BuiltInCodeExecutor`
+  - Returns execution results without explanation
 
-  
+### Third-Party Developer APIs (Custom Tools)
+
+- **Hugging Face Hub API**
+  - Model metadata
+  - Spaces
+  - Datasets
+  - Popularity and usage signals
+
+- **GitHub API**
+  - Repository metadata
+  - Stars, issues, commits
+  - Open-source activity signals
+
+These APIs are exposed as **custom tools** directly to the RootAgent and are used for enrichment, ranking, and developer relevance scoring.
+
+---
+
+## 🏗️ Design Principles
+
+- Clear separation of concerns
+- Deterministic workflows
+- Minimal LLM guesswork
+- Tool transparency
+- Developer-first UX
+
+---
 
 ## Agents
 
