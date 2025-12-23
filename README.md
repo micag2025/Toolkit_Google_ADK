@@ -1,4 +1,4 @@
-# Toolkit Agents with Google’s Agent Development Kit (ADK(   
+# Toolkit Agents with Google’s Agent Development Kit (ADK)   
 
  build a complete AI News AI Developer Agent that can research the latest AI developments, generate Python code, use HuggingFace and GitHUb platform  and generate professional audio podcasts.
 
@@ -9,8 +9,8 @@
 -  how to build and deploy AI agents with Google’s open source Agent Development Kit (ADK). ADK provides modular components such as models, tools, memory, and orchestration,
    that make it easier to create both simple and complex systems.
 -  building a text agent that takes text input, reasons with an LLM, and responds with text output. Then evaluation of sessions, state, and memory, and extend the agents
-   with tools and APIs to perform real-world tasks. Add callbacks and guardrails for reliability and orchestrate specialized agents like planners and researchers. Build a podcast agent
-   that researches a topic, drafts a conversational script, and produces multi-speaker audio with Gemini text-to-speech models. Then, build in guardrails to secure and optimize the agents before
+   with tools and APIs to perform real-world tasks. Add callbacks and guardrails for reliability and orchestrate specialized agents like planners and researchers. Build a text agent
+   that researches a topic, drafts a conversational script, and produces outputs with Gemini text-to-speech models. Then, build in guardrails to secure and optimize the agents before
    reviewing methods for deploying them into production.
 
 In detail:   
@@ -24,32 +24,19 @@ In detail:
 - Learn how to productionize your agents by giving them persistent memory, testing their reliability, deploying on Vertex AI, and adding security and monitoring for safe scaling.
 
 
+## Repository structure (Project Structure)
 
-## Overview  from the DLAI_adk _course  
-- Build your first agent    >L1
-- ADK primitives - Session, State, and Memory  
-- Tools for your agent  >L2
-- Adding a research agent  >L3
-- Instruction tuning and guardrails  >L4
-- Multi-agent orchestration >L5
-- [Optional] Productionize your agent
-
-## SET UP Google API key and Vertex AI based authentication   
-You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  
-Here's a step-by-step guide:  
-1.	Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website.  
-2.	Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel.  
-3.	Create API Key : Click on the "Create API key" button.  
-4.	Acknowledge Notices (if prompted) : If any legal notices or safety setting reminders appear, read and acknowledge them to proceed.  
-5.	Select Project : In the `Create API key` dialog, you'll have two options:  
-	- "Create API key in new project": Choose this if you want to create a new Google Cloud project for your API key.  
-	- "Create API key in existing project": Select this if you want to associate the API key with an existing Google Cloud project. It's recommended to choose the same project you plan to use for your application.  
-6.	Copy the API Key : After creation, a string for your new API key will be displayed. Copy this key string immediately and keep it secure. You will need this key to authenticate your calls to the Gemini API.  
-7.	Note Project Number (optional but recommended) : It's also a good practice to copy the project number of the Google Cloud project where the API key was generated, as this can be useful for later configurations.
-     
+```bash
+Toolkit_Google_ADK/(ai_dev_news_web)
+├── app.py
+├── requirements.txt
+├── .env.example
+├── licence
+├── README.md
+```
 
 
-## Repo structure  
+
 
 ## Getting Started
 This section shows how to install dependencies, configure authentication, and run the full pipeline.
@@ -65,8 +52,11 @@ export GEMINI_API_KEY=your_gemini_api_key
 export HF_API_KEY = your-hf_api_key
 export GIT_API_KEY= you git_api_key
 ```  
+> _SET UP Google API key and Vertex AI based authentication_   
+You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide:  	Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.    
 
 you should create a Python virtual environment and use the `requirements.txt` file to install the required Python packages.
+
 
 ### Installation
 
@@ -75,9 +65,18 @@ git clone https://github.com/micag2025/Toolkit_Google_ADK.git
 cd Toolkit_Google_AKD
 pip install -r requirements.txt
 ```
----
 
-## Running the Pipeline
+### Launch the ADK Web App  
+Run:  
+```
+adk web
+```
+- It will start a local web server.  
+- Open the provided URL in a browser.  
+- You can now chat with your AI Developer News + Code Assistant + HuggingFace + GitHub interactively.    
+
+
+## Examples Usage 
 
 
 
