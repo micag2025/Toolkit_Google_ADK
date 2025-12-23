@@ -30,13 +30,36 @@ This project lays the foundation with a `simple agent that can fetch recent AI n
 
 Firstly, it has been  built a simple agent that can fetch recent AI news from the web. An `agent' is a construct that has an LLM as the brain of the agent providing it the generative language capabilities and tools that let the agent take actions in the real world. besides, it will be also explored  alternative development approaches including YAML configuration and Web Builder options.
 
+## 1.2 Setting up the agent
 
+Before we dive into building agents, let's set up a new folder structure with ADK's built-in project scaffolding using the `adk create` command.
+
+When you run `adk create`, it generates three essential files. 
+1. The `.env` file securely stores your API credentials and configuration. 
+2. The `__init__.py` file marks the directory as a Python package, nabling proper imports. 
+3. Most importantly, the `agent.py` file provides a clean foundation where you'll implement your agent.
+
+File structure:
+```
+app_01/
+    __init__.py
+    agent.py
+    .env
+```
+
+ADK create supports two project types. The `--type=code` option generates a Python-based agent in `agent.py`. The `--type=config` option creates a YAML-based agent configuration.
+
+The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.  
 ---
 
 ## Repository structure (Project Structure)
 
 ```bash
-Toolkit_Google_ADK/(ai_dev_news_web)
+Toolkit_Google_ADK/(ai_dev_news_web)/
+├──app_01/
+    __init__.py
+    agent.py
+    .env
 ├── app.py
 ├── requirements.txt
 ├── .env.example
