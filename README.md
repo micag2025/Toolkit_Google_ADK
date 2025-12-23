@@ -9,6 +9,34 @@ Built using **Google Agent Development Kit (ADK)** with a clean multi-agent arch
 
 ---
 
+## Tool Schema
+
+| Tool                  | Type                      | Attached To      | Purpose                     |
+| --------------------- | ------------------------- | ---------------- | --------------------------- |
+| `AIDevSearchAgent`    | AgentTool                 | RootAgent        | AI news workflow            |
+| `CodeAgent`           | AgentTool                 | RootAgent        | Python execution            |
+| `google_search`       | Built-in ADK Tool         | AIDevSearchAgent | Web discovery               |
+| `BuiltInCodeExecutor` | ADK Executor              | CodeAgent        | Safe Python                 |
+| Hugging Face Hub API  | Third-party Tool (Custom) | RootAgent        | Model & platform enrichment |
+| GitHub API            | Third-party Tool (Custom) | RootAgent        | Repo & OSS signals          |
+
+> Second option schema to show the **Tool Categorization**
+
+```bash
+RootAgent Tools
+├─ Gemini Agent Tools
+│  ├─ AIDevSearchAgent (news + search workflow)
+│  └─ CodeAgent (python execution)
+│
+├─ Built-in ADK Tools
+│  └─ google_search
+│
+└─ Third-Party Developer APIs (Custom Tools)
+   ├─ Hugging Face Hub API
+   └─ GitHub API
+```
+---
+
 ## Key Features
 
 ### AI Developer News Assistant
@@ -40,7 +68,7 @@ Built using **Google Agent Development Kit (ADK)** with a clean multi-agent arch
 
 ## Architecture Overview  
 
-The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**.
+The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. The below schema diplays hows who decides, who executes, and where data comes from.
 
 ```yaml  
 ┌──────────────────────────────────────────────┐
@@ -104,6 +132,67 @@ The application is built using a **multi-agent architecture powered by Gemini mo
 └──────────────────────────────────────────────┘
 
 ```
+
+```yaml
+   ┌──────────────────────────────────────────────┐
+│                ADK Web UI                    │
+│  - User prompts                              │
+│  - Headline selection                       │
+│  - Python execution requests                │
+└────────────────────────┬─────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────┐
+│                Session State                 │
+│  - mode: news | code                        │
+│  - last_query                               │
+│  - headlines[]                              │
+│  - awaiting_count / selection               │
+└────────────────────────┬─────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────┐
+│                  RootAgent                  │
+│     (Gemini 2.5 Flash – Orchestrator)        │
+│                                              │
+│  Responsibilities:                           │
+│  - Intent detection                          │
+│  - Workflow orchestration                   │
+│  - Context aggregation                      │
+│  - Final response assembly                  │
+│                                              │
+│  Attached Tools & APIs:                      │
+│  - AIDevSearchAgent (Gemini tool)            │
+│  - CodeAgent (Gemini tool)                   │
+│  - Hugging Face Hub API                     │
+│  - GitHub API                               │
+└───────────────┬───────────────┬──────────────┘
+        ┌───────┴────────┐      │
+        ▼                ▼      ▼
+┌──────────────────┐  ┌──────────────────┐  ┌──────────────────────┐
+│ AIDevSearchAgent │  │     CodeAgent     │  │ External APIs        │
+│ (Gemini Tool)    │  │ (Gemini Tool)     │  │ (Direct Access)     │
+│                  │  │                  │  │                      │
+│ - AI news flow   │  │ - Python only    │  │ - Hugging Face Hub   │
+│ - Headline mgmt  │  │ - Deterministic  │  │   • models           │
+│ - Summaries      │  │ - Sandboxed exec │  │   • spaces           │
+└──────────┬───────┘  └──────────┬───────┘  │   • datasets         │
+           │                      │          │ - GitHub             │
+           ▼                      ▼          │   • repos            │
+┌──────────────────┐   ┌────────────────────┐│   • stars/issues    │
+│  google_search   │   │ BuiltInCodeExecutor││   • activity        │
+│  (Discovery)     │   │ (Python Sandbox)   │└──────────────────────┘
+└──────────────────┘   └────────────────────┘
+
+
+
+
+
+
+
+
+
+
   
 
 ## Agents
