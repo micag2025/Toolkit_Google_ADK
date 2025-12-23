@@ -12,10 +12,66 @@ This project focuses on building a comprehensive AI Developer Agent capable of:
 - Generating Python code.  
 - Leveraging platforms like HuggingFace and GitHub.    
 
-The project uses **Google’s Agent Development Kit (ADK)** to build, orchestrate, and deploy advanced multi-agent systems.
+The project uses **Google’s Agent Development Kit (ADK)** to build, orchestrate, and deploy advanced multi-agent systems. The ultimate goal is to create an AI agent with access to real-time information from the web.  
 
+An agent is a system where an LLM serves as the "brain" providing generative capabilities, combined with tools that allow actions in the real world. This foundation enables further expansion into research, code generation, and multimedia content creation.
 
 ---
+
+## Core Capabilities
+**Real-Time Text Agents**  
+- Build real-time text agents with ADK that can carry natural, conversational interactions.  
+- Connect agents to external tools and data sources to execute real-world tasks.  
+
+**Multi-Agent Systems**
+- Design systems using memory, tools, and orchestration patterns to coordinate specialized agents, such as planners, researchers, and writers.  
+- Enable collaboration between agents for complex workflows, including research, code generation, and content creation.  
+
+**Production-Ready Agents**
+- Deploy agents with guardrails, persistent memory, automated evaluations, and review methods.  
+- Run production workloads on Google Cloud’s Vertex AI Agent Engine with monitoring and security features.
+
+## Building AI Agents with ADK
+**ADK Overview**  
+- ADK provides modular components including models, tools, memory, and orchestration.    
+- Supports both simple agents and complex multi-agent systems.   
+
+**Text Agents**  
+Create a text agent that:
+- Takes text input.  
+- Uses an LLM to reason and generate responses.  
+- Integrates tools and APIs for executing real-world tasks.  
+Evaluate agent sessions, memory, and state for reliability.
+Extend capabilities with callbacks and guardrails for safe and predictable behavior.
+
+**Specialized Agents**  
+Design agents that:
+Research topics.
+Generate text  outputs using Gemini text-to-text models.
+Combine multiple agents with orchestration to create coordinated workflows.  
+
+## Step-by-Step Development Process
+**Agent Setup**  
+Build the agent in ADK and connect it to Google Search.  
+Test text interactions via the ADK Web UI.  
+**Memory & Context Management**  
+Use sessions, state, and memory to manage conversations.  
+Enable short-term tracking and long-term recall across interactions.  
+**Tools & API Integration**  
+Add custom tools and APIs.  
+Refine agent instructions to ensure adherence to defined workflows.  
+**Research & Reporting**  
+Generate structured research reports using schemas.  
+Act as a coordinator to collect, organize, and save outputs in markdown for downstream use.  
+**Guardrails & Callbacks**  
+Filter unsafe sources and enforce rules.    
+Log tool activity for predictability and production readiness.    
+**Production Deployment**  
+Give agents persistent memory.  
+Test reliability and deploy on Vertex AI.    
+Add security, monitoring, and scaling features for safe production use.     
+
+
 
 ## Tool Schema
 
@@ -332,7 +388,8 @@ adk web
 ```
 - It will start a local web server.  / Run the cell above and open the link in a new tab : This launches a browser-based interface for testing and debugging.  
 - Open the provided URL in a browser.  When you open the (provided URL) interface in your browser, you'll see the Google ADK user interface. In the left pane, select your agent from the dropdown (app_01)
-- You can now chat with the AI Developer News + Code Assistant + HuggingFace + GitHub interactively.  Try asking the agent a question with text. The agent responds text-to-text with real-time. It thinks and provide text answer  in a natural flow.     
+- You can now chat with the AI Developer News + Code Assistant + HuggingFace + GitHub interactively.  Try asking the agent a question with text. The agent responds text-to-text with real-time. It thinks and provide text answer  in a natural flow.
+- Explore the ADK Web UI for tracing agent reasoning and code interactions.     
 
 ### Kill ADK process  
 After finishing, make sure to run the cell below to close your connection.  
