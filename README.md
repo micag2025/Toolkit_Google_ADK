@@ -47,9 +47,8 @@ app_01/
     .env
 ```
 
-ADK create supports two project types. The `--type=code` option generates a Python-based agent in `agent.py`. The `--type=config` option creates a YAML-based agent configuration.
+ADK create supports two project types. The `--type=code` option generates a Python-based agent in `agent.py`. The `--type=config` option creates a YAML-based agent configuration. The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.  
 
-The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.  
 ---
 
 ## Repository structure (Project Structure)
