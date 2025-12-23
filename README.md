@@ -7,6 +7,14 @@ An interactive **ADK Web application** that helps AI developers:
 
 Built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture.
 
+This project focuses on building a comprehensive AI Developer Agent capable of:  
+- Researching the latest AI developments in real-time.  
+- Generating Python code.  
+- Leveraging platforms like HuggingFace and GitHub.    
+
+The project uses **Google’s Agent Development Kit (ADK)** to build, orchestrate, and deploy advanced multi-agent systems.
+
+
 ---
 
 ## Tool Schema
@@ -201,7 +209,7 @@ The **RootAgent** is the intelligence hub of the system. It is responsible for:
 - Routes user input  
 - Never answers directly   
 - Ensures correct agent selection  
-- 
+ 
 The RootAgent has **direct access** to:
 - Gemini-powered specialist agents
 - Third-party developer APIs
@@ -251,36 +259,6 @@ These APIs are exposed as **custom tools** directly to the RootAgent and are use
 - Developer-first UX
 
 ---
-
- build a complete AI News AI Developer Agent that can research the latest AI developments, generate Python code, use HuggingFace and GitHUb platform  and generate professional audio podcasts.
-
-- Build real-time text agents with Google’s Agent Development Kit (ADK) that can carry natural, real-time conversations while connecting to external tools and data.  
-- Design multi-agent systems that use memory, tools, and orchestration patterns to coordinate specialized agents like planners, researchers, and writers.  
-- Take agents to production by adding guardrails, persistent memory, automated evaluations, and review methods for deploying on Google Cloud’s Vertex AI Agent Engine.
-
--  how to build and deploy AI agents with Google’s open source Agent Development Kit (ADK). ADK provides modular components such as models, tools, memory, and orchestration,
-   that make it easier to create both simple and complex systems.
--  building a text agent that takes text input, reasons with an LLM, and responds with text output. Then evaluation of sessions, state, and memory, and extend the agents
-   with tools and APIs to perform real-world tasks. Add callbacks and guardrails for reliability and orchestrate specialized agents like planners and researchers. Build a text agent
-   that researches a topic, drafts a conversational script, and produces outputs with Gemini text-to-speech models. Then, build in guardrails to secure and optimize the agents before
-   reviewing methods for deploying them into production.
-
-In detail:   
-
-- Build the agent with ADK, connect it to Google Search, and test text interactions in the ADK Web UI.  
-- Use sessions, state, and memory to manage conversations, share context between tools, and give agents short-term tracking and long-term recall across interactions.  
-- Add custom tools and API, integrate them with ADK, and refine agent instructions so they follow defined workflows effectively.  
-- Generate structured research reports by defining schemas, rewriting agent instructions to act as a coordinator, and saving results as markdown files for downstream use.  
-- Add guardrails with callbacks to filter unsafe sources, enforce rules, and log tool activity, making your agents safer, more predictable, and production-ready.  
-- Build a agent by combining schemas, callbacks, and a dedicated audio agent, and generate multi-speaker episodes with Gemini text-to-text in a scalable workflow.  
-- Learn how to productionize your agents by giving them persistent memory, testing their reliability, deploying on Vertex AI, and adding security and monitoring for safe scaling.
-
-The objective is to build an AI agent and give it the power to access real-time information from the web. 
-
-This project lays the foundation with a `simple agent that can fetch recent AI news from the web`. Briefly, it will give an overview of the fundamental structure of an agent and explore the ADK Web UI, which is a convenient way to trace your agent's thinking and interact through live voice conversations.
-
-
-Firstly, it has been  built a simple agent that can fetch recent AI news from the web. An `agent' is a construct that has an LLM as the brain of the agent providing it the generative language capabilities and tools that let the agent take actions in the real world. besides, it will be also explored  alternative development approaches including YAML configuration and Web Builder options.
 
 ## 1.2 Setting up the agent
 
