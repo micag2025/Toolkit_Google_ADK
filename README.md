@@ -38,7 +38,9 @@ Built using **Google Agent Development Kit (ADK)** with a clean multi-agent arch
 
 ---
 
-## Architecture Overview
+## Architecture Overview  
+
+The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**.
 
 ```yaml  
 ┌──────────────────────────────────────────────┐
