@@ -95,26 +95,14 @@ pip install -r requirements.txt
 ```
 >_Note_: This will install a handy set of command-line tools that will be useful when working with ADK.  
 
-### Launch the ADK Web App  
+### Launch the ADK Web App  / Get the app URL
 Run:  
 ```
 adk web
 ```
-- It will start a local web server.  
-- Open the provided URL in a browser.  
-- You can now chat with your AI Developer News + Code Assistant + HuggingFace + GitHub interactively.  
-
-### Get the app URL
-
-**Run the cell above and open the link in a new tab.** This launches a browser-based interface for testing and debugging.
-
-When you open the interface in your browser, you'll see the Google ADK user interface. In the left pane, select your agent from the dropdown (app_01). 
-
-Try asking the agent a question with text. 
-
-**You have built your very first agent!** Your agent also responds with real-time, conversational voice, not just text-to-text. It thinks and provide text answer  in a natural flow. 
-
-
+- It will start a local web server.  / **Run the cell above and open the link in a new tab.** This launches a browser-based interface for testing and debugging.  
+- Open the provided URL in a browser.  When you open the (provided URL) interface in your browser, you'll see the Google ADK user interface. In the left pane, select your agent from the dropdown (app_01)
+- You can now chat with the AI Developer News + Code Assistant + HuggingFace + GitHub interactively.  Try asking the agent a question with text. The agent responds text-to-text with real-time. It thinks and provide text answer  in a natural flow.     
 
 ### Kill ADK process  
 After finishing, make sure to run the cell below to close your connection.  
