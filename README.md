@@ -68,7 +68,9 @@ RootAgent Tools
 
 ## Architecture Overview  
 
-The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. The below schema diplays hows who decides, who executes, and where data comes from.
+The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
+
+> _Note_ Option1 
 
 ```yaml  
 ┌──────────────────────────────────────────────┐
@@ -132,58 +134,58 @@ The application is built using a **multi-agent architecture powered by Gemini mo
 └──────────────────────────────────────────────┘
 
 ```
-
+> _Note_ Option2 
 ```yaml
-   ┌──────────────────────────────────────────────┐
+┌──────────────────────────────────────────────┐
 │                ADK Web UI                    │
 │  - User prompts                              │
-│  - Headline selection                       │
-│  - Python execution requests                │
+│  - Headline selection                        │
+│  - Python execution requests                 │
 └────────────────────────┬─────────────────────┘
                          │
                          ▼
 ┌──────────────────────────────────────────────┐
 │                Session State                 │
-│  - mode: news | code                        │
-│  - last_query                               │
-│  - headlines[]                              │
-│  - awaiting_count / selection               │
+│  - mode: news | code                         │
+│  - last_query                                │
+│  - headlines[]                               │
+│  - awaiting_count / selection                │
 └────────────────────────┬─────────────────────┘
                          │
                          ▼
 ┌──────────────────────────────────────────────┐
-│                  RootAgent                  │
+│                  RootAgent                   │
 │     (Gemini 2.5 Flash – Orchestrator)        │
 │                                              │
 │  Responsibilities:                           │
 │  - Intent detection                          │
-│  - Workflow orchestration                   │
-│  - Context aggregation                      │
-│  - Final response assembly                  │
+│  - Workflow orchestration                    │
+│  - Context aggregation                       │
+│  - Final response assembly                   │
 │                                              │
 │  Attached Tools & APIs:                      │
 │  - AIDevSearchAgent (Gemini tool)            │
 │  - CodeAgent (Gemini tool)                   │
-│  - Hugging Face Hub API                     │
-│  - GitHub API                               │
+│  - Hugging Face Hub API                      │
+│  - GitHub API                                │
 └───────────────┬───────────────┬──────────────┘
-        ┌───────┴────────┐      │
-        ▼                ▼      ▼
-┌──────────────────┐  ┌──────────────────┐  ┌──────────────────────┐
-│ AIDevSearchAgent │  │     CodeAgent     │  │ External APIs        │
-│ (Gemini Tool)    │  │ (Gemini Tool)     │  │ (Direct Access)     │
-│                  │  │                  │  │                      │
-│ - AI news flow   │  │ - Python only    │  │ - Hugging Face Hub   │
-│ - Headline mgmt  │  │ - Deterministic  │  │   • models           │
-│ - Summaries      │  │ - Sandboxed exec │  │   • spaces           │
-└──────────┬───────┘  └──────────┬───────┘  │   • datasets         │
-           │                      │          │ - GitHub             │
-           ▼                      ▼          │   • repos            │
+        ┌───────┴────────┐      │______________________
+        ▼                ▼                            ▼
+┌──────────────────┐  ┌──────────────────┐   ┌─────────────────────┐
+│ AIDevSearchAgent │  │     CodeAgent    │   │ External APIs       │
+│ (Gemini Tool)    │  │ (Gemini Tool)    │   │ (Direct Access)     │
+│                  │  │                  │   │                     │
+│ - AI news flow   │  │ - Python only    │   │ - Hugging Face Hub  │
+│ - Headline mgmt  │  │ - Deterministic  │   │   • models          │
+│ - Summaries      │  │ - Sandboxed exec │   │   • spaces          │
+└──────────┬───────┘  └──────────┬───────┘   │   • datasets        │
+           │                      │          │ - GitHub            │
+           ▼                      ▼          │   • repos           │
 ┌──────────────────┐   ┌────────────────────┐│   • stars/issues    │
 │  google_search   │   │ BuiltInCodeExecutor││   • activity        │
-│  (Discovery)     │   │ (Python Sandbox)   │└──────────────────────┘
+│  (Discovery)     │   │ (Python Sandbox)   │└─────────────────────┘
 └──────────────────┘   └────────────────────┘
-
+```
 
 
 
