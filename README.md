@@ -1,5 +1,132 @@
 # Toolkit Agents with Google’s Agent Development Kit (ADK)   
 
+An interactive **ADK Web application** that helps AI developers:
+- Discover **recent AI news, articles, platforms, and use cases**
+- Interactively explore headlines and summaries
+- **Execute Python code on demand** in the same interface
+
+Built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture.
+
+---
+
+## Key Features
+
+### AI Developer News Assistant
+- Finds **recent AI news** relevant to developers
+- Focuses on:
+  - AI articles
+  - AI platforms
+  - AI developer use cases
+- Uses **`google_search`** for transparent sourcing
+- Interactive workflow:
+  - Asks how many items you want
+  - Displays numbered headlines
+  - Summarizes one item at a time
+  - Allows fetching more news dynamically
+
+### Python Code Execution
+- Execute Python code directly in the chat
+- Supports multi-line code
+- Returns **only execution results**
+- Runs safely using `BuiltInCodeExecutor`
+
+### Smart Agent Routing
+- A **RootAgent** routes requests to:
+  - News Search Agent
+  - Python Code Execution Agent
+- Ensures clean separation of responsibilities
+
+---
+
+## Architecture Overview
+
+```yaml  
+┌──────────────────────────────────────────────┐
+│                ADK Web UI                    │
+│  - User prompts                              │
+│  - Headline selection                        │
+│  - Python execution requests                 │
+└────────────────────────┬─────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────┐
+│                Session State                 │
+│  - mode: news | code                         │
+│  - last_query                                │
+│  - headlines[]                               │
+│  - awaiting_count / selection                │
+└────────────────────────┬─────────────────────┘
+                         │
+                         ▼
+┌──────────────────────────────────────────────┐
+│                  RootAgent                   │
+│   (Gemini 2.5 Flash – Orchestrator)          │
+│                                              │
+│  - Intent detection                          │
+│  - Context aggregation                       │
+│  - Agent & tool routing                      │
+│  - No direct user responses                  │
+└───────────────┬───────────────┬──────────────┘
+        ┌───────┴────────┐      │
+        ▼                ▼      │_____________
+┌──────────────────┐  ┌──────────────────┐    │
+│ AIDevSearchAgent │  │     CodeAgent    │    │
+│ (Gemini Tool)    │  │   (Gemini Tool)  │    │
+│                  │  │                  │    │
+│ - AI news flow   │  │ - Python only    │    │
+│ - Headline mgmt  │  │ - Deterministic  │    │
+│ - Summaries      │  │ - Sandboxed exec │    │
+└──────────┬───────┘  └──────────┬───────┘    │
+           │                      │           │
+           ▼                      ▼           │
+┌──────────────────┐   ┌────────────────────┐ │
+│  google_search   │   │ BuiltInCodeExecutor│ │
+│  (Discovery)     │   │ (Python Sandbox)   │ │
+└──────────────────┘   └────────────────────┘ │
+                                              │
+            ┌─────────────────────────────────│ 
+            │
+            ▼
+┌──────────────────────────────────────────────┐
+│       External AI Developer Ecosystem        │
+│                                              │
+│  ┌──────────────────┐   ┌────────────────┐   │
+│  │  Hugging Face    │   │   GitHub       │   │
+│  │  - Models        │   │  - Repos       │   │
+│  │  - Spaces        │   │  - Code        │   │
+│  │  - Datasets      │   │  - Issues      │   │
+│  └──────────────────┘   └────────────────┘   │
+│                                              │
+│  (Referenced by RootAgent for reasoning,     │
+│   ranking, and developer relevance)          │
+└──────────────────────────────────────────────┘
+
+```
+  
+
+## Agents
+
+### 1. AI Developer News Agent
+- Specializes in AI news for developers
+- Uses `google_search`
+- Follows an interactive, multi-step workflow:
+  1. Clarify number of items
+  2. Search and filter AI-related content
+  3. Present headlines
+  4. Summarize selected items
+
+### 2. Python Code Agent
+- Executes Python code only
+- No explanations, no commentary
+- Returns execution output or errors
+
+### 3. Root Agent
+- Routes user input
+- Never answers directly
+- Ensures correct agent selection
+
+---
+
  build a complete AI News AI Developer Agent that can research the latest AI developments, generate Python code, use HuggingFace and GitHUb platform  and generate professional audio podcasts.
 
 - Build real-time text agents with Google’s Agent Development Kit (ADK) that can carry natural, real-time conversations while connecting to external tools and data.  
@@ -117,14 +244,41 @@ Run:
 <p style="background-color:#f7fff8; padding:15px; border-width:3px; border-color:#e0f0e0; border-style:solid; border-radius:6px"> 🚨
 &nbsp; <b>Different Run Results:</b> The output generated by AI chat models can vary with each execution due to their dynamic, probabilistic nature.</p>
 
-### 1.  
+### 1. Example Prompts: AI News 
 
 ![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
 
-### 2.  
+### 2.  Example Prompts: Python Code Execution 
 ![HuggingFace_Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg)
 
 ---
+
+## Automated Testing
+
+The app supports:
+- Agent routing tests
+- News workflow tests
+- Code execution tests
+- Mixed news + code scenarios  
+(See test prompt suite for validation coverage.)
+
+## Design Principles
+
+- Interactive, not verbose
+- Deterministic workflows  
+- Tool transparency  
+- Developer-first UX  
+- Safe code execution  
+
+## Possible Enhancements  
+
+- Structured JSON outputs for headlines  
+- Session state persistence  
+- Search refinement (e.g. “only open-source”)  
+- Debug / observability mode  
+- UI buttons for headline selection  
+- Code execution guardrails
+
 
 ## References  
 
@@ -136,8 +290,6 @@ Run:
 
 ---
 
-
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](https://github.com/micag2025/Toolkit_Google_ADK/blob/d18bda56849caea6efeda3803da893b29d5bfa23/LICENSE) file for details.
@@ -146,4 +298,10 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
 
 ## Contact
 
-If you encounter bugs, have questions, or want to request a new feature, please [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues) on this repository.   
+If you encounter bugs, have questions, or want to request a new feature, please [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues) on this repository.  
+
+---
+
+## Acknowledgements
+
+Built with Google Agent Development Kit (ADK). Designed for AI developers and builders
