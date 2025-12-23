@@ -198,22 +198,32 @@ The **RootAgent** is the intelligence hub of the system. It is responsible for:
 - Tool and agent selection
 - Context aggregation
 - Final response assembly
-
+- Routes user input  
+- Never answers directly   
+- Ensures correct agent selection  
+- 
 The RootAgent has **direct access** to:
 - Gemini-powered specialist agents
 - Third-party developer APIs
 
 ### Gemini-Powered Agents
 
-- **AIDevSearchAgent**
-  - Discovers and summarizes AI developer news
+- **AIDevSearchAgent** (know also as AI Developer News Agent)  
+  - Discovers and summarizes AI developer news (Specializes in AI news for developers)
   - Uses `google_search`
   - Manages headline selection and summaries
+  - Follows an interactive, multi-step workflow:  
+    1. Clarify number of items  
+    2. Search and filter AI-related content  
+    3. Present headlines  
+    4. Summarize selected items  
 
-- **CodeAgent**
+- **CodeAgent** (known also as  Python Code Agent)  
   - Executes Python code only
   - Uses `BuiltInCodeExecutor`
-  - Returns execution results without explanation
+  - Returns execution results without explanation  
+  - No explanations, no commentary  
+  - Returns execution output or errors  
 
 ### Third-Party Developer APIs (Custom Tools)
 
@@ -232,36 +242,13 @@ These APIs are exposed as **custom tools** directly to the RootAgent and are use
 
 ---
 
-## 🏗️ Design Principles
+## Design Principles
 
 - Clear separation of concerns
 - Deterministic workflows
 - Minimal LLM guesswork
 - Tool transparency
 - Developer-first UX
-
----
-
-## Agents
-
-### 1. AI Developer News Agent
-- Specializes in AI news for developers
-- Uses `google_search`
-- Follows an interactive, multi-step workflow:
-  1. Clarify number of items
-  2. Search and filter AI-related content
-  3. Present headlines
-  4. Summarize selected items
-
-### 2. Python Code Agent
-- Executes Python code only
-- No explanations, no commentary
-- Returns execution output or errors
-
-### 3. Root Agent
-- Routes user input
-- Never answers directly
-- Ensures correct agent selection
 
 ---
 
