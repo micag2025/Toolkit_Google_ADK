@@ -18,4 +18,13 @@ def get_openai_api_key():
     openai_api_key = os.getenv("OPENAI_API_KEY")
     return openai_api_key
 
+def get_hf_api_key():
+    load_env()
+    openai_api_key = os.getenv("HUGGING_FACE_TOKEN")
+    return openai_api_key
 
+
+def get_github_api_key():
+    load_env()
+    openai_api_key = os.getenv("GITHUB_TOKEN")
+    return openai_api_key
