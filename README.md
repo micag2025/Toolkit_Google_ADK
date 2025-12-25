@@ -201,14 +201,17 @@ Toolkit_Google_ADK/(ai_dev_news_web)/?
 │   ├── __init__.py
 │   ├── agent.py
 │   └── .env
-├── app.py
+├── app.py   ??? app.ipynb
 ├── requirements.txt
 ├── .env.example
 ├── LICENSE
-└── README.md
+└── README.md│
+├── Examples_usage/
+│   ├── Screenshot_1
+│   ├── Screenshot_2
+│   ├── Screenshot_3
+│   ├── Screenshot_4
 ```
-
->_Note_ (Therepo may include screenshots or other demo assets in the tree.)  
 
 ---  
 
