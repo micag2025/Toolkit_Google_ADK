@@ -316,9 +316,9 @@ These APIs are exposed as **custom tools** directly to the RootAgent and are use
 
 ---
 
-## 1.2 Setting up the agent
+## 1.1 Setting up the agent
 
-Before we dive into building agents, let's set up a new folder structure with ADK's built-in project scaffolding using the `adk create` command.
+Before we dive into building agents, a new folder structure with ADK's built-in project is set up scaffolding using the `adk create` command.
 
 When you run `adk create`, it generates three essential files. 
 1. The `.env` file securely stores your API credentials and configuration. 
@@ -333,7 +333,82 @@ app_01/
     .env
 ```
 
-ADK create supports two project types. The `--type=code` option generates a Python-based agent in `agent.py`. The `--type=config` option creates a YAML-based agent configuration. The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.  
+>_Note_ : ADK create supports two project types. The `--type=code` option generates a Python-based agent in `agent.py`. The `--type=config` option creates a YAML-based agent configuration. In this the project `--type=code` option is been selected. The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.   
+
+## 1.2 Writing the first `agent.py`
+
+ `adk create` command is used to create folders and then write to its `agent.py` using the cell magic in the notebook. Cell magic uses specific commands to interact with the files in the new agent folder.  `%%writefile FILENAME` has been used to do this.
+
+The next steps is to create an Agent with a unique name, specify the LLM model, and give it basic instructions.
+
+As with any agent, an LLM is required to start with ADK is model agnostic - meaning you can provide it with any model of your choice like Gemini, Claude, Ollama and even use LiteLLM to bring in other models.
+In this project the `Gemini 2.0 flash` is used.
+
+## 1.3 Adding a text model  
+Text-focused models like `gemini-2.5-flash` are ideal when want optimized text processing. They often provide faster response times. Let's create a variant of the agent using a text-optimized model to see how it behaves differently.  
+
+## 1.4 Adding tools to your agent  
+
+**But here's the problem:** try asking this agent about the latest AI developments, and you'll quickly discover it can only tell you about things that happened before its training cutoff date. For an AI news assistant that's supposed to fetch the latest news, that's not particularly helpful.
+
+Therefore, you need to fix that by providing your agent with **Tools**. In Google ADK, the word [“tool”](https://google.github.io/adk-docs/tools/) has two meanings:  
+
+
+| Term                 | Meaning                                                                   |
+| -------------------- | ------------------------------------------------------------------------- |
+| **ADK Tool**         | A callable object exposed to an agent (e.g. `google_search`, `AgentTool`) |
+| **Third-Party Tool** | Any external system or API                                                |
+
+
+### Adding Google Search Tool
+
+In this scenario, to fetch the latest news, let's provide the agent with a built-in tool, `google_search`. These built-in tools come pre-packed with the library. To add it to the agent, just import it and provide it as a tool in the tools array.  
+
+**Refresh the ADK Web UI.** You should see a new app name (app_02) in the dropdown. Select it and start a text conversation with your agent.
+
+Let's test the agent with the Google search tool by asking a query `"What is the latest AI News?"`. The agent will use the Google Search tool to find current information, process the results, and give you a comprehensive, up-to-date response with sources. Just like that, the agent can now access **real-time information** from across the web!
+
+ADK comes with several other `powerful built-in tools—there` are tools for running your code in a `sandbox`, `querying databases`, even `integrations with Google Workspace tools` like Calendar, Drive etc.
+
+
+### Adding Python code executor Tool
+
+To fetch the latest news, the agent has been provided with a built-in tool, **google_search**. These built-in tools come `pre-packed with the library`. Now, in order to allow the agent also to execute code and debug using Gemini models, it has been used the **built_in_code_execution tool** that enables the agent to execute code, specifically when using Gemini 2 and higher models. This allows the model to perform tasks like calculations, data manipulation, or running small scripts. Also this tool comes from `pre-packed with the library`. To add it to the agent, just import it and provide it as a tool in the tools array. Run the cell below to import it
+
+### Adding HuggingFace Execution Agent Tool  
+TO BE DRAFTED   
+
+### Adding GitHub Execution Agent Tool  
+TO BE DRAFTED     
+
+## 1.5 Fine-tuning agent instructions
+
+So far the agent has simple instructions, but for reliable behavior, you need more sophisticated instruction engineering. Therefore, the agent has been enhanced  with strict behavioral controls.  
+
+### Understanding Advanced Instructions
+
+This enhanced instruction pattern includes:
+
+- **Clear Identity**: Explicitly defines the agent's sole purpose
+- **Refusal Mechanism**: Provides exact phrases for rejecting off-topic requests  
+- **Workflow Requirements**: Forces the agent to use tools and cite sources
+- **Behavioral Boundaries**: Sets expectations for valid vs. invalid requests
+
+This creates a much more reliable and focused agent behavior.
+
+### Testing Instructions
+
+You can test the enhanced agent with both valid and invalid requests:
+
+**Valid prompts** (should get a response):
+- "What's the latest AI news about Google?"
+- "Tell me about recent AI chip developments"
+
+**Invalid prompts** (should be refused):
+- "What's the weather today?"
+- "Help me with my homework"
+
+Watch how the agent now maintains strict boundaries while still being helpful for AI-related queries.
 
 ---
 
@@ -402,14 +477,23 @@ Run:
 
 ## Examples Usage 
 <p style="background-color:#f7fff8; padding:15px; border-width:3px; border-color:#e0f0e0; border-style:solid; border-radius:6px"> 🚨
-&nbsp; <b>Different Run Results:</b> The output generated by AI chat models can vary with each execution due to their dynamic, probabilistic nature.</p>
+&nbsp; <b>Different Run Results:</b> The output generated by AI chat models can vary with each execution due to their dynamic, probabilistic nature.</p>  
+
+After selecting the appropriate app (app_01) from the dropdown menu from the ADK Web UI: 
+INITIAL INTERFACE SCREENSHOT TO BE ENCLOSED. 
 
 ### 1. Example Prompts: AI News 
 
 ![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
 
 ### 2.  Example Prompts: Python Code Execution 
-![HuggingFace_Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg)
+![HuggingFace_Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg)  
+
+### 3.  Example Prompts: HuggingFace Code Execution  
+SCREENSHOT TO BE ENCLOSED  
+
+### 4.  Example Prompts: GitHub Code Execution    
+SCREENSHOT TO BE ENCLOSED  
 
 ---
 
