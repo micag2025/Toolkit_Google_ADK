@@ -241,6 +241,7 @@ export HF_API_KEY="your_hf_api_key"
 export GIT_API_KEY="your_github_api_key"
 ```
 
+### Launch the ADK Web App  / Get the app URL  
 Start the ADK Web app:
 
 ```bash
@@ -268,10 +269,10 @@ GIT_API_KEY=your_github_api_key
 ADK_DEV_MODE=true
 ```
 
-Notes:
-- Do NOT commit your `.env` or secrets to git.
-- The project expects API keys to be correctly provisioned for Vertex AI / Gemini usage.
--   You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide: Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.      
+> _Notes:_  
+> - Do NOT commit your `.env` or secrets to git.  
+> - The project expects API keys to be correctly provisioned for Vertex AI / Gemini usage.
+> - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide: Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.      
 
 ---
 
