@@ -1,136 +1,55 @@
 # Toolkit Agents with Google’s Agent Development Kit (ADK)  
 
-The project uses **Google’s Agent Development Kit (ADK)** to build, orchestrate, and deploy advanced multi-agent systems. The ultimate goal is to create an AI agent with access to real-time information from the web.  An agent is a system where an LLM serves as the "brain" providing generative capabilities, combined with tools that allow actions in the real world. This foundation enables further expansion into research, code generation, and multimedia content creation.  
+This project is built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture,  giving an example toolkit that demonstrates how to build, orchestrate, and deploy multi-agent systems using Google’s Agent Development Kit (ADK). The project focuses on creating an `AI Developer Agent` capable of discovering real-time AI news, generating Python code, and integrating with developer platforms like Hugging Face and GitHub.  
 
-This project focuses on building a comprehensive `AI Developer Agent` capable of:  
-- Researching the latest AI developments in real-time.  
-- Generating Python code.  
-- Leveraging platforms like HuggingFace and GitHub.    
+Key goals:
+- Real-time discovery and summarization of AI news relevant to developers
+- Execute and return Python code results in a sandboxed environment
+- Provide a clean, multi-agent architecture for reliable orchestration and extensibility
 
-
-An interactive **ADK Web application** that helps AI developers:
-- Discover **recent AI news, articles, platforms, and use cases**
-- Interactively explore headlines and summaries
-- **Execute Python code on demand** in the same interface
-
-Built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture.
-
+Built with: Google ADK, Gemini models, and a minimal ADK Web interface.  
 
 ---
 
-## Core Capabilities
-**Real-Time Text Agents**  
-- Build real-time text agents with ADK that can carry natural, conversational interactions.  
-- Connect agents to external tools and data sources to execute real-world tasks.  
-
-**Multi-Agent Systems**
-- Design systems using memory, tools, and orchestration patterns to coordinate specialized agents, such as planners, researchers, and writers.  
-- Enable collaboration between agents for complex workflows, including research, code generation, and content creation.  
-
-**Production-Ready Agents**
-- Deploy agents with guardrails, persistent memory, automated evaluations, and review methods.  
-- Run production workloads on Google Cloud’s Vertex AI Agent Engine with monitoring and security features.
-
-## Building AI Agents with ADK
-**ADK Overview**  
-- ADK provides modular components including models, tools, memory, and orchestration.    
-- Supports both simple agents and complex multi-agent systems.   
-
-**Text Agents**  
-Create a text agent that:
-- Takes text input.  
-- Uses an LLM to reason and generate responses.  
-- Integrates tools and APIs for executing real-world tasks.  
-Evaluate agent sessions, memory, and state for reliability.
-Extend capabilities with callbacks and guardrails for safe and predictable behavior.
-
-**Specialized Agents**  
-Design agents that:
-Research topics.
-Generate text  outputs using Gemini text-to-text models.
-Combine multiple agents with orchestration to create coordinated workflows.  
-
-## Step-by-Step Development Process
-**Agent Setup**  
-Build the agent in ADK and connect it to Google Search.  
-Test text interactions via the ADK Web UI.  
-**Memory & Context Management**  
-Use sessions, state, and memory to manage conversations.  
-Enable short-term tracking and long-term recall across interactions.  
-**Tools & API Integration**  
-Add custom tools and APIs.  
-Refine agent instructions to ensure adherence to defined workflows.  
-**Research & Reporting**  
-Generate structured research reports using schemas.  
-Act as a coordinator to collect, organize, and save outputs in markdown for downstream use.  
-**Guardrails & Callbacks**  
-Filter unsafe sources and enforce rules.    
-Log tool activity for predictability and production readiness.    
-**Production Deployment**  
-Give agents persistent memory.  
-Test reliability and deploy on Vertex AI.    
-Add security, monitoring, and scaling features for safe production use.     
-
-
-
-## Tool Schema
-
-| Tool                  | Type                      | Attached To      | Purpose                     |
-| --------------------- | ------------------------- | ---------------- | --------------------------- |
-| `AIDevSearchAgent`    | AgentTool                 | RootAgent        | AI news workflow            |
-| `CodeAgent`           | AgentTool                 | RootAgent        | Python execution            |
-| `google_search`       | Built-in ADK Tool         | AIDevSearchAgent | Web discovery               |
-| `BuiltInCodeExecutor` | ADK Executor              | CodeAgent        | Safe Python                 |
-| Hugging Face Hub API  | Third-party Tool (Custom) | RootAgent        | Model & platform enrichment |
-| GitHub API            | Third-party Tool (Custom) | RootAgent        | Repo & OSS signals          |
-
-> Second option schema to show the **Tool Categorization**
-
-```bash
-RootAgent Tools
-├─ Gemini Agent Tools
-│  ├─ AIDevSearchAgent (news + search workflow)
-│  └─ CodeAgent (python execution)
-│
-├─ Built-in ADK Tools
-│  └─ google_search
-│
-└─ Third-Party Developer APIs (Custom Tools)
-   ├─ Hugging Face Hub API
-   └─ GitHub API
-```
----
-
-## Key Features
-
-### AI Developer News Assistant
-- Finds **recent AI news** relevant to developers
-- Focuses on:
-  - AI articles
-  - AI platforms
-  - AI developer use cases
-- Uses **`google_search`** for transparent sourcing
-- Interactive workflow:
-  - Asks how many items you want
-  - Displays numbered headlines
-  - Summarizes one item at a time
-  - Allows fetching more news dynamically
-
-### Python Code Execution
-- Execute Python code directly in the chat
-- Supports multi-line code
-- Returns **only execution results**
-- Runs safely using `BuiltInCodeExecutor`
-
-### Smart Agent Routing
-- A **RootAgent** routes requests to:
-  - News Search Agent
-  - Python Code Execution Agent
-- Ensures clean separation of responsibilities
+## Highlights
+- Interactive ADK Web UI for experimenting with agents
+- Multi-agent orchestration with a RootAgent that routes to specialist agents
+- Real-time web discovery using `google_search`
+- Safe Python execution via ADK's sandboxed executor
+- Extensible: plug in Hugging Face and GitHub integrations for richer developer signals
 
 ---
 
-## Architecture Overview  
+## Core capabilities
+
+- **Real-time text agents**: natural conversational interaction with web access for up-to-date information.
+- **Multi-agent orchestration**: coordinated workflows (e.g., researchers, planners, executors).
+- **Production readiness**: guardrails, persistent memory, logging, and deployment on Vertex AI Agent Engine.
+
+---
+
+## Architecture overview
+
+High-level flow:
+1. ADK Web UI: user input, headline selection, and execution requests.
+2. Session state: tracks mode (news / code), last query, headlines, selections.
+3. RootAgent: intent detection, context aggregation, and deterministic routing.
+4. Specialist agents:
+   - AIDevSearchAgent (news + google_search)
+   - CodeAgent (sandboxed Python execution)
+5. External APIs for enrichment: Hugging Face Hub and GitHub.???
+   -HugginFaceAgent
+   -GitHib Agent
+
+Compact ASCII diagram:  
+
+```bash  
+RootAgent (Orchestrator)
+├─ AIDevSearchAgent → google_search (discovery)
+├─ CodeAgent → BuiltInCodeExecutor (sandbox)
+└─ Third-party APIs → Hugging Face, GitHub ???? 
+└─ Third-party APIs → Hugging FaceAgent, GitHubAgent ???
+``` 
 
 The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
 
@@ -250,6 +169,239 @@ The application is built using a **multi-agent architecture powered by Gemini mo
 │  (Discovery)     │   │ (Python Sandbox)   │└─────────────────────┘
 └──────────────────┘   └────────────────────┘
 ```
+
+---
+
+## Agents & tools
+
+### Tool schema (summary):
+
+| Tool                  | Type               | Attached To      | Purpose                     |
+|----------------------:|-------------------:|------------------|----------------------------:|
+| AIDevSearchAgent      | AgentTool          | RootAgent        | Discover & summarize news   |
+| CodeAgent             | AgentTool          | RootAgent        | Execute Python (sandbox)    |
+| `google_search`         | Built-in ADK Tool  | AIDevSearchAgent | Web discovery               |
+| `BuiltInCodeExecutor`   | ADK Executor       | CodeAgent        | Safe Python execution       |
+| Hugging Face Hub API  | Third-party Tool   | RootAgent        | Model & platform metadata   |
+| GitHub API            | Third-party Tool   | RootAgent        | Repo & OSS signals          |
+
+### Design principles:
+- Separation of concerns: RootAgent routes, specialist agents perform tasks.
+- Deterministic workflows: minimal LLM guesswork for critical steps.
+- Tool transparency: sources and tool usage are explicit.
+- Developer-first UX and safe code execution.
+
+---  
+
+## Project structure (Repository structure)
+
+```
+Toolkit_Google_ADK/(ai_dev_news_web)/?
+├── app_01/
+│   ├── __init__.py
+│   ├── agent.py
+│   └── .env
+├── app.py
+├── requirements.txt
+├── .env.example
+├── LICENSE
+└── README.md
+```
+
+>_Note_ (Therepo may include screenshots or other demo assets in the tree.)  
+
+---  
+
+## Quick start  
+This section shows how to install dependencies, configure authentication, and run the full pipeline.  
+
+### Prerequisites:
+- Python 3.10+
+- Google account & Vertex AI / Gemini access (API key)
+- Optional: Hugging Face and GitHub API keys for enrichment
+
+### Clone and install:
+
+```bash
+git clone https://github.com/micag2025/Toolkit_Google_ADK.git
+cd Toolkit_Google_ADK
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Set environment variables (examples):
+
+```bash
+export GEMINI_API_KEY="your_gemini_api_key"
+export HF_API_KEY="your_hf_api_key"
+export GIT_API_KEY="your_github_api_key"
+```
+
+Start the ADK Web app:
+
+```bash
+adk web
+```
+
+Open the provided local URL in your browser, select the `app_01` agent (or whichever agent you added), and interact.
+
+Stop the ADK process (if needed):
+
+```bash
+pkill -f "adk web"
+```
+
+---
+
+## Environment variables / .env.example
+
+Put keys in `.env` or your environment. Example `.env.example`:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key
+HF_API_KEY=your_hf_api_key
+GIT_API_KEY=your_github_api_key
+ADK_DEV_MODE=true
+```
+
+Notes:
+- Do NOT commit your `.env` or secrets to git.
+- The project expects API keys to be correctly provisioned for Vertex AI / Gemini usage.
+-   You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide: Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.      
+
+---
+
+
+
+## Getting Started
+This section shows how to install dependencies, configure authentication, and run the full pipeline.
+
+### Prerequisites
+Required:
+Python 3.10+
+Google Cloud & API Key
+
+_Set relevant API keys in your environment_:  
+```bash
+export GEMINI_API_KEY=your_gemini_api_key
+export HF_API_KEY = your-hf_api_key
+export GIT_API_KEY= you git_api_key
+```  
+> _SET UP Google API key and Vertex AI based authentication_   
+You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide:  	Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.    
+
+you should create a Python virtual environment and use the `requirements.txt` file to install the required Python packages.
+
+### Installation
+
+```bash
+git clone https://github.com/micag2025/Toolkit_Google_ADK.git
+cd Toolkit_Google_AKD
+pip install -r requirements.txt
+```
+>_Note_: This will install a handy set of command-line tools that will be useful when working with ADK.  
+
+### Launch the ADK Web App  / Get the app URL
+Run:  
+```
+adk web
+```
+- It will start a local web server.  / Run the cell above and open the link in a new tab : This launches a browser-based interface for testing and debugging.  
+- Open the provided URL in a browser.  When you open the (provided URL) interface in your browser, you'll see the Google ADK user interface. In the left pane, select your agent from the dropdown (app_01)
+- You can now chat with the AI Developer News + Code Assistant + HuggingFace + GitHub interactively.  Try asking the agent a question with text. The agent responds text-to-text with real-time. It thinks and provide text answer  in a natural flow.
+- Explore the ADK Web UI for tracing agent reasoning and code interactions.     
+
+### Kill ADK process  
+After finishing, make sure to run the cell below to close your connection.  
+
+Run:
+```bash
+!pkill -f "adk web"  
+```
+---
+
+
+
+
+
+
+
+
+## Building AI Agents with ADK
+**ADK Overview**  
+- ADK provides modular components including models, tools, memory, and orchestration.    
+- Supports both simple agents and complex multi-agent systems.   
+
+**Text Agents**  
+Create a text agent that:
+- Takes text input.  
+- Uses an LLM to reason and generate responses.  
+- Integrates tools and APIs for executing real-world tasks.  
+Evaluate agent sessions, memory, and state for reliability.
+Extend capabilities with callbacks and guardrails for safe and predictable behavior.
+
+**Specialized Agents**  
+Design agents that:
+Research topics.
+Generate text  outputs using Gemini text-to-text models.
+Combine multiple agents with orchestration to create coordinated workflows.  
+
+## Step-by-Step Development Process
+**Agent Setup**  
+Build the agent in ADK and connect it to Google Search.  
+Test text interactions via the ADK Web UI.  
+**Memory & Context Management**  
+Use sessions, state, and memory to manage conversations.  
+Enable short-term tracking and long-term recall across interactions.  
+**Tools & API Integration**  
+Add custom tools and APIs.  
+Refine agent instructions to ensure adherence to defined workflows.  
+**Research & Reporting**  
+Generate structured research reports using schemas.  
+Act as a coordinator to collect, organize, and save outputs in markdown for downstream use.  
+**Guardrails & Callbacks**  
+Filter unsafe sources and enforce rules.    
+Log tool activity for predictability and production readiness.    
+**Production Deployment**  
+Give agents persistent memory.  
+Test reliability and deploy on Vertex AI.    
+Add security, monitoring, and scaling features for safe production use.     
+
+
+
+
+---
+
+## Key Features
+
+### AI Developer News Assistant
+- Finds **recent AI news** relevant to developers
+- Focuses on:
+  - AI articles
+  - AI platforms
+  - AI developer use cases
+- Uses **`google_search`** for transparent sourcing
+- Interactive workflow:
+  - Asks how many items you want
+  - Displays numbered headlines
+  - Summarizes one item at a time
+  - Allows fetching more news dynamically
+
+### Python Code Execution
+- Execute Python code directly in the chat
+- Supports multi-line code
+- Returns **only execution results**
+- Runs safely using `BuiltInCodeExecutor`
+
+### Smart Agent Routing
+- A **RootAgent** routes requests to:
+  - News Search Agent
+  - Python Code Execution Agent
+- Ensures clean separation of responsibilities
+
+---
+
 
 ## Agents  
 
@@ -429,21 +581,7 @@ In short, the **RootAgent** coordinates specialized agents for search and code e
 
 ---
 
-## Repository structure (Project Structure)
 
-```bash
-Toolkit_Google_ADK/(ai_dev_news_web)/
-├──app_01/
-    __init__.py
-    agent.py
-    .env
-├── app.py
-├── requirements.txt
-├── .env.example
-├── licence
-├── README.md
-```
----
 
 ## Getting Started
 This section shows how to install dependencies, configure authentication, and run the full pipeline.
