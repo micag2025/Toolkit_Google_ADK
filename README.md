@@ -1,4 +1,12 @@
-# Toolkit Agents with Google’s Agent Development Kit (ADK)   
+# Toolkit Agents with Google’s Agent Development Kit (ADK)  
+
+The project uses **Google’s Agent Development Kit (ADK)** to build, orchestrate, and deploy advanced multi-agent systems. The ultimate goal is to create an AI agent with access to real-time information from the web.  An agent is a system where an LLM serves as the "brain" providing generative capabilities, combined with tools that allow actions in the real world. This foundation enables further expansion into research, code generation, and multimedia content creation.  
+
+This project focuses on building a comprehensive `AI Developer Agent` capable of:  
+- Researching the latest AI developments in real-time.  
+- Generating Python code.  
+- Leveraging platforms like HuggingFace and GitHub.    
+
 
 An interactive **ADK Web application** that helps AI developers:
 - Discover **recent AI news, articles, platforms, and use cases**
@@ -7,14 +15,6 @@ An interactive **ADK Web application** that helps AI developers:
 
 Built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture.
 
-This project focuses on building a comprehensive AI Developer Agent capable of:  
-- Researching the latest AI developments in real-time.  
-- Generating Python code.  
-- Leveraging platforms like HuggingFace and GitHub.    
-
-The project uses **Google’s Agent Development Kit (ADK)** to build, orchestrate, and deploy advanced multi-agent systems. The ultimate goal is to create an AI agent with access to real-time information from the web.  
-
-An agent is a system where an LLM serves as the "brain" providing generative capabilities, combined with tools that allow actions in the real world. This foundation enables further expansion into research, code generation, and multimedia content creation.
 
 ---
 
@@ -362,14 +362,9 @@ Therefore, you need to fix that by providing your agent with **Tools**. In Googl
 
 ### Adding Google Search Tool
 
-In this scenario, to fetch the latest news, let's provide the agent with a built-in tool, `google_search`. These built-in tools come pre-packed with the library. To add it to the agent, just import it and provide it as a tool in the tools array.  
+In this scenario, to fetch the latest news, let's provide the agent with a built-in tool, `google_search`. These built-in tools come pre-packed with the library. To add it to the agent, just import it and provide it as a tool in the tools array.  Let's test the agent with the Google search tool by asking a query `"What is the latest AI News?"`. The agent will use the Google Search tool to find current information, process the results, and give you a comprehensive, up-to-date response with sources. Just like that, the agent can now access **real-time information** from across the web!
 
-**Refresh the ADK Web UI.** You should see a new app name (app_02) in the dropdown. Select it and start a text conversation with your agent.
-
-Let's test the agent with the Google search tool by asking a query `"What is the latest AI News?"`. The agent will use the Google Search tool to find current information, process the results, and give you a comprehensive, up-to-date response with sources. Just like that, the agent can now access **real-time information** from across the web!
-
-ADK comes with several other `powerful built-in tools—there` are tools for running your code in a `sandbox`, `querying databases`, even `integrations with Google Workspace tools` like Calendar, Drive etc.
-
+ADK comes with several other `powerful built-in tools—there` are tools for running your code in a `sandbox`, `querying databases`, even `integrations with Google Workspace tools` like Calendar, Drive etc.  
 
 ### Adding Python code executor Tool
 
@@ -409,6 +404,28 @@ You can test the enhanced agent with both valid and invalid requests:
 - "Help me with my homework"
 
 Watch how the agent now maintains strict boundaries while still being helpful for AI-related queries.
+
+
+## Limitations for ADK tools¶
+Some [ADK tools have limitations](https://google.github.io/adk-docs/tools/limitations/#workaround-2-bypass_multi_tools_limit) that can impact how you implement them within an agent workflow. Here we list these tool limitations and workarounds, if available.
+
+One tool per agent limitation¶
+In general, you can use more than one tool in an agent, but use of specific tools within an agent excludes the use of any other tools in that agent. The following ADK Tools can only be used by themselves, without any other tools, in a single agent object:  
+
+- Code Execution with Gemini API  
+- Google Search with Gemini API
+
+Therefore, the approach that uses one of these tools along with other tools, within a single agent, is not supported. To overcome these limitation, it has been used a Workaround, called `AgentTool.create() method`,  
+that consists in using a soecific code that shows how to use `multiple built-in tools` or `how to use built-in tools with other tools by using multiple agent`.
+
+This snippet defines a multi-agent setup using Google ADK:
+- It creates a **SearchAgent** specialized in Google Search, equipped with the google_search tool.  
+- It creates a **CodeAgent** specialized in executing code, using the built-in code executor.
+- It creates a **HuggingFaceAgent** specialized in ...................  
+- It creates a **GitHubAgent** specialized in ...................  
+- It then defines a **RootAgent** that acts as an orchestrator, delegating tasks to either the SearchAgent or the CodeAgent or HuggingFaceAgent or GitHubAgent via AgentTool.
+
+In short, the **RootAgent** coordinates specialized agents for search and code execution using the Gemini 2.0 Flash model. Happy coding! Don't hesitate to return if you have more questions.
 
 ---
 
