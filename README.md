@@ -269,16 +269,6 @@ pkill -f "adk web"
 ---
 
 
-
-
-
-
-
-
-
-
-
-
 ## Building AI Agents with ADK
 **ADK Overview**  
 - ADK provides modular components including models, tools, memory, and orchestration.    
@@ -319,40 +309,7 @@ Give agents persistent memory.
 Test reliability and deploy on Vertex AI.    
 Add security, monitoring, and scaling features for safe production use.     
 
-
-
-
 ---
-
-## Key Features
-
-### AI Developer News Assistant
-- Finds **recent AI news** relevant to developers
-- Focuses on:
-  - AI articles
-  - AI platforms
-  - AI developer use cases
-- Uses **`google_search`** for transparent sourcing
-- Interactive workflow:
-  - Asks how many items you want
-  - Displays numbered headlines
-  - Summarizes one item at a time
-  - Allows fetching more news dynamically
-
-### Python Code Execution
-- Execute Python code directly in the chat
-- Supports multi-line code
-- Returns **only execution results**
-- Runs safely using `BuiltInCodeExecutor`
-
-### Smart Agent Routing
-- A **RootAgent** routes requests to:
-  - News Search Agent
-  - Python Code Execution Agent
-- Ensures clean separation of responsibilities
-
----
-
 
 ## Agents  
 
@@ -367,7 +324,7 @@ The **RootAgent** is the intelligence hub of the system. It is responsible for:
 - Final response assembly
 - Routes user input  
 - Never answers directly   
-- Ensures correct agent selection  
+- Ensures correct agent selection ( Ensures clean separation of responsibilities:  News Search Agent or Python Code Execution Agent)
  
 The RootAgent has **direct access** to:
 - Gemini-powered specialist agents
@@ -375,8 +332,8 @@ The RootAgent has **direct access** to:
 
 ### Gemini-Powered Agents
 
-- **AIDevSearchAgent** (know also as AI Developer News Agent)  
-  - Discovers and summarizes AI developer news (Specializes in AI news for developers)
+- **AIDevSearchAgent** (know also as `AI Developer News Agent`)  
+  - Discovers and summarizes AI developer news (Specializes in AI news for developers from AI articles, platforms and uses cases)
   - Uses `google_search`
   - Manages headline selection and summaries
   - Follows an interactive, multi-step workflow:  
@@ -385,7 +342,7 @@ The RootAgent has **direct access** to:
     3. Present headlines  
     4. Summarize selected items  
 
-- **CodeAgent** (known also as  Python Code Agent)  
+- **CodeAgent** (known also as  `Python Code Agent`)  
   - Executes Python code only
   - Uses `BuiltInCodeExecutor`
   - Returns execution results without explanation  
