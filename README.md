@@ -215,7 +215,7 @@ Toolkit_Google_ADK/(ai_dev_news_web)/?
 
 ---  
 
-## Quick start  
+## Quick start / Getting Started
 This section shows how to install dependencies, configure authentication, and run the full pipeline.  
 
 ### Prerequisites:
@@ -233,34 +233,8 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Set environment variables (examples):
-
-```bash
-export GEMINI_API_KEY="your_gemini_api_key"
-export HF_API_KEY="your_hf_api_key"
-export GIT_API_KEY="your_github_api_key"
-```
-
-### Launch the ADK Web App  / Get the app URL  
-Start the ADK Web app:
-
-```bash
-adk web
-```
-
-Open the provided local URL in your browser, select the `app_01` agent (or whichever agent you added), and interact.
-
-Stop the ADK process (if needed):
-
-```bash
-pkill -f "adk web"
-```
-
----
-
-## Environment variables / .env.example
-
-Put keys in `.env` or your environment. Example `.env.example`:
+### Environment variables / .env.example  
+Set environment variables. Put keys in `.env` or your environment. Example `.env.example`:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -274,56 +248,29 @@ ADK_DEV_MODE=true
 > - The project expects API keys to be correctly provisioned for Vertex AI / Gemini usage.
 > - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide: Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.      
 
----
 
-
-
-## Getting Started
-This section shows how to install dependencies, configure authentication, and run the full pipeline.
-
-### Prerequisites
-Required:
-Python 3.10+
-Google Cloud & API Key
-
-_Set relevant API keys in your environment_:  
-```bash
-export GEMINI_API_KEY=your_gemini_api_key
-export HF_API_KEY = your-hf_api_key
-export GIT_API_KEY= you git_api_key
-```  
-> _SET UP Google API key and Vertex AI based authentication_   
-You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide:  	Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.    
-
-you should create a Python virtual environment and use the `requirements.txt` file to install the required Python packages.
-
-### Installation
+### Launch the ADK Web App  / Get the app URL  
+Start the ADK Web app:
 
 ```bash
-git clone https://github.com/micag2025/Toolkit_Google_ADK.git
-cd Toolkit_Google_AKD
-pip install -r requirements.txt
-```
->_Note_: This will install a handy set of command-line tools that will be useful when working with ADK.  
-
-### Launch the ADK Web App  / Get the app URL
-Run:  
-```
 adk web
 ```
-- It will start a local web server.  / Run the cell above and open the link in a new tab : This launches a browser-based interface for testing and debugging.  
-- Open the provided URL in a browser.  When you open the (provided URL) interface in your browser, you'll see the Google ADK user interface. In the left pane, select your agent from the dropdown (app_01)
-- You can now chat with the AI Developer News + Code Assistant + HuggingFace + GitHub interactively.  Try asking the agent a question with text. The agent responds text-to-text with real-time. It thinks and provide text answer  in a natural flow.
-- Explore the ADK Web UI for tracing agent reasoning and code interactions.     
 
-### Kill ADK process  
-After finishing, make sure to run the cell below to close your connection.  
+Open the provided local URL in your browser, from the Google ADK user interface in the left pane, select the `app_01` agent (or whichever agent you added), and interact.
 
-Run:
+
+### Kill ADK process    
+Stop the ADK process (if needed):
+
 ```bash
-!pkill -f "adk web"  
+pkill -f "adk web"
 ```
+
 ---
+
+
+
+
 
 
 
@@ -585,55 +532,6 @@ In short, the **RootAgent** coordinates specialized agents for search and code e
 
 ---
 
-
-
-## Getting Started
-This section shows how to install dependencies, configure authentication, and run the full pipeline.
-
-### Prerequisites
-Required:
-Python 3.10+
-Google Cloud & API Key
-
-_Set relevant API keys in your environment_:  
-```bash
-export GEMINI_API_KEY=your_gemini_api_key
-export HF_API_KEY = your-hf_api_key
-export GIT_API_KEY= you git_api_key
-```  
-> _SET UP Google API key and Vertex AI based authentication_   
-You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide:  	Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.    
-
-you should create a Python virtual environment and use the `requirements.txt` file to install the required Python packages.
-
-### Installation
-
-```bash
-git clone https://github.com/micag2025/Toolkit_Google_ADK.git
-cd Toolkit_Google_AKD
-pip install -r requirements.txt
-```
->_Note_: This will install a handy set of command-line tools that will be useful when working with ADK.  
-
-### Launch the ADK Web App  / Get the app URL
-Run:  
-```
-adk web
-```
-- It will start a local web server.  / Run the cell above and open the link in a new tab : This launches a browser-based interface for testing and debugging.  
-- Open the provided URL in a browser.  When you open the (provided URL) interface in your browser, you'll see the Google ADK user interface. In the left pane, select your agent from the dropdown (app_01)
-- You can now chat with the AI Developer News + Code Assistant + HuggingFace + GitHub interactively.  Try asking the agent a question with text. The agent responds text-to-text with real-time. It thinks and provide text answer  in a natural flow.
-- Explore the ADK Web UI for tracing agent reasoning and code interactions.     
-
-### Kill ADK process  
-After finishing, make sure to run the cell below to close your connection.  
-
-Run:
-```bash
-!pkill -f "adk web"  
-```
----
-
 ## Examples Usage 
 <p style="background-color:#f7fff8; padding:15px; border-width:3px; border-color:#e0f0e0; border-style:solid; border-radius:6px"> 🚨
 &nbsp; <b>Different Run Results:</b> The output generated by AI chat models can vary with each execution due to their dynamic, probabilistic nature.</p>  
@@ -641,47 +539,77 @@ Run:
 After selecting the appropriate app (app_01) from the dropdown menu from the ADK Web UI: 
 INITIAL INTERFACE SCREENSHOT TO BE ENCLOSED. 
 
-### 1. Example Prompts: AI News 
+### 1. Example Prompts: AI News  
+1. AI news discovery:
+   - Ask: "What's the latest AI news about Google?"
+   - Flow: RootAgent → AIDevSearchAgent → google_search → summarize & cite sources.
 
 ![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
 
-### 2.  Example Prompts: Python Code Execution 
-![HuggingFace_Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg)  
+### 2.  Example Prompts: Python Code Execution  
+2. Python execution:
+   - Ask: "Run this Python code..."
+   - Flow: RootAgent → CodeAgent → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
+     
+![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
 
 ### 3.  Example Prompts: HuggingFace Code Execution  
-SCREENSHOT TO BE ENCLOSED  
+3. Enrichment:
+   - RootAgent can request Hugging Face signals to rank or annotate discoveries.
+     
+![HuggingFace_Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg)  
 
 ### 4.  Example Prompts: GitHub Code Execution    
-SCREENSHOT TO BE ENCLOSED  
+3. Enrichment:
+   - RootAgent can request Hugging Face signals to rank or annotate discoveries.  
+SCREENSHOT TO BE ENCLOSED 
+---
+
+## Limitations & workarounds
+
+- ADK tool restrictions: some built-in tools (e.g., google_search, code execution) typically cannot be combined inside a single agent instance. Workaround: create specialized agents (SearchAgent, CodeAgent) and orchestrate via RootAgent using AgentTool.create() to delegate requests.
+- Model variability: responses can differ between runs. Test determinism in production-critical workflows.
+- API quotas and billing: monitor Vertex AI / Google Cloud costs.
+
+See ADK docs:
+- Tools: https://google.github.io/adk-docs/tools/
+- Limitations: https://google.github.io/adk-docs/tools/limitations/
 
 ---
 
-## Automated Testing
+## Testing & CI
 
-The app supports:
-- Agent routing tests
-- News workflow tests
-- Code execution tests
-- Mixed news + code scenarios  
-(See test prompt suite for validation coverage.)
+Suggested test categories:
+- Agent routing tests (RootAgent → specialists)
+- News workflow tests (search → summary → citation)
+- Code execution tests (sandboxed runs, error handling)
+- Integration tests for Hugging Face & GitHub enrichments
 
-## Design Principles
+Add automated tests and CI pipelines as needed (e.g., GitHub Actions).
 
-- Interactive, not verbose
-- Deterministic workflows  
-- Tool transparency  
-- Developer-first UX  
-- Safe code execution  
+---
 
-## Possible Enhancements  
+## Roadmap & enhancements
 
-- Structured JSON outputs for headlines  
-- Session state persistence  
-- Search refinement (e.g. “only open-source”)  
-- Debug / observability mode  
-- UI buttons for headline selection  
-- Code execution guardrails
+Planned / suggested improvements:
+- Structured JSON outputs for headlines (machine-readable)
+- Persistent session storage across restarts
+- Search refinements (filters, "only open-source", date ranges)
+- UI enhancements (buttons for selection, debugging/observability mode)
+- Additional specialist agents (HuggingFaceAgent, GitHubAgent)
+- Stronger execution guardrails and resource limits
 
+---
+
+## Contributing
+
+Contributions welcome. Suggested workflow:
+1. Open an issue to discuss changes or features.
+2. Create a branch: `git checkout -b feat/your-feature`
+3. Implement and add tests.
+4. Open a PR describing changes and rationale.
+
+Please follow the repository code style and add tests for major features.
 
 ## References  
 
