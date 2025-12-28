@@ -36,138 +36,104 @@ High-level flow:
 3. RootAgent: intent detection, context aggregation, and deterministic routing.
 4. Specialist agents:
    - AIDevSearchAgent (news + google_search)
-   - CodeAgent (sandboxed Python execution)
-5. External APIs for enrichment: Hugging Face Hub and GitHub.???
-   -HugginFaceAgent
-   -GitHib Agent
+   - CodeAgent (sandboxed Python execution)  
+   - HugginFaceAgent  
+   - GitHib Agent  
 
 Compact ASCII diagram:  
 
 ```bash  
-RootAgent (Orchestrator)
-├─ AIDevSearchAgent → google_search (discovery)
-├─ CodeAgent → BuiltInCodeExecutor (sandbox)
-└─ Third-party APIs → Hugging Face, GitHub ???? 
-└─ Third-party APIs → Hugging FaceAgent, GitHubAgent ???
+RootAgent
+   ├── AgentTool → AIDevSearchAgent → google_search
+   ├── AgentTool → CodeAgent → BuiltInCodeExecutor
+   ├── AgentTool → hugging_face_agent → HF MCP → HF Hub
+   └── AgentTool → github_agent → GitHub MCP → GitHub
 ``` 
+> _Note_: Final architectural rule :   
+          - APIs belong to agents.    
+          - Agents belong to RootAgent.  
+>         - RootAgent never talks to APIs directly.  
+
+
 
 The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
 
-> _Note_ Option1 
+### Architecture Diagram (Control Flow vs Data Flow)
 
-```yaml  
-┌──────────────────────────────────────────────┐
-│                ADK Web UI                    │
-│  - User prompts                              │
-│  - Headline selection                        │
-│  - Python execution requests                 │
-└────────────────────────┬─────────────────────┘
-                         │
-                         ▼
-┌──────────────────────────────────────────────┐
-│                Session State                 │
-│  - mode: news | code                         │
-│  - last_query                                │
-│  - headlines[]                               │
-│  - awaiting_count / selection                │
-└────────────────────────┬─────────────────────┘
-                         │
-                         ▼
-┌──────────────────────────────────────────────┐
-│                  RootAgent                   │
-│   (Gemini 2.5 Flash – Orchestrator)          │
-│                                              │
-│  - Intent detection                          │
-│  - Context aggregation                       │
-│  - Agent & tool routing                      │
-│  - No direct user responses                  │
-└───────────────┬───────────────┬──────────────┘
-        ┌───────┴────────┐      │
-        ▼                ▼      │_____________
-┌──────────────────┐  ┌──────────────────┐    │
-│ AIDevSearchAgent │  │     CodeAgent    │    │
-│ (Gemini Tool)    │  │   (Gemini Tool)  │    │
-│                  │  │                  │    │
-│ - AI news flow   │  │ - Python only    │    │
-│ - Headline mgmt  │  │ - Deterministic  │    │
-│ - Summaries      │  │ - Sandboxed exec │    │
-└──────────┬───────┘  └──────────┬───────┘    │
-           │                      │           │
-           ▼                      ▼           │
-┌──────────────────┐   ┌────────────────────┐ │
-│  google_search   │   │ BuiltInCodeExecutor│ │
-│  (Discovery)     │   │ (Python Sandbox)   │ │
-└──────────────────┘   └────────────────────┘ │
-                                              │
-            ┌─────────────────────────────────│ 
-            │
-            ▼
-┌──────────────────────────────────────────────┐
-│       External AI Developer Ecosystem        │
-│                                              │
-│  ┌──────────────────┐   ┌────────────────┐   │
-│  │  Hugging Face    │   │   GitHub       │   │
-│  │  - Models        │   │  - Repos       │   │
-│  │  - Spaces        │   │  - Code        │   │
-│  │  - Datasets      │   │  - Issues      │   │
-│  └──────────────────┘   └────────────────┘   │
-│                                              │
-│  (Referenced by RootAgent for reasoning,     │
-│   ranking, and developer relevance)          │
-└──────────────────────────────────────────────┘
+Control Flow lane → who decides and delegates  
+Data Flow lane → where data actually travels  
 
-```
-> _Note_ Option2 
+Control Flow Lane answers
+- Who decides what happens next?
+- Only RootAgent    
+- All agents are children    
+- No agent self-invokes    
+- No external system can trigger logic    
+
+Data Flow Lane answers:
+- Where does execution/data actually go?  
+- Some flows stay local  
+- Some cross process boundaries  
+- Some cross network boundaries  
+- Transport differences do not imply authority  
+
 ```yaml
-┌──────────────────────────────────────────────┐
-│                ADK Web UI                    │
-│  - User prompts                              │
-│  - Headline selection                        │
-│  - Python execution requests                 │
-└────────────────────────┬─────────────────────┘
-                         │
-                         ▼
-┌──────────────────────────────────────────────┐
-│                Session State                 │
-│  - mode: news | code                         │
-│  - last_query                                │
-│  - headlines[]                               │
-│  - awaiting_count / selection                │
-└────────────────────────┬─────────────────────┘
-                         │
-                         ▼
-┌──────────────────────────────────────────────┐
-│                  RootAgent                   │
-│     (Gemini 2.5 Flash – Orchestrator)        │
-│                                              │
-│  Responsibilities:                           │
-│  - Intent detection                          │
-│  - Workflow orchestration                    │
-│  - Context aggregation                       │
-│  - Final response assembly                   │
-│                                              │
-│  Attached Tools & APIs:                      │
-│  - AIDevSearchAgent (Gemini tool)            │
-│  - CodeAgent (Gemini tool)                   │
-│  - Hugging Face Hub API                      │
-│  - GitHub API                                │
-└───────────────┬───────────────┬──────────────┘
-        ┌───────┴────────┐      │______________________
-        ▼                ▼                            ▼
-┌──────────────────┐  ┌──────────────────┐   ┌─────────────────────┐
-│ AIDevSearchAgent │  │     CodeAgent    │   │ External APIs       │
-│ (Gemini Tool)    │  │ (Gemini Tool)    │   │ (Direct Access)     │
-│                  │  │                  │   │                     │
-│ - AI news flow   │  │ - Python only    │   │ - Hugging Face Hub  │
-│ - Headline mgmt  │  │ - Deterministic  │   │   • models          │
-│ - Summaries      │  │ - Sandboxed exec │   │   • spaces          │
-└──────────┬───────┘  └──────────┬───────┘   │   • datasets        │
-           │                      │          │ - GitHub            │
-           ▼                      ▼          │   • repos           │
-┌──────────────────┐   ┌────────────────────┐│   • stars/issues    │
-│  google_search   │   │ BuiltInCodeExecutor││   • activity        │
-│  (Discovery)     │   │ (Python Sandbox)   │└─────────────────────┘
-└──────────────────┘   └────────────────────┘
+╔═════════════════════════════════════════════════════════════════════════╗
+║                          CONTROL FLOW                                   ║
+║          (Decision, routing, orchestration – ADK)                       ║
+╠═════════════════════════════════════════════════════════════════════════╣
+║                                                                         ║
+║  ┌────────────────────────────────────────────────────────────┐         ║
+║  │                    ADK Web UI                              │         ║
+║  │  - User prompts                                            │         ║
+║  │  - Headline selection                                      │         ║
+║  └──────────────────────────┬─────────────────────────────────┘         ║
+║                             ▼                                           ║
+║  ┌────────────────────────────────────────────────────────────┐         ║
+║  │                    RootAgent                               │         ║
+║  │        (Gemini 2.5 Flash – Router / Orchestrator)          │         ║
+║  │                                                            │         ║
+║  │  - Intent classification                                   │         ║
+║  │  - Delegation (AgentTool)                                  │         ║
+║  │  - Result aggregation                                      │         ║
+║  └───────┬──────────────┬──────────────┬──────────────┬───────┘         ║
+║          │              │              │              │                 ║
+║          ▼              ▼              ▼              ▼                 ║
+║  ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ ┌────────────────┐║
+║  │ AIDevSearch  │ │   CodeAgent  │ │ hugging_face   │ │ github_agent   │║
+║  │   Agent      │ │              │ │   _agent       │ │                │║
+║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)  │║
+║  └──────────────┘ └──────────────┘ └────────────────┘ └────────────────┘║
+║                                                                         ║
+╚═════════════════════════════════════════════════════════════════════════╝
+
+
+
+╔════════════════════════════════════════════════════════════════════╗
+║                           DATA FLOW                                ║
+║            (Execution, transport, external systems)                ║
+╠════════════════════════════════════════════════════════════════════╣
+║                                                                    ║
+║  ┌─────────────────────┐      ┌──────────────────────────────┐     ║
+║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │     ║
+║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │     ║
+║            │                  └─────────┬────────────────────┘     ║
+║            ▼                            ▼                          ║
+║  External search results          Python execution output          ║
+║                                                                    ║
+║  ┌─────────────────────┐      ┌────────────────────────────────┐   ║
+║  │ HF MCP Server       │      │ GitHub MCP Server              │   ║
+║  │ (stdio, local proc) │      │ (HTTP, remote Copilot MCP)     │   ║
+║  └─────────┬───────────┘      └─────────┬──────────────────────┘   ║
+║            │                            │                          ║
+║            ▼                            ▼                          ║
+║  Hugging Face Hub               GitHub Platform                    ║
+║  - models                       - repos                            ║
+║  - datasets                     - issues / PRs                     ║
+║  - spaces                       - commits / releases               ║
+║                                                                    ║
+╚════════════════════════════════════════════════════════════════════╝
+
 ```
 
 ---
@@ -176,14 +142,17 @@ The application is built using a **multi-agent architecture powered by Gemini mo
 
 ### Tool schema (summary):
 
-| Tool                  | Type               | Attached To      | Purpose                     |
-|----------------------:|-------------------:|------------------|----------------------------:|
-| AIDevSearchAgent      | AgentTool          | RootAgent        | Discover & summarize news   |
-| CodeAgent             | AgentTool          | RootAgent        | Execute Python (sandbox)    |
-| `google_search`         | Built-in ADK Tool  | AIDevSearchAgent | Web discovery               |
-| `BuiltInCodeExecutor`   | ADK Executor       | CodeAgent        | Safe Python execution       |
-| Hugging Face Hub API  | Third-party Tool   | RootAgent        | Model & platform metadata   |
-| GitHub API            | Third-party Tool   | RootAgent        | Repo & OSS signals          |
+|              Component | Type                             | Attached To        | Purpose                                      |
+| ---------------------: | -------------------------------- | ------------------ | -------------------------------------------- |
+|   **AIDevSearchAgent** | `AgentTool`                      | RootAgent          | Discover & summarize AI developer news       |
+|          **CodeAgent** | `AgentTool`                      | RootAgent          | Execute Python code safely                   |
+| **hugging_face_agent** | `AgentTool` (Gemini + MCP stdio) | RootAgent          | Hugging Face models, datasets, spaces        |
+|       **github_agent** | `AgentTool` (Gemini + MCP HTTP)  | RootAgent          | GitHub repositories, issues, PRs (read-only) |
+|        `google_search` | Built-in ADK Tool                | AIDevSearchAgent   | Web discovery for news                       |
+|  `BuiltInCodeExecutor` | ADK Executor                     | CodeAgent          | Deterministic Python sandbox                 |
+|      **HF MCP Server** | MCP Backend (stdio)              | hugging_face_agent | Transport to Hugging Face Hub                |
+|  **GitHub MCP Server** | MCP Backend (HTTP)               | github_agent       | Transport to GitHub API (Copilot MCP)        |
+
 
 ### Design principles:
 - Separation of concerns: RootAgent routes, specialist agents perform tasks.
