@@ -201,7 +201,7 @@ Toolkit_Google_ADK/(ai_dev_news_web)/?
 │   ├── __init__.py
 │   ├── agent.py
 │   └── .env
-├── app.py   ??? app.ipynb
+├── Notebbook_app_001.ipynb
 ├── requirements.txt
 ├── .env.example
 ├── LICENSE
