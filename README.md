@@ -527,7 +527,7 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ### 4.  Example Prompts: GitHub Code Execution    
 3. Enrichment:
    - RootAgent can request Hugging Face signals to rank or annotate discoveries.  
-SCREENSHOT TO BE ENCLOSED 
+![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
 ---
 
 ## Limitations & workarounds
