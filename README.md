@@ -202,9 +202,10 @@ Toolkit_Google_ADK/(ai_dev_news_web)/?   # Root directory of the project; contai
 │   ├── agent.py                        # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
 │   └── .env                            # Local environment variables (API keys, secrets); not committed to version control
 ├── Notebbook_app_001.ipynb             # Jupyter Notebook for experimentation, testing, and demoing agent behavior
-├── requirements.txt                   # List of Python dependencies   
+├── requirements.txt                    # List of Python dependencies   
 ├── .env.example                        # Example environment variable template   
-├── LICENSE                             # License  
+├── LICENSE                             # License
+├── .gitignore                          # Defines ignore rules for environment variables, Python artifacts, notebooks, logs, and local editor files  
 ├── README.md                           # Project documentation: setup, usage, architecture, and examples
 ├── Screenshots_Examples_Usage/         # Visual assets demonstrating application usage and outputs
 │   ├── Screenshot_1                    # Example screenshot showing initial UI or agent interaction
