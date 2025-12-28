@@ -195,23 +195,28 @@ The application is built using a **multi-agent architecture powered by Gemini mo
 
 ## Project structure (Repository structure)
 
+```bash
+Toolkit_Google_ADK/(ai_dev_news_web)/?   # Root directory of the project; contains all source code, configs, and documentation
+├── app_01/                             # Main application module containing the core agent implementation
+│   ├── __init__.py                     # Marks app_01 as a Python package and enables module imports
+│   ├── agent.py                        # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
+│   └── .env                            # Local environment variables (API keys, secrets); not committed to version control
+├── Notebbook_app_001.ipynb             # Jupyter Notebook for experimentation, testing, and demoing agent behavior
+├── requirements.txt                   # List of Python dependencies   
+├── .env.example                        # Example environment variable template   
+├── LICENSE                             # License  
+├── README.md                           # Project documentation: setup, usage, architecture, and examples
+├── Screenshots_Examples_Usage/         # Visual assets demonstrating application usage and outputs
+│   ├── Screenshot_1                    # Example screenshot showing initial UI or agent interaction
+│   ├── Screenshot_2                    # Example screenshot highlighting a core feature or workflow
+│   ├── Screenshot_3                    # Example screenshot demonstrating agent output or results
+│   ├── Screenshot_4                    # Example screenshot showing advanced or edge-case behavior
 ```
-Toolkit_Google_ADK/(ai_dev_news_web)/?
-├── app_01/
-│   ├── __init__.py
-│   ├── agent.py
-│   └── .env
-├── Notebbook_app_001.ipynb
-├── requirements.txt
-├── .env.example
-├── LICENSE
-└── README.md│
-├── Screenshots_Examples_Usage/
-│   ├── Screenshot_1
-│   ├── Screenshot_2
-│   ├── Screenshot_3
-│   ├── Screenshot_4
-```
+
+
+
+
+
 
 ---  
 
