@@ -206,7 +206,7 @@ Toolkit_Google_ADK/(ai_dev_news_web)/?
 ├── .env.example
 ├── LICENSE
 └── README.md│
-├── Examples_usage/
+├── Screenshots_Examples_Usage/
 │   ├── Screenshot_1
 │   ├── Screenshot_2
 │   ├── Screenshot_3
