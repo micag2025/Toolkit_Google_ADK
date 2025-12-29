@@ -12,10 +12,6 @@ from google.adk.code_executors import BuiltInCodeExecutor
 HF_TOKEN = os.getenv("HUGGING_FACE_TOKEN")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-#HUGGING_FACE_TOKEN = "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"
-#GITHUB_TOKEN = "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"
-
-
 # ============================
 # AI Developer News Agent
 # ============================
