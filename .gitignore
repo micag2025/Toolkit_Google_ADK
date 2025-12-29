@@ -71,3 +71,11 @@ Screenshots_Examples_Usage/*
 *.swp
 *.swo
 *~
+
+
+.env
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.DS_Store
