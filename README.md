@@ -7,8 +7,6 @@ Key goals:
 - Execute and return Python code results in a sandboxed environment
 - Provide a clean, multi-agent architecture for reliable orchestration and extensibility
 
-Built with: Google ADK, Gemini models, and a minimal ADK Web interface.  
-
 ---
 
 ## Highlights
@@ -16,7 +14,6 @@ Built with: Google ADK, Gemini models, and a minimal ADK Web interface.
 - Multi-agent orchestration with a RootAgent that routes to specialist agents
 - Real-time web discovery using `google_search`
 - Safe Python execution via ADK's sandboxed executor
-- Extensible: plug in Hugging Face and GitHub integrations for richer developer signals
 
 ---
 
@@ -31,10 +28,10 @@ Built with: Google ADK, Gemini models, and a minimal ADK Web interface.
 ## Architecture overview
 
 High-level flow:
-1. ADK Web UI: user input, headline selection, and execution requests.
-2. Session state: tracks mode (news / code), last query, headlines, selections.
-3. RootAgent: intent detection, context aggregation, and deterministic routing.
-4. Specialist agents:
+1. **ADK Web UI**: user input, headline selection, and execution requests.
+2. **Session state**: tracks mode (news / code), last query, headlines, selections.
+3. **RootAgent**: intent detection, context aggregation, and deterministic routing.
+4. **Specialist agents**:
    - AIDevSearchAgent (news + google_search)
    - CodeAgent (sandboxed Python execution)  
    - HugginFaceAgent  
@@ -59,23 +56,21 @@ RootAgent
 The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
 
 ### Architecture Diagram (Control Flow vs Data Flow)
+The architecture Diagram is based on a `Control Flow lane` that identifies who decides and delegates and a `Data Flow lane` that points out where data actually travels  
 
-Control Flow lane → who decides and delegates  
-Data Flow lane → where data actually travels  
+- **Control Flow Lane answers** 
+  - Who decides what happens next? 
+  - Only RootAgent      
+  - All agents are children      
+  - No agent self-invokes       
+  - No external system can trigger logic      
 
-Control Flow Lane answers
-- Who decides what happens next?
-- Only RootAgent    
-- All agents are children    
-- No agent self-invokes    
-- No external system can trigger logic    
-
-Data Flow Lane answers:
-- Where does execution/data actually go?  
-- Some flows stay local  
-- Some cross process boundaries  
-- Some cross network boundaries  
-- Transport differences do not imply authority  
+- **Data Flow Lane answers**:  
+  - Where does execution/data actually go?    
+  - Some flows stay local    
+  - Some cross process boundaries    
+  - Some cross network boundaries    
+  - Transport differences do not imply authority    
 
 ```yaml
 ╔═════════════════════════════════════════════════════════════════════════╗
@@ -140,7 +135,7 @@ Data Flow Lane answers:
 
 ## Agents & tools
 
-### Tool schema (summary):
+### Tool schema:  
 
 |              Component | Type                             | Attached To        | Purpose                                      |
 | ---------------------: | -------------------------------- | ------------------ | -------------------------------------------- |
@@ -183,11 +178,6 @@ Toolkit_Google_ADK/(ai_dev_news_web)/?   # Root directory of the project; contai
 │   ├── Screenshot_4                    # Example screenshot showing advanced or edge-case behavior
 ```
 
-
-
-
-
-
 ---  
 
 ## Quick start / Getting Started
@@ -219,9 +209,8 @@ ADK_DEV_MODE=true
 ```
 
 > _Notes:_  
-> - Do NOT commit your `.env` or secrets to git.  
 > - The project expects API keys to be correctly provisioned for Vertex AI / Gemini usage.
-> - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API.  Here's a step-by-step guide: Go to [Google AI Studio](https://cloud.google.com/free?hl=en) : Open your web browser and navigate to the Google AI Studio website. Access API Keys Page : Once logged in, open the "API keys" page from the left-side panel. Create API Key : Click on the "Create API key" button.      
+> - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API. A step-by-step guide can be found on o [Google AI Studio](https://cloud.google.com/free?hl=en) : O
 
 
 ### Launch the ADK Web App  / Get the app URL  
@@ -231,8 +220,7 @@ Start the ADK Web app:
 adk web
 ```
 
-Open the provided local URL in your browser, from the Google ADK user interface in the left pane, select the `app_01` agent (or whichever agent you added), and interact.
-
+Open the provided local URL in your browser, from the Google ADK user interface in the left pane, select the `app_01` agent and interact.
 
 ### Kill ADK process    
 Stop the ADK process (if needed):
@@ -240,50 +228,6 @@ Stop the ADK process (if needed):
 ```bash
 pkill -f "adk web"
 ```
-
----
-
-
-## Building AI Agents with ADK
-**ADK Overview**  
-- ADK provides modular components including models, tools, memory, and orchestration.    
-- Supports both simple agents and complex multi-agent systems.   
-
-**Text Agents**  
-Create a text agent that:
-- Takes text input.  
-- Uses an LLM to reason and generate responses.  
-- Integrates tools and APIs for executing real-world tasks.  
-Evaluate agent sessions, memory, and state for reliability.
-Extend capabilities with callbacks and guardrails for safe and predictable behavior.
-
-**Specialized Agents**  
-Design agents that:
-Research topics.
-Generate text  outputs using Gemini text-to-text models.
-Combine multiple agents with orchestration to create coordinated workflows.  
-
-## Step-by-Step Development Process
-**Agent Setup**  
-Build the agent in ADK and connect it to Google Search.  
-Test text interactions via the ADK Web UI.  
-**Memory & Context Management**  
-Use sessions, state, and memory to manage conversations.  
-Enable short-term tracking and long-term recall across interactions.  
-**Tools & API Integration**  
-Add custom tools and APIs.  
-Refine agent instructions to ensure adherence to defined workflows.  
-**Research & Reporting**  
-Generate structured research reports using schemas.  
-Act as a coordinator to collect, organize, and save outputs in markdown for downstream use.  
-**Guardrails & Callbacks**  
-Filter unsafe sources and enforce rules.    
-Log tool activity for predictability and production readiness.    
-**Production Deployment**  
-Give agents persistent memory.  
-Test reliability and deploy on Vertex AI.    
-Add security, monitoring, and scaling features for safe production use.     
-
 ---
 
 ## Agents  
@@ -374,19 +318,13 @@ app_01/
 
  `adk create` command is used to create folders and then write to its `agent.py` using the cell magic in the notebook. Cell magic uses specific commands to interact with the files in the new agent folder.  `%%writefile FILENAME` has been used to do this.
 
-The next steps is to create an Agent with a unique name, specify the LLM model, and give it basic instructions.
-
-As with any agent, an LLM is required to start with ADK is model agnostic - meaning you can provide it with any model of your choice like Gemini, Claude, Ollama and even use LiteLLM to bring in other models.
-In this project the `Gemini 2.0 flash` is used.
-
 ## 1.3 Adding a text model  
-Text-focused models like `gemini-2.5-flash` are ideal when want optimized text processing. They often provide faster response times. Let's create a variant of the agent using a text-optimized model to see how it behaves differently.  
+
+The next steps is to create an Agent with a unique name, specify the LLM model, and give it basic instructions. As with any agent, an LLM is required to start with ADK is model agnostic - meaning you can provide it with any model of your choice like Gemini, Claude, Ollama and even use LiteLLM to bring in other models. In this project the `Gemini 2.0 flash` is used since text-focused models like `gemini-2.5-flash` are ideal when the purpose is to optimize text processing. They often provide faster response times. 
 
 ## 1.4 Adding tools to your agent  
 
-**But here's the problem:** try asking this agent about the latest AI developments, and you'll quickly discover it can only tell you about things that happened before its training cutoff date. For an AI news assistant that's supposed to fetch the latest news, that's not particularly helpful.
-
-Therefore, you need to fix that by providing your agent with **Tools**. In Google ADK, the word [“tool”](https://google.github.io/adk-docs/tools/) has two meanings:  
+**But here's the problem:** try asking this agent about the latest AI developments, and you'll quickly discover it can only tell you about things that happened before its training cutoff date. For an AI news assistant that's supposed to fetch the latest news, that's not particularly helpful. Therefore, you need to fix that by providing your agent with **Tools**. In Google ADK, the word [“tool”](https://google.github.io/adk-docs/tools/) has two meanings:  
 
 
 | Term                 | Meaning                                                                   |
@@ -436,7 +374,7 @@ You can test the enhanced agent with both valid and invalid requests:
 
 **Invalid prompts** (should be refused):
 - "What's the weather today?"
-- "Help me with my homework"
+
 
 Watch how the agent now maintains strict boundaries while still being helpful for AI-related queries.
 
@@ -501,7 +439,7 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ## Limitations & workarounds
 
-- ADK tool restrictions: some built-in tools (e.g., google_search, code execution) typically cannot be combined inside a single agent instance. Workaround: create specialized agents (SearchAgent, CodeAgent) and orchestrate via RootAgent using AgentTool.create() to delegate requests.
+- [ADK tool restrictions](https://google.github.io/adk-docs/tools/limitations/): some built-in tools (e.g., google_search, code execution) typically cannot be combined inside a single agent instance. Workaround: create specialized agents (SearchAgent, CodeAgent) and orchestrate via RootAgent using AgentTool.create() to delegate requests.
 - Model variability: responses can differ between runs. Test determinism in production-critical workflows.
 - API quotas and billing: monitor Vertex AI / Google Cloud costs.
 
@@ -523,6 +461,16 @@ Add automated tests and CI pipelines as needed (e.g., GitHub Actions).
 
 ---
 
+## Contributing
+
+Contributions welcome. Suggested workflow:
+1. Open an issue to discuss changes or features.
+2. Create a branch: `git checkout -b feat/your-feature`
+3. Implement and add tests.
+4. Open a PR describing changes and rationale.
+
+Please follow the repository code style and add tests for major features.
+
 ## Roadmap & enhancements
 
 Planned / suggested improvements:
@@ -533,17 +481,6 @@ Planned / suggested improvements:
 - Additional specialist agents (HuggingFaceAgent, GitHubAgent)
 - Stronger execution guardrails and resource limits
 
----
-
-## Contributing
-
-Contributions welcome. Suggested workflow:
-1. Open an issue to discuss changes or features.
-2. Create a branch: `git checkout -b feat/your-feature`
-3. Implement and add tests.
-4. Open a PR describing changes and rationale.
-
-Please follow the repository code style and add tests for major features.
 
 ## References  
 
