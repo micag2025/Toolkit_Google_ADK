@@ -1,7 +1,11 @@
-# Toolkit Agents with Google’s Agent Development Kit (ADK)
 
-## Tags 
-`Google Agent Development Kit (ADK)`, `Gemini models`, `ADK Web interface`
+# An Agent-Based Developer Intelligence Toolkit : Structured AI news, safe code execution, and platform intelligence — powered by ADK.  
+# An ADK-Powered Developer Intelligence Platform  
+# Designing a Safe Multi-Agent Developer Assistant with ADK  
+
+
+## Tags   
+`multi-agent-systems`, `llm-agents`, `Agent Development Kit (ADK)`, `google-adk`, `gemini (models)`, `developer-intelligence`, `code-assistant`, `huggingface`, `github`, `mcp`, `tool-grounded-ai`, `agent-routing`, `agent-orchestration`, `open-source`, `web-ui`
 
 ## Author 
 Michela Agostini 
@@ -17,6 +21,8 @@ Key goals:
 - Provide a clean, multi-agent architecture for reliable orchestration and extensibility
 
 Built with: Google ADK, Gemini models, and a minimal ADK Web interface.  
+
+The project is best described as `Agent-based developer intelligence with strict routing and tool grounding`. The system is a `Structured, agent-based, tool-grounded developer intelligence`. it’s an agent-based developer intelligence toolkit. It’s a developer intelligence system opinionated, structured, tool-grounded and role-aware.
 
 ---
 
