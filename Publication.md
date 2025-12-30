@@ -501,10 +501,11 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
 ---
 
-## Usage Examples  
-Example general queries might be:  
+---
 
-### Use Cases:
+## Use Cases and Usage Examples:
+ The below table gives an overview of how this ADK Toolkit is not designed only for AI developers and builders but it can be used also by different user types. Example general 
+ queries for each user tyoe is also shown in the table.
 
 | User Type         | Core Value                         |       Example prompts                                                                                                 |
 | ----------------- | ---------------------------------- |---------------------------------------------------------------------------------------------------------------------- |
@@ -612,4 +613,4 @@ michelaagostini73@gmail.com
 
 ## Acknowledgements
 
-Built with Google Agent Development Kit (ADK). Designed for AI developers and builders
+Built with Google Agent Development Kit (ADK).
