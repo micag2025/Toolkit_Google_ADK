@@ -1,4 +1,4 @@
-# Toolkit Agents with Google’s Agent Development Kit (ADK)  
+# Designing a Safe Multi-Agent Developer Assistant with ADK
 
 This project is built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture,  giving an example toolkit that demonstrates how to build, orchestrate, and deploy multi-agent systems using Google’s Agent Development Kit (ADK). The project focuses on creating an `AI Developer Agent` capable of discovering real-time AI news, generating Python code, and integrating with developer platforms like Hugging Face and GitHub.  
 
