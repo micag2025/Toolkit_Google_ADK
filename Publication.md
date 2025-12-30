@@ -505,23 +505,19 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 Example general queries might be:  
 
 ### Use Cases:
-ML Engineer 
-Backend Engineer
-MLOps 
-Data Scientist
-| User Type         | Core Value                         |       Example prompts                         |
-| ----------------- | ---------------------------------- |---------------------------------------------- |
-| ML Engineers      | Deep, accurate AI tooling insights |
-| Backend Engineers | AI relevance without ML overload   |
-| MLOps             | Deployment & infra signals         |
-| Tech Leads        | High-signal summaries              |
-| Dev Advocates     | Structured content                 |
-| OSS Maintainers   | Ecosystem awareness                |
-| Product Managers  | Strategic clarity                  |
-| Researchers       | Research → practice bridge         |
-| Students          | Guided learning                    |
-| Enterprises       | Safe AI discovery                  |
 
+| User Type         | Core Value                         |       Example prompts                                                                                                 |
+| ----------------- | ---------------------------------- |---------------------------------------------------------------------------------------------------------------------- |
+| ML Engineers      | Deep, accurate AI tooling insights |“What are the latest open-source LLM tools for summarization?”, Show me Hugging Face models for text generation”       |
+| Backend Engineers | AI relevance without ML overload   |“Any AI tools relevant for backend search or summarization?”, Which of these tools are production-ready?”              |
+| MLOps             | Deployment & infra signals         |“Which of these tools are open-source and actively maintained?”, “Are these models deployable on-prem?”                |
+| Tech Leads        | High-signal summaries              |“Summarize the most relevant AI dev news this week”, “Which of these trends impact backend teams?”                     |
+| Dev Advocates     | Structured content                 |“Explain this article for developers new to LLMs”, “Extract the key technical points” (Technical Writers|              |
+| Product Managers  | Strategic clarity                  |“Which of these tools are proprietary?”, “What trends should we care about?”
+| Researchers       | Research → practice bridge         |“Which research projects have working implementations?”, “Are there Hugging Face models for this approach?”
+| Students          | Guided learning                    |“Explain this Python code”, “Which tools should I learn first?”
+
+---
 
 ## Limitations & workarounds
 
