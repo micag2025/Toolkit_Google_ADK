@@ -198,8 +198,8 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Environment variables / .env.example  
-Set environment variables. Put keys in `.env` or your environment. Example `.env.example`:
+### Environment variables 
+Set environment variables (keys) in `.env` or your environment. See example `.env.example`:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -506,4 +506,4 @@ If you encounter bugs, have questions, or want to request a new feature, please 
 
 ## Acknowledgements
 
-Built with Google Agent Development Kit (ADK). Designed for AI developers and builders
+Built with Google Agent Development Kit (ADK). 
