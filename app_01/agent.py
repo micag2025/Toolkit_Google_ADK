@@ -1,4 +1,3 @@
-
 import os
 import re
 from google.adk.agents import Agent
@@ -6,47 +5,74 @@ from google.adk.tools import google_search
 from google.adk.tools.agent_tool import AgentTool
 from google.adk.code_executors import BuiltInCodeExecutor
 
-# ============================
-# Environment validation
-# ============================
+# ======================================================
+# Environment variables
+# ======================================================
 HF_TOKEN = os.getenv("HUGGING_FACE_TOKEN")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 
-# ============================
-# AI Developer News Agent
-# ============================
+
+# ======================================================
+# AI Developer News Agent (FIXED – NO LOOPS)
+# ======================================================
 search_agent = Agent(
     model="gemini-2.5-flash",
     name="AIDevSearchAgent",
-    description="Specialist agent for AI news relevant to developers.",
+    description="Specialist agent for AI developer news with structured enrichment.",
     instruction="""
 You are an AI News Analyst for developers.
 
-Rules:
-- Only discuss AI-related news relevant to developers.
-- Always use google_search for factual information.
+Scope:
+- ONLY AI-related news relevant to developers.
+- ALWAYS use google_search for factual information.
 
-Workflow:
-1. If the request is general AI news, ask:
-   "Sure — how many news items would you like me to find?"
-2. Use google_search to find recent articles.
-3. Respond with:
-   "Using google_search, here are the top headlines:"
-   followed by a numbered list:
-   1. Headline – Platform / Use case
-4. Ask the user which headline to explore next.
-5. When asked, provide a detailed summary and cite google_search.
+Rules:
+- NEVER ask follow-up questions.
+- If the user does not specify a number of articles, DEFAULT to 3.
+- If a number is present in the request, use it as the article count.
+
+Response format (REQUIRED):
+
+Using google_search, here are the top headlines:
+
+---
+[NUMBER]. HEADLINE
+
+Summary:
+1–2 sentence technical summary
+
+Tech stack:
+- frameworks / languages / infrastructure OR "Not mentioned"
+
+License:
+- Open-source | Proprietary | Mixed | Not mentioned
+
+GitHub repository:
+- Repository name if explicitly referenced
+- Otherwise: Not referenced
+
+Hugging Face:
+- Model / Dataset / Space name if mentioned
+- Otherwise: Not mentioned
+
+Who should care:
+- ML Engineer / Backend Engineer / MLOps / Data Scientist
+---
+
+End by asking:
+"Which headline would you like to explore in more detail?"
 """,
     tools=[google_search],
 )
 
-# ============================
+
+# ======================================================
 # Python Code Execution Agent
-# ============================
+# ======================================================
 coding_agent = Agent(
     model="gemini-2.5-flash",
     name="CodeAgent",
-    description="Executes safe Python code and returns results only.",
+    description="Executes safe Python code in a sandbox.",
     instruction="""
 You execute Python code safely.
 
@@ -61,8 +87,27 @@ Rules:
 )
 
 # ============================
-# Hugging Face MCP Agent
+# Python Code Explanation Agent
 # ============================
+code_explain_agent = Agent(
+    model="gemini-2.5-flash",
+    name="CodeExplainAgent",
+    description="Explains Python code without executing it.",
+    instruction="""
+Explain Python code clearly and safely.
+
+Rules:
+- Do NOT execute code
+- Do NOT modify code
+- Explain step-by-step
+- Mention pitfalls or edge cases if relevant
+""",
+)
+
+
+# ======================================================
+# Hugging Face Canonical Reference Agent
+# ======================================================
 from google.adk.tools.mcp_tool import McpToolset
 from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
 from mcp import StdioServerParameters
@@ -70,12 +115,21 @@ from mcp import StdioServerParameters
 hf_agent = Agent(
     model="gemini-2.5-flash",
     name="hugging_face_agent",
-    description="Provides information about Hugging Face models, datasets, and Spaces.",
+    description="Returns validated canonical Hugging Face URLs for exact IDs only.",
     instruction="""
-If Hugging Face access is unavailable:
-- Respond with: "Hugging Face integration is not configured."
-Otherwise:
-- Use MCP tools to answer Hugging Face questions.
+You are a Hugging Face reference agent.
+
+STRICT RULES:
+- ONLY return a Hugging Face URL if the user provides an EXACT Hugging Face ID.
+- Do NOT guess, normalize, or infer names.
+
+If the resource does not exist, respond:
+"No Hugging Face resource found for the provided identifier."
+
+Output format (ONLY if validated):
+
+Hugging Face URL:
+https://huggingface.co/<exact_id>
 """,
     tools=(
         [
@@ -96,20 +150,25 @@ Otherwise:
 )
 
 
-# ============================
+# ======================================================
 # GitHub MCP Agent
-# ============================
+# ======================================================
 from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerParams
 
 git_agent = Agent(
     model="gemini-2.5-flash",
     name="github_agent",
-    description="Read-only GitHub repository assistant.",
+    description="Read-only GitHub repository enrichment agent.",
     instruction="""
-If GitHub access is unavailable:
-- Respond with: "GitHub integration is not configured."
-Otherwise:
-- Use GitHub MCP tools.
+You are a GitHub repository reference agent.
+
+Rules:
+- ONLY summarize repositories explicitly mentioned by the user.
+- Do NOT invent repositories.
+
+If no repository is mentioned or found:
+Respond with:
+"No GitHub repository found."
 """,
     tools=(
         [
@@ -130,47 +189,51 @@ Otherwise:
 )
 
 
-# ============================
+# ======================================================
 # Root Routing Agent
-# ============================
+# ======================================================
 root_agent = Agent(
     name="RootAgent",
     model="gemini-2.5-flash",
-    description="Strict routing agent that delegates to specialist agents.",
+    description="Strict routing agent that delegates all work to specialists.",
     instruction="""
 You are a STRICT routing agent.
 
 Routing rules:
 - AI developer news → AIDevSearchAgent
-- Python code execution → CodeAgent
-- Hugging Face questions → hugging_face_agent
+- Python execution or code explanation → CodeAgent
+- Python code explanation → CodeExplainAgent
+- Hugging Face canonical links → hugging_face_agent
 - GitHub repositories or activity → github_agent
 
 Rules:
-- Always delegate to a specialist agent
+- ALWAYS delegate
 - NEVER answer directly
-- If intent is unclear, ask the user to clarify
+- Ask for clarification only if intent is unclear
 """,
     tools=[
         AgentTool(agent=search_agent),
         AgentTool(agent=coding_agent),
+        AgentTool(agent=code_explain_agent),
         AgentTool(agent=hf_agent),
         AgentTool(agent=git_agent),
     ],
 )
 
-# ============================
+
+# ======================================================
 # Helper functions
-# ============================
+# ======================================================
 def extract_headlines(response_text: str):
-    """Extracts numbered headlines from agent responses."""
-    return re.findall(r"\d+\.\s*(.+?)\s*–", response_text)
+    return re.findall(r"\d+\.\s*(.+)", response_text)
+
+
+def extract_limit(text: str, default: int = 3) -> int:
+    match = re.search(r"\b(\d+)\b", text)
+    return int(match.group(1)) if match else default
 
 
 def handle_user_input(user_input: str, session_state: dict):
-    """
-    Handles a single user message for ADK Web.
-    """
     if session_state is None:
         session_state = {"headlines": []}
 
@@ -180,7 +243,7 @@ def handle_user_input(user_input: str, session_state: dict):
     if user_input.lower() in {"exit", "quit"}:
         return "Goodbye!", {"headlines": []}
 
-    # Explicit Python execution trigger
+    # Explicit Python execution
     if user_input.lower().startswith("execute python code:"):
         code = user_input[len("execute python code:"):].strip()
         try:
@@ -189,24 +252,37 @@ def handle_user_input(user_input: str, session_state: dict):
         except Exception as e:
             return f"Execution error: {e}", session_state
 
+    # Explicit Python code explanation
+
+    if user_input.lower().startswith("explain this python code:"):
+        code = user_input[len("explain this python code:"):].strip()
+        return code_explain_agent.run(code), session_state
+
     # Headline selection
     if user_input.isdigit() and headlines:
         idx = int(user_input) - 1
         if 0 <= idx < len(headlines):
             headline = headlines[idx]
+
             summary = search_agent.run(
-                f"Provide a detailed developer-focused summary for: {headline}"
+                f"Provide a deeper technical summary for: {headline}"
             )
-            return summary, session_state
-        return "Invalid selection.", session_state
 
-    # More news
-    if user_input.lower() in {"more", "search more"} and headlines:
-        response = root_agent.run("Find more AI news for developers")
-        session_state["headlines"] = extract_headlines(response)
-        return response, session_state
+            github_info = git_agent.run(
+                "Summarize the GitHub repository mentioned, if any."
+            )
 
-    # Default: delegate to RootAgent
+            hf_info = hf_agent.run(
+                "Return the Hugging Face URL if an exact ID is mentioned."
+            )
+
+            return (
+                f"{summary}\n\n---\n"
+                f"GitHub enrichment:\n{github_info}\n\n"
+                f"Hugging Face enrichment:\n{hf_info}"
+            ), session_state
+
+    # Default routing (news count handled by agent)
     response = root_agent.run(user_input)
     session_state["headlines"] = extract_headlines(response)
     return response, session_state
