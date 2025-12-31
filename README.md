@@ -33,7 +33,8 @@ High-level flow:
 3. **RootAgent**: intent detection, context aggregation, and deterministic routing.
 4. **Specialist agents**:
    - AIDevSearchAgent (news + google_search)
-   - CodeAgent (sandboxed Python execution)  
+   - CodeAgent (sandboxed Python execution)
+   - CodeExplainAgent   
    - HugginFaceAgent  
    - GitHib Agent  
 
@@ -43,6 +44,7 @@ Compact ASCII diagram:
 RootAgent
    ├── AgentTool → AIDevSearchAgent → google_search
    ├── AgentTool → CodeAgent → BuiltInCodeExecutor
+   ├── AgentTool → CodeExplainAgent    
    ├── AgentTool → hugging_face_agent → HF MCP → HF Hub
    └── AgentTool → github_agent → GitHub MCP → GitHub
 ``` 
@@ -141,12 +143,29 @@ The architecture Diagram is based on a `Control Flow lane` that identifies who d
 | ---------------------: | -------------------------------- | ------------------ | -------------------------------------------- |
 |   **AIDevSearchAgent** | `AgentTool`                      | RootAgent          | Discover & summarize AI developer news       |
 |          **CodeAgent** | `AgentTool`                      | RootAgent          | Execute Python code safely                   |
+|   **CodeExplainAgent** | `AgentTool`                      | RootAgent          | Explain Python code safely                   |
 | **hugging_face_agent** | `AgentTool` (Gemini + MCP stdio) | RootAgent          | Hugging Face models, datasets, spaces        |
 |       **github_agent** | `AgentTool` (Gemini + MCP HTTP)  | RootAgent          | GitHub repositories, issues, PRs (read-only) |
 |        `google_search` | Built-in ADK Tool                | AIDevSearchAgent   | Web discovery for news                       |
 |  `BuiltInCodeExecutor` | ADK Executor                     | CodeAgent          | Deterministic Python sandbox                 |
 |      **HF MCP Server** | MCP Backend (stdio)              | hugging_face_agent | Transport to Hugging Face Hub                |
 |  **GitHub MCP Server** | MCP Backend (HTTP)               | github_agent       | Transport to GitHub API (Copilot MCP)        |
+
+
+> _Note_
+```bash
+ User → "Explain this Python code"  
+             │  
+             ▼  
+        RootAgent  
+             ├─ detects "explain"  
+             └─ delegates to CodeExplainAgent  
+                      │  
+                      ▼  
+               Explanation only (no execution)
+```
+
+
 
 
 ### Design principles:
@@ -160,19 +179,25 @@ The architecture Diagram is based on a `Control Flow lane` that identifies who d
 ## Project structure (Repository structure)
 
 ```bash
-Toolkit_Google_ADK/(ai_dev_news_web)/?   # Root directory of the project; contains all source code, configs, and documentation
-├── app_01/                             # Main application module containing the core agent implementation
-│   ├── __init__.py                     # Marks app_01 as a Python package and enables module imports
-│   ├── agent.py                        # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
-│   └── .env                            # Local environment variables (API keys, secrets); not committed to version control
-├── Notebbook_app_001.ipynb             # Jupyter Notebook for experimentation, testing, and demoing agent behavior
-├── requirements.txt                    # List of Python dependencies   
-├── .env.example                        # Example environment variable template   
-├── LICENSE                             # License
-├── .gitignore                          # Defines ignore rules for environment variables, Python artifacts, notebooks, logs, and local editor files  
-├── README.md                           # Project documentation: setup, usage, architecture, and examples
-├── Screenshots_Examples_Usage/         # Visual assets demonstrating application usage and outputs
-│   ├── Screenshot_1                    # Example screenshot showing initial UI or agent interaction
+Toolkit_Google_ADK/                          # Root directory of the project; contains all source code, configs, and documentation
+├── app_01/                                  # Main application module containing the core agent implementation
+│   ├── __init__.py                          # Marks app_01 as a Python package and enables module imports
+│   ├── agent.py                             # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
+│   └── .env                                 # Local environment variables (API keys, secrets); not committed to version control
+├── Notebbook_app_001.ipynb                  # Jupyter Notebook for experimentation, testing, and demoing agent behavior
+├── requirements.txt                         # List of Python dependencies   
+├── .env.example                             # Example environment variable template   
+├── LICENSE                                  # License
+├── .gitignore                               # Defines ignore rules for environment variables, Python artifacts, notebooks, logs, and local editor files  
+├── README.md                                # Project documentation: setup, usage, architecture, and examples
+├── Screenshots_Examples_Usage/              # Visual assets demonstrating application usage and outputs
+│   ├── Screenshot_UI_interface.jpeg         # Example screenshot showing initial UI or agent interaction
+│   ├── Screenshot_AIDevSearchAgent_2.jpeg   # Example screenshot demonstrating AIDevSearchAgent output  
+│   ├── Screenshot_AIDevSearchAgent_3.jpeg   # Example screenshot highlighting a core feature of AIDevSearchAgen
+│   ├── Screenshot_CodeAgent_1.jpeg          # Example screenshot demonstrating CodeAgent output 
+│   ├── Screenshot_CodeExplainAgent1.jpeg    # Example screenshot highlighting a core feature of CodeExplainAgent1
+│   ├── Screenshot_HuggingFaceAgent1.jpeg    # Example screenshot highlighting a core feature of HuggingFaceAgent1 TO BE ENCLOSED UPDATED VERSION 
+│   ├── Screenshot_GitHubAgent1.Agentjpeg    # Example screenshot highlighting a core feature of GitHub TO BE ENCLOSED UPDATED VERSION 
 │   ├── Screenshot_2                    # Example screenshot highlighting a core feature or workflow
 │   ├── Screenshot_3                    # Example screenshot demonstrating agent output or results
 │   ├── Screenshot_4                    # Example screenshot showing advanced or edge-case behavior
@@ -268,15 +293,18 @@ The RootAgent has **direct access** to:
   - No explanations, no commentary  
   - Returns execution output or errors  
 
+- **CodeExplainAgent**
+- Explain Python code (no execution)
+
 ### Third-Party Developer APIs (Custom Tools)
 
-- **Hugging Face Hub API**
+- **Hugging Face Hub Agent**
   - Model metadata
   - Spaces
   - Datasets
   - Popularity and usage signals
 
-- **GitHub API**
+- **GitHub Agent**
   - Repository metadata
   - Stars, issues, commits
   - Open-source activity signals
