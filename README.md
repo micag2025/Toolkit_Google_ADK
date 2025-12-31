@@ -420,12 +420,12 @@ Below is a high-signal, comprehensive set of prompt examples designed to systema
 
 ### 2.  Example Prompts: Python Code Execution and Explain This Code Mode 
 2. Python execution:
-   - Ask: "Run this Python code..." / Execute python code: print(2 + 2)
+   - Ask: "Run this Python code..." / "Execute python code: print(2 + 2)" / "Explain this Python code:”  
    - Flow: RootAgent → CodeAgent → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
      
 ![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/0da860b2550f49eec983303693b1abc89d842173/Screenshot_30-12-2025_181111_127.0.0.1.jpeg)
 
-[Python_Explain_Code](
+![Python_Explain_Code](https://github.com/micag2025/Toolkit_Google_ADK/blob/0da860b2550f49eec983303693b1abc89d842173/Screenshot_30-12-2025_181236_127.0.0.1.jpeg)
 
 
 ### 3.  Example Prompts: HuggingFace Code Execution  
