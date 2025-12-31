@@ -106,83 +106,32 @@ The architecture Diagram is based on a `Control Flow lane` that identifies who d
 
 
 
-╔════════════════════════════════════════════════════════════════════╗
-║                           DATA FLOW                                ║
-║            (Execution, transport, external systems)                ║
-╠════════════════════════════════════════════════════════════════════╣
-║                                                                    ║
-║  ┌─────────────────────┐      ┌──────────────────────────────┐     ║
-║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │     ║
-║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │     ║
-║            │                  └─────────┬────────────────────┘     ║
-║            ▼                            ▼                          ║
-║  External search results          Python execution output          ║
-║                                                                    ║
-║  ┌─────────────────────┐      ┌────────────────────────────────┐   ║
-║  │ HF MCP Server       │      │ GitHub MCP Server              │   ║
-║  │ (stdio, local proc) │      │ (HTTP, remote Copilot MCP)     │   ║
-║  └─────────┬───────────┘      └─────────┬──────────────────────┘   ║
-║            │                            │                          ║
-║            ▼                            ▼                          ║
-║  Hugging Face Hub               GitHub Platform                    ║
-║  - models                       - repos                            ║
-║  - datasets                     - issues / PRs                     ║
-║  - spaces                       - commits / releases               ║
-║                                                                    ║
-╚════════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                           DATA FLOW                                                                ║
+║            (Execution, transport, external systems)                                                ║                                
+╠════════════════════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                                    ║
+║  ┌─────────────────────┐      ┌──────────────────────────────┐    ┌──────────────────────────────┐ ║
+║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │    │CodeExplain                   │ ║
+║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │    │ (Python sandbox, no net/fs)  │ ║
+║            │                  └─────────┬────────────────────┘    └─────────┬────────────────────┘ ║
+║            ▼                            ▼                                   ▼                      ║
+║  External search results          Python execution output              Python explain output       ║
+║                                                                                                    ║
+║  ┌─────────────────────┐      ┌────────────────────────────────┐                                   ║
+║  │ HF MCP Server       │      │ GitHub MCP Server              │                                   ║
+║  │ (stdio, local proc) │      │ (HTTP, remote Copilot MCP)     │                                   ║
+║  └─────────┬───────────┘      └─────────┬──────────────────────┘                                   ║
+║            │                            │                                                          ║
+║            ▼                            ▼                                                          ║
+║  Hugging Face Hub               GitHub Platform                                                    ║
+║  - models                       - repos                                                            ║
+║  - datasets                     - issues / PRs                                                     ║
+║  - spaces                       - commits / releases                                               ║
+║                                                                                                    ║
+╚════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```yaml
-
-╔════════════════════════════════════════════════════════════════════╗
-║                           DATA FLOW                                ║
-║            (Execution, transport, external systems)                ║
-╠════════════════════════════════════════════════════════════════════╣
-║                                                                    ║
-║  ┌─────────────────────┐      ┌──────────────────────────────┐     ║
-║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │     ║
-║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │     ║
-║            │                  └─────────┬────────────────────┘     ║
-║            ▼                            ▼                          ║
-║  External search results          Python execution output          ║
-║                                                                    ║
-║  ┌─────────────────────┐      ┌────────────────────────────────┐   ║
-║  │ HF MCP Server       │      │ GitHub MCP Server              │   ║
-║  │ (stdio, local proc) │      │ (HTTP, remote Copilot MCP)     │   ║
-║  └─────────┬───────────┘      └─────────┬──────────────────────┘   ║
-║            │                            │                          ║
-║            ▼                            ▼                          ║
-║  Hugging Face Hub               GitHub Platform                    ║
-║  - models                       - repos                            ║
-║  - datasets                     - issues / PRs                     ║
-║  - spaces                       - commits / releases               ║
-║                                                                    ║
-╚════════════════════════════════════════════════════════════════════╝
-
-```
-
 ---
 
 ## Agents & tools
