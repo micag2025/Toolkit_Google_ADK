@@ -409,7 +409,7 @@ In short, the **RootAgent** coordinates specialized agents for search and code e
 ### ADK Web UI: 
 ![ADK_interface](https://github.com/micag2025/Toolkit_Google_ADK/blob/75e09d11b628e536a7a204335f88c19862173c18/Screenshot_27-12-2025_185359_127.0.0.1.jpeg)
 
-After selecting the appropriate app (`app_01`) from the dropdown menu from the ADK Web UI: 
+Below is a high-signal, comprehensive set of prompt examples designed to systematically test the application end-to-end, aligned with the agent architecture, routing rules, MCP integrations, and UI flows. After selecting the appropriate app (`app_01`) from the dropdown menu from the ADK Web UI: 
 
 ### 1. Example Prompts: AI News  
 1. AI news discovery:
@@ -418,12 +418,15 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
 
-### 2.  Example Prompts: Python Code Execution  
+### 2.  Example Prompts: Python Code Execution and Explain This Code Mode 
 2. Python execution:
-   - Ask: "Run this Python code..."
+   - Ask: "Run this Python code..." / Execute python code: print(2 + 2)
    - Flow: RootAgent → CodeAgent → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
      
-![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
+![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/0da860b2550f49eec983303693b1abc89d842173/Screenshot_30-12-2025_181111_127.0.0.1.jpeg)
+
+[Python_Explain_Code](
+
 
 ### 3.  Example Prompts: HuggingFace Code Execution  
 3. Enrichment:
