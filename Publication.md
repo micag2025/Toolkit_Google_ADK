@@ -92,7 +92,7 @@ The architecture Diagram is based on a `Control Flow lane` that identifies who d
   - Some cross network boundaries    
   - Transport differences do not imply authority    
 
-``yaml
+```yaml
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗
 ║                          CONTROL FLOW                                                             ║
 ║          (Decision, routing, orchestration – ADK)                                                 ║
@@ -148,7 +148,6 @@ The architecture Diagram is based on a `Control Flow lane` that identifies who d
 ║  - spaces                       - commits / releases                                               ║
 ║                                                                                                    ║
 ╚════════════════════════════════════════════════════════════════════════════════════════════════════╝
-
 ```
 
 ---
