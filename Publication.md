@@ -177,37 +177,8 @@ The architecture Diagram is based on a `Control Flow lane` that identifies who d
 
 ---  
 
-## Project structure (Repository structure)
-
-```bash
-Toolkit_Google_ADK/                          # Root directory of the project; contains all source code, configs, and documentation
-├── app_01/                                  # Main application module containing the core agent implementation
-│   ├── __init__.py                          # Marks app_01 as a Python package and enables module imports
-│   ├── agent.py                             # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
-│   └── .env                                 # Local environment variables (API keys, secrets); not committed to version control
-├── Notebbook_app_001.ipynb                  # Jupyter Notebook for experimentation, testing, and demoing agent behavior
-├── requirements.txt                         # List of Python dependencies   
-├── .env.example                             # Example environment variable template   
-├── LICENSE                                  # License
-├── .gitignore                               # Defines ignore rules for environment variables, Python artifacts, notebooks, logs, and local editor files  
-├── README.md                                # Project documentation: setup, usage, architecture, and examples
-├── Screenshots_Examples_Usage/              # Visual assets demonstrating application usage and outputs
-│   ├── Screenshot_UI_interface.jpeg         # Example screenshot showing initial UI or agent interaction
-│   ├── Screenshot_AIDevSearchAgent_2.jpeg   # Example screenshot demonstrating AIDevSearchAgent output  
-│   ├── Screenshot_AIDevSearchAgent_3.jpeg   # Example screenshot highlighting a core feature of AIDevSearchAgen
-│   ├── Screenshot_CodeAgent_1.jpeg          # Example screenshot demonstrating CodeAgent output 
-│   ├── Screenshot_CodeExplainAgent1.jpeg    # Example screenshot highlighting a core feature of CodeExplainAgent1
-│   ├── Screenshot_HuggingFaceAgent1.jpeg    # Example screenshot highlighting a core feature of HuggingFaceAgent1 TO BE ENCLOSED UPDATED VERSION 
-│   ├── Screenshot_GitHubAgent1.Agentjpeg    # Example screenshot highlighting a core feature of GitHub TO BE ENCLOSED UPDATED VERSION 
-│   ├── Screenshot_2                    # Example screenshot highlighting a core feature or workflow
-│   ├── Screenshot_3                    # Example screenshot demonstrating agent output or results
-│   ├── Screenshot_4                    # Example screenshot showing advanced or edge-case behavior
-```
-
----  
-
 ## Installation Instructions
-This pubblication has a GitHub code repository attached under the "Code" section.
+This pubblication has a **GitHub code repository** attached under the "Code" section.
 
 ### Prerequisites:
 - Python 3.10+
