@@ -446,7 +446,7 @@ In short, the **RootAgent** coordinates specialized agents for search and code e
 
 ---
 
-## Examples Usage   
+## Examples Usage UI  
 
 ### ADK Web UI: 
 ![ADK_interface](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_UI_interface.jpeg)
