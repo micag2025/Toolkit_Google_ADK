@@ -53,12 +53,10 @@ RootAgent
           - Agents belong to RootAgent.  
 >         - RootAgent never talks to APIs directly.  
 
-
-
 The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
 
 ### Architecture Diagram (Control Flow vs Data Flow)
-The architecture Diagram is based on a `Control Flow lane` that identifies who decides and delegates and a `Data Flow lane` that points out where data actually travels  
+The architecture Diagram is based on a `Control Flow lane` that identifies who decides and delegates and a `Data Flow lane` that points out where data actually travels.  
 
 - **Control Flow Lane answers** 
   - Who decides what happens next? 
@@ -472,7 +470,17 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 - Enrichment:
    - RootAgent can request Hugging Face signals to rank or annotate discoveries.
      
-![HuggingFace_Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg)  
+![HuggingFace_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg) 
+
+- Direct queries  
+  - Ask :“Show me popular Hugging Face models for text summarization”
+    
+![HuggingFace_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/69f2d33c238f6360544ca3b733e74eb7f219c0b4/Screenshots_Examples_Usage/Screenshot_huggingfaceAgent_1.jpeg)
+
+- Enrichment tests  
+  - Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1
+
+!![HuggingFace_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/69f2d33c238f6360544ca3b733e74eb7f219c0b4/Screenshots_Examples_Usage/Screenshot_huggingfaceAgent_2.jpeg)
 
 ### 5.  Example Prompts: GitHub Code Execution    
 -  Enrichment:
