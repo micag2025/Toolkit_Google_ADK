@@ -61,7 +61,8 @@ Compact ASCII diagram:
 ```bash  
 RootAgent
    ├── AgentTool → AIDevSearchAgent → google_search
-   ├── AgentTool → CodeAgent → BuiltInCodeExecutor
+   ├── AgentTool → CodeAgent → BuiltInCodeExecutor  
+   ├── AgentTool → CodeExplainAgent   
    ├── AgentTool → hugging_face_agent → HF MCP → HF Hub
    └── AgentTool → github_agent → GitHub MCP → GitHub
 ``` 
@@ -75,80 +76,78 @@ RootAgent
 The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
 
 ### Architecture Diagram (Control Flow vs Data Flow)
+The architecture Diagram is based on a `Control Flow lane` that identifies who decides and delegates and a `Data Flow lane` that points out where data actually travels  
 
-Control Flow lane → who decides and delegates  
-Data Flow lane → where data actually travels  
+- **Control Flow Lane answers** 
+  - Who decides what happens next? 
+  - Only RootAgent      
+  - All agents are children      
+  - No agent self-invokes       
+  - No external system can trigger logic      
 
-Control Flow Lane answers
-- Who decides what happens next?
-- Only RootAgent    
-- All agents are children    
-- No agent self-invokes    
-- No external system can trigger logic    
+- **Data Flow Lane answers**:  
+  - Where does execution/data actually go?    
+  - Some flows stay local    
+  - Some cross process boundaries    
+  - Some cross network boundaries    
+  - Transport differences do not imply authority    
 
-Data Flow Lane answers:
-- Where does execution/data actually go?  
-- Some flows stay local  
-- Some cross process boundaries  
-- Some cross network boundaries  
-- Transport differences do not imply authority  
-
-```yaml
-╔═════════════════════════════════════════════════════════════════════════╗
-║                          CONTROL FLOW                                   ║
-║          (Decision, routing, orchestration – ADK)                       ║
-╠═════════════════════════════════════════════════════════════════════════╣
-║                                                                         ║
-║  ┌────────────────────────────────────────────────────────────┐         ║
-║  │                    ADK Web UI                              │         ║
-║  │  - User prompts                                            │         ║
-║  │  - Headline selection                                      │         ║
-║  └──────────────────────────┬─────────────────────────────────┘         ║
-║                             ▼                                           ║
-║  ┌────────────────────────────────────────────────────────────┐         ║
-║  │                    RootAgent                               │         ║
-║  │        (Gemini 2.5 Flash – Router / Orchestrator)          │         ║
-║  │                                                            │         ║
-║  │  - Intent classification                                   │         ║
-║  │  - Delegation (AgentTool)                                  │         ║
-║  │  - Result aggregation                                      │         ║
-║  └───────┬──────────────┬──────────────┬──────────────┬───────┘         ║
-║          │              │              │              │                 ║
-║          ▼              ▼              ▼              ▼                 ║
-║  ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ ┌────────────────┐║
-║  │ AIDevSearch  │ │   CodeAgent  │ │ hugging_face   │ │ github_agent   │║
-║  │   Agent      │ │              │ │   _agent       │ │                │║
-║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)  │║
-║  └──────────────┘ └──────────────┘ └────────────────┘ └────────────────┘║
-║                                                                         ║
-╚═════════════════════════════════════════════════════════════════════════╝
+``yaml
+╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                          CONTROL FLOW                                                             ║
+║          (Decision, routing, orchestration – ADK)                                                 ║
+╠═══════════════════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                                   ║
+║  ┌─────────────────────────────────────────────────────────────────────────────────────┐          ║
+║  │                    ADK Web UI                                                       │          ║
+║  │  - User prompts                                                                     │          ║
+║  │  - Headline selection                                                               │          ║
+║  └──────────────────────────┬──────────────────────────────────────────────────────────┘          ║
+║                             ▼                                                                     ║
+║  ┌─────────────────────────────────────────────────────────────────────────────────────┐          ║
+║  │                    RootAgent                                                        │          ║
+║  │        (Gemini 2.5 Flash – Router / Orchestrator)                                   │          ║
+║  │                                                                                     │          ║
+║  │  - Intent classification                                                            │          ║
+║  │  - Delegation (AgentTool)                                                           │          ║
+║  │  - Result aggregation                                                               │          ║
+║  └───────┬──────────────┬──────────────┬──────────────┬───────────────────────┬────────┘          ║
+║          │              │              │              │                       │                   ║
+║          ▼              ▼              ▼              ▼                       ▼                   ║
+║  ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ ┌────────────────┐    ┌────────────────┐    ║
+║  │ AIDevSearch  │ │   CodeAgent  │ │   CodeExplain  │ │ hugging_face   │    │ github_agent   │    ║
+║  │   Agent      │ │              │ │   _agent       │ │    _agent      │    │                │    ║
+║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)  │    │ (Gemini Tool)  │    ║
+║  └──────────────┘ └──────────────┘ └────────────────┘ └────────────────┘    └────────────────┘    ║
+║                                                                                                   ║
+╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝
 
 
 
-╔════════════════════════════════════════════════════════════════════╗
-║                           DATA FLOW                                ║
-║            (Execution, transport, external systems)                ║
-╠════════════════════════════════════════════════════════════════════╣
-║                                                                    ║
-║  ┌─────────────────────┐      ┌──────────────────────────────┐     ║
-║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │     ║
-║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │     ║
-║            │                  └─────────┬────────────────────┘     ║
-║            ▼                            ▼                          ║
-║  External search results          Python execution output          ║
-║                                                                    ║
-║  ┌─────────────────────┐      ┌────────────────────────────────┐   ║
-║  │ HF MCP Server       │      │ GitHub MCP Server              │   ║
-║  │ (stdio, local proc) │      │ (HTTP, remote Copilot MCP)     │   ║
-║  └─────────┬───────────┘      └─────────┬──────────────────────┘   ║
-║            │                            │                          ║
-║            ▼                            ▼                          ║
-║  Hugging Face Hub               GitHub Platform                    ║
-║  - models                       - repos                            ║
-║  - datasets                     - issues / PRs                     ║
-║  - spaces                       - commits / releases               ║
-║                                                                    ║
-╚════════════════════════════════════════════════════════════════════╝
+╔════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                           DATA FLOW                                                                ║
+║            (Execution, transport, external systems)                                                ║                                
+╠════════════════════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                                    ║
+║  ┌─────────────────────┐      ┌──────────────────────────────┐    ┌──────────────────────────────┐ ║
+║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │    │CodeExplain                   │ ║
+║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │    │ (Python sandbox, no net/fs)  │ ║
+║            │                  └─────────┬────────────────────┘    └─────────┬────────────────────┘ ║
+║            ▼                            ▼                                   ▼                      ║
+║  External search results          Python execution output              Python explain output       ║
+║                                                                                                    ║
+║  ┌─────────────────────┐      ┌────────────────────────────────┐                                   ║
+║  │ HF MCP Server       │      │ GitHub MCP Server              │                                   ║
+║  │ (stdio, local proc) │      │ (HTTP, remote Copilot MCP)     │                                   ║
+║  └─────────┬───────────┘      └─────────┬──────────────────────┘                                   ║
+║            │                            │                                                          ║
+║            ▼                            ▼                                                          ║
+║  Hugging Face Hub               GitHub Platform                                                    ║
+║  - models                       - repos                                                            ║
+║  - datasets                     - issues / PRs                                                     ║
+║  - spaces                       - commits / releases                                               ║
+║                                                                                                    ║
+╚════════════════════════════════════════════════════════════════════════════════════════════════════╝
 
 ```
 
@@ -156,12 +155,13 @@ Data Flow Lane answers:
 
 ## Agents & tools
 
-### Tool schema (summary):
+### Tool schema:  
 
 |              Component | Type                             | Attached To        | Purpose                                      |
 | ---------------------: | -------------------------------- | ------------------ | -------------------------------------------- |
 |   **AIDevSearchAgent** | `AgentTool`                      | RootAgent          | Discover & summarize AI developer news       |
 |          **CodeAgent** | `AgentTool`                      | RootAgent          | Execute Python code safely                   |
+|   **CodeExplainAgent** | `AgentTool`                      | RootAgent          | Explain Python code safely                   |
 | **hugging_face_agent** | `AgentTool` (Gemini + MCP stdio) | RootAgent          | Hugging Face models, datasets, spaces        |
 |       **github_agent** | `AgentTool` (Gemini + MCP HTTP)  | RootAgent          | GitHub repositories, issues, PRs (read-only) |
 |        `google_search` | Built-in ADK Tool                | AIDevSearchAgent   | Web discovery for news                       |
@@ -181,19 +181,25 @@ Data Flow Lane answers:
 ## Project structure (Repository structure)
 
 ```bash
-Toolkit_Google_ADK/(ai_dev_news_web)/?   # Root directory of the project; contains all source code, configs, and documentation
-├── app_01/                             # Main application module containing the core agent implementation
-│   ├── __init__.py                     # Marks app_01 as a Python package and enables module imports
-│   ├── agent.py                        # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
-│   └── .env                            # Local environment variables (API keys, secrets); not committed to version control
-├── Notebbook_app_001.ipynb             # Jupyter Notebook for experimentation, testing, and demoing agent behavior
-├── requirements.txt                    # List of Python dependencies   
-├── .env.example                        # Example environment variable template   
-├── LICENSE                             # License
-├── .gitignore                          # Defines ignore rules for environment variables, Python artifacts, notebooks, logs, and local editor files  
-├── README.md                           # Project documentation: setup, usage, architecture, and examples
-├── Screenshots_Examples_Usage/         # Visual assets demonstrating application usage and outputs
-│   ├── Screenshot_1                    # Example screenshot showing initial UI or agent interaction
+Toolkit_Google_ADK/                          # Root directory of the project; contains all source code, configs, and documentation
+├── app_01/                                  # Main application module containing the core agent implementation
+│   ├── __init__.py                          # Marks app_01 as a Python package and enables module imports
+│   ├── agent.py                             # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
+│   └── .env                                 # Local environment variables (API keys, secrets); not committed to version control
+├── Notebbook_app_001.ipynb                  # Jupyter Notebook for experimentation, testing, and demoing agent behavior
+├── requirements.txt                         # List of Python dependencies   
+├── .env.example                             # Example environment variable template   
+├── LICENSE                                  # License
+├── .gitignore                               # Defines ignore rules for environment variables, Python artifacts, notebooks, logs, and local editor files  
+├── README.md                                # Project documentation: setup, usage, architecture, and examples
+├── Screenshots_Examples_Usage/              # Visual assets demonstrating application usage and outputs
+│   ├── Screenshot_UI_interface.jpeg         # Example screenshot showing initial UI or agent interaction
+│   ├── Screenshot_AIDevSearchAgent_2.jpeg   # Example screenshot demonstrating AIDevSearchAgent output  
+│   ├── Screenshot_AIDevSearchAgent_3.jpeg   # Example screenshot highlighting a core feature of AIDevSearchAgen
+│   ├── Screenshot_CodeAgent_1.jpeg          # Example screenshot demonstrating CodeAgent output 
+│   ├── Screenshot_CodeExplainAgent1.jpeg    # Example screenshot highlighting a core feature of CodeExplainAgent1
+│   ├── Screenshot_HuggingFaceAgent1.jpeg    # Example screenshot highlighting a core feature of HuggingFaceAgent1 TO BE ENCLOSED UPDATED VERSION 
+│   ├── Screenshot_GitHubAgent1.Agentjpeg    # Example screenshot highlighting a core feature of GitHub TO BE ENCLOSED UPDATED VERSION 
 │   ├── Screenshot_2                    # Example screenshot highlighting a core feature or workflow
 │   ├── Screenshot_3                    # Example screenshot demonstrating agent output or results
 │   ├── Screenshot_4                    # Example screenshot showing advanced or edge-case behavior
@@ -219,8 +225,8 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Environment variables / .env.example  
-Set environment variables. Put keys in `.env` or your environment. Example `.env.example`:
+### Environment variables  
+Set environment variables. Put keys in `.env` or your environment. See example `.env.example`:
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -475,37 +481,45 @@ In short, the **RootAgent** coordinates specialized agents for search and code e
 &nbsp; <b>Different Run Results:</b> The output generated by AI chat models can vary with each execution due to their dynamic, probabilistic nature.</p>  
 
 ### ADK Web UI: 
-_The main landing page of the ADK tOOLKIT, showing the `app_01` agent and the chat interface._
+![ADK_interface](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_UI_interface.jpeg)
 
-![ADK_interface](https://github.com/micag2025/Toolkit_Google_ADK/blob/75e09d11b628e536a7a204335f88c19862173c18/Screenshot_27-12-2025_185359_127.0.0.1.jpeg)
-
-After selecting the appropriate app (`app_01`) from the dropdown menu from the ADK Web UI: 
+Below is a high-signal, comprehensive set of prompt examples designed to systematically test the application end-to-end, aligned with the agent architecture, routing rules, MCP integrations, and UI flows. After selecting the appropriate app (`app_01`) from the dropdown menu from the ADK Web UI: 
 
 ### 1. Example Prompts: AI News  
 1. AI news discovery:
    - Ask: "What's the latest AI news about Google?"
    - Flow: RootAgent → AIDevSearchAgent → google_search → summarize & cite sources.
 
-![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
+![Google_Search_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_AIDevSearchAgent_1.jpeg)
 
-### 2.  Example Prompts: Python Code Execution  
+![Google_Search_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_AIDevSearchAgent_2.jpeg)  
+
+![Google_Search_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_AIDevSearchAgent_3.jpeg)
+
+### 2.  Example Prompts: Python Code Execution 
 2. Python execution:
-   - Ask: "Run this Python code..."
+   - Ask: "Run this Python code..." / "Execute python code: print(2 + 2)" 
    - Flow: RootAgent → CodeAgent → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
      
-![Google_Search&PythonDevelopr Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_14428_127.0.0.1.jpeg)
+![PythonDevelopr_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_CodeAgent_1.jpeg)
 
-### 3.  Example Prompts: HuggingFace Code Execution  
-3. Enrichment:
+### 3.  Example Prompts: Python Explain Code   
+3. Python explain code
+   - Ask :  "Explain this Python code:”
+   - Flow: RootAgent → TO BE CHANGED CodeAgent → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
+        
+![PythonExplainCode_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_CodeExplainAgent1.jpeg))
+
+### 4.  Example Prompts: HuggingFace Code Execution  
+4. Enrichment:
    - RootAgent can request Hugging Face signals to rank or annotate discoveries.
      
 ![HuggingFace_Tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg)  
 
-### 4.  Example Prompts: GitHub Code Execution    
-3. Enrichment:
+### 5.  Example Prompts: GitHub Code Execution    
+5. Enrichment:
    - RootAgent can request Hugging Face signals to rank or annotate discoveries.  
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
----
 
 ---
 

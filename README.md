@@ -244,7 +244,9 @@ Start the ADK Web app:
 adk web
 ```
 
-Open the provided local URL in your browser, from the Google ADK user interface in the left pane, select the `app_01` agent and interact.
+### Open in  browser
+ from the Google ADK user interface in the left pane, select the `app_01` agent (or whichever agent you added), and interact.
+ADK will provide a local URL. Open it in your browser.From the Google ADK user interface in the left pane, select the `app_01` agent. You can now interact with the ADK AI Developer.    
 
 ### Kill ADK process    
 Stop the ADK process (if needed):
@@ -473,6 +475,7 @@ Below is a high-signal, comprehensive set of prompt examples designed to systema
 5. Enrichment:
    - RootAgent can request Hugging Face signals to rank or annotate discoveries.  
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
+
 ---
 
 ## Limitations & workarounds
@@ -501,24 +504,48 @@ Add automated tests and CI pipelines as needed (e.g., GitHub Actions).
 
 ## Contributing
 
-Contributions welcome. Suggested workflow:
-1. Open an issue to discuss changes or features.
-2. Create a branch: `git checkout -b feat/your-feature`
-3. Implement and add tests.
-4. Open a PR describing changes and rationale.
+Contributions are welcomed to improve the ADK Toolkit! Suggested workflow:  
+
+1. Fork the GitHub repository
+2. Create a feature branch:
+```bash
+git checkout -b feat/your-feature
+```
+3 Commit and push your changes  
+4 Submit a Pull Request and describe your contribution.  
 
 Please follow the repository code style and add tests for major features.
 
-## Roadmap & enhancements
+---
 
-Planned / suggested improvements:
-- Structured JSON outputs for headlines (machine-readable)
-- Persistent session storage across restarts
-- Search refinements (filters, "only open-source", date ranges)
-- UI enhancements (buttons for selection, debugging/observability mode)
-- Additional specialist agents (HuggingFaceAgent, GitHubAgent)
-- Stronger execution guardrails and resource limits
+## Future Implementations  
 
+We are actively seeking contributors who want to help implement and/or propose the following future features (suggested improvements): 
+-  **Use different Gemini models intentionally** :  The current design uses `gemini-2.5-flash` everywhere. You might upgrade AIDevSearchAgent using model `gemini-2.5-pro`.
+
+| Aspect     | Impact               |
+| ---------- | -------------------- |
+| Latency    | Slightly higher      |
+| Cost       | Higher per token     |
+| Throughput | Lower                |
+| Quality    | Significantly higher |
+
+>_Note_ : Use gemini-2.5-pro for AIDevSearchAgent if you want Trustworthy summaries, Reliable enrichment fields, Long-form developer-facing output A foundation for trend analysis
+Stick with Flash only if: You want fast headline scraping You don’t care about enrichment quality You plan to post-process heavily 
+
+- **Adding new AgentTools** without destabilizing the system.  
+- **Structured JSON outputs for headlines** (machine-readable)  
+- **Persistent session storage across restarts**  
+- **Search refinements** (filters, "only open-source", date ranges)
+- **UI enhancements** (buttons for selection, debugging/observability mode)
+- **Additional specialist agents** (................t)
+- **Stronger execution guardrails and resource limits**  
+
+Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
+ [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues). For general questions or share your thoughts, start a 
+[comment](LINK TO BE ENCLOSED).
+
+---
 
 ## References  
 
