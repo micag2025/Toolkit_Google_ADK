@@ -1,6 +1,6 @@
 # Designing a Safe Multi-Agent Developer Assistant with ADK
 
-This project is built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture,  giving an example toolkit that demonstrates how to build, orchestrate, and deploy multi-agent systems using Google’s Agent Development Kit (ADK). The project focuses on creating an `AI Developer Agent` capable of discovering real-time AI news, generating Python code, and integrating with developer platforms like Hugging Face and GitHub.  
+This project is built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture,  giving an example toolkit that demonstrates how to build, orchestrate, and deploy multi-agent systems using Google’s Agent Development Kit (ADK). The project focuses on creating an **AI Developer Agent** capable of discovering real-time AI news, generating Python code, and integrating with developer platforms like Hugging Face and GitHub.  
 
 Key goals:
 - Real-time discovery and summarization of AI news relevant to developers
@@ -53,10 +53,11 @@ RootAgent
           - Agents belong to RootAgent.  
 >         - RootAgent never talks to APIs directly.  
 
-The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
+The application is built using a **state-aware, multi-agent architecture powered by Gemini models and Google ADK Web**, designed specifically for AI developers.   
 
 ### Architecture Diagram (Control Flow vs Data Flow)
-The architecture Diagram is based on a `Control Flow lane` that identifies who decides and delegates and a `Data Flow lane` that points out where data actually travels.  
+
+The architecture Diagram is based on a `Control Flow lane` and a `Data Flow lane` that identifies who decides and delegates and points out where data actually travels, respectively. 
 
 - **Control Flow Lane answers** 
   - Who decides what happens next? 
@@ -458,14 +459,14 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 - Enrichment tests  
   - Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1  
-  -  - Flow: RootAgent → hugging_face_agent   →  return link   
+  -  - Flow: RootAgent → hugging_face_agent   →  *HF MCP Server"  →  return link   
 
 !![HuggingFace_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/69f2d33c238f6360544ca3b733e74eb7f219c0b4/Screenshots_Examples_Usage/Screenshot_huggingfaceAgent_2.jpeg)
 
 ### 5.  Example Prompts: GitHub Code Execution    
 -  Enrichment:
    - RootAgent can request Hugging Face signals to rank or annotate discoveries.
-   -  - Flow: RootAgent → github_agent  →  return explanation only 
+   -  - Flow: RootAgent → github_agent  →  GitHub MCP Server → return explanation only 
          
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
 
