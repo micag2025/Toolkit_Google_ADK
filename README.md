@@ -446,27 +446,27 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ### 4.  Example Prompts: HuggingFace 
 - Enrichment:
-   - RootAgent can request Hugging Face signals to rank or annotate discoveries.
-   - Flow: RootAgent → hugging_face_agent  →  return explanation.  
+   - RootAgent can request Hugging Face signals to rank or annotate discoveries.  
+   - Flow: RootAgent → hugging_face_agent  →  return explanation.    
      
 ![HuggingFace_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg) 
 
 - Direct queries  
-  - Ask :“Show me popular Hugging Face models for text summarization”
-  -  - Flow: RootAgent → hugging_face_agent  →  return explanation  
+  - Ask :“Show me popular Hugging Face models for text summarization”  
+  - Flow: RootAgent → hugging_face_agent  →  return explanation    
     
 ![HuggingFace_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/69f2d33c238f6360544ca3b733e74eb7f219c0b4/Screenshots_Examples_Usage/Screenshot_huggingfaceAgent_1.jpeg)
 
 - Enrichment tests  
-  - Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1  
-  -  - Flow: RootAgent → hugging_face_agent   →  *HF MCP Server"  →  return link   
+  - Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1    
+  - Flow: RootAgent → hugging_face_agent   →  *HF MCP Server"  →  return link     
 
 !![HuggingFace_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/69f2d33c238f6360544ca3b733e74eb7f219c0b4/Screenshots_Examples_Usage/Screenshot_huggingfaceAgent_2.jpeg)
 
 ### 5.  Example Prompts: GitHub Code Execution    
 -  Enrichment:
-   - RootAgent can request Hugging Face signals to rank or annotate discoveries.
-   -  - Flow: RootAgent → github_agent  →  GitHub MCP Server → return explanation only 
+   - RootAgent can request Hugging Face signals to rank or annotate discoveries.   
+   - Flow: RootAgent → github_agent  →  GitHub MCP Server → return explanation only     
          
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
 
