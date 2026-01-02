@@ -544,7 +544,11 @@ Add automated tests and CI pipelines as needed (e.g., GitHub Actions).
 - [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk)
 - [Gemini Models](https://ai.google.dev/gemini-api/docs/models#model-variations)  
 - [Tools for Agents](https://google.github.io/adk-docs/tools/)  
-- [Limitations for ADK tools](https://google.github.io/adk-docs/tools/limitations/)  
+- [Limitations for ADK tools](https://google.github.io/adk-docs/tools/limitations/)
+- [Technical Evaluation Rubric](https://app.readytensor.ai/publications/technical-excellence-in-aiml-and-data-science-publications-an-evaluation-rubric-WsaE5uxLBqnH)
+- [Engage and Inspire: Best Practices for Publishing on Ready Tensor](https://app.readytensor.ai/publications/engage-and-inspire-best-practices-for-publishing-on-ready-tensor-SBgkOyUsP8qQ)
+- [The Open Source Repository Guide: Best Practices for Sharing Your AI/ML and Data Science Projects](https://app.readytensor.ai/publications/best-practices-for-ai-project-code-repositories-0llldKKtn8Xb)
+- [Markdown for Machine Learning Projects: A Comprehensive Guide](https://app.readytensor.ai/publications/markdown-for-machine-learning-projects-a-comprehensive-guide-LX9cbIx7mQs9)  
 
 ---
 
