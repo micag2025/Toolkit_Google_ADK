@@ -584,4 +584,4 @@ If you encounter bugs, have questions, or want to request a new feature, please 
 
 ## Acknowledgements
 
-TO BE DRAFTED  
+An acknowledgement to the contributions of the Ready Tensor developer community (for their guidance and contributions) for  creating a vibrant ecosystem where AI professionals can share their projects, insights, and innovations, fostering collective growth and accelerating the advancement of AI technology.
