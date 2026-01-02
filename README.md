@@ -1,4 +1,6 @@
-# Designing a Safe Multi-Agent Developer Assistant with ADK
+# Designing a Safe Multi-Agent Developer Assistant with ADK  
+
+This repository contains the full implementation for the publication **Designing a Safe Multi-Agent Developer Assistant with ADK**, published on the [Ready Tensor](https://www.readytensor.ai/) platform.
 
 This project is built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture,  giving an example toolkit that demonstrates how to build, orchestrate, and deploy multi-agent systems using Google’s Agent Development Kit (ADK). The project focuses on creating an **AI Developer Agent** capable of discovering real-time AI news, generating Python code, and integrating with developer platforms like Hugging Face and GitHub.  
 
@@ -162,9 +164,6 @@ The architecture Diagram is based on a `Control Flow lane` and a `Data Flow lane
                       ▼  
                Explanation only (no execution)
 ```
-
-
-
 
 ### Design principles:
 - Separation of concerns: RootAgent routes, specialist agents perform tasks.
@@ -403,7 +402,7 @@ You can test the enhanced agent with both valid and invalid requests:
 - "What's the weather today?"
 
 
-Watch how the agent now maintains strict boundaries while still being helpful for AI-related queries.  
+Analyze how the agent now maintains strict boundaries while still being helpful for AI-related queries.  
 
 ---
 
@@ -566,6 +565,8 @@ Feel free to suggest more ideas by opening an issue or starting a discussion! Fo
 - [Gemini Models](https://ai.google.dev/gemini-api/docs/models#model-variations)  
 - [Tools for Agents](https://google.github.io/adk-docs/tools/)  
 - [Limitations for ADK tools](https://google.github.io/adk-docs/tools/limitations/)  
+- [The Open Source Repository Guide: Best Practices for Sharing Your AI/ML and Data Science Projects](https://app.readytensor.ai/publications/best-practices-for-ai-project-code-repositories-0llldKKtn8Xb)  
+- [Markdown for Machine Learning Projects: A Comprehensive Guide](https://app.readytensor.ai/publications/markdown-for-machine-learning-projects-a-comprehensive-guide-LX9cbIx7mQs9)    
 
 ---
 
