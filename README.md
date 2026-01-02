@@ -316,9 +316,29 @@ Toolkit_Google_ADK/                     # Root project directory
 ---
 
 ## Getting Started
+
 This section shows how to install dependencies, configure authentication, and run the full pipeline.  
 
-### Prerequisites:
+### Interactive Notebook: Getting Started with ADK  
+
+For hands-on learning and experimentation, we provide a Jupyter notebook:
+
+`Notebbook_app_001.ipynb`
+
+This notebook demonstrates:
+
+- Setting up a new agent folder (`adk create`)
+- Writing the first `agent.py`
+- Adding text models and built-in tools (`google_search`, `BuiltInCodeExecutor`)
+- Fine-tuning agent instructions and behavior
+- Testing valid and invalid prompts
+
+> **Note:** This notebook is instructional and exploratory.  
+> The authoritative architecture, agent responsibilities, and design invariants are defined in `README.md`.  
+> This notebook is meant for learning and experimentation only and does not override RootAgent orchestration rules.
+
+### Prerequisites:  
+
 - Python 3.10+
 - Google account & Vertex AI / Gemini access (API key)
 - Optional: Hugging Face and GitHub API keys for enrichment
