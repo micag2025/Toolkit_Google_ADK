@@ -583,4 +583,4 @@ If you encounter bugs, have questions, or want to request a new feature, please 
 
 ## Acknowledgements
 
-An acknowledgement to **Ready Tensor developer community** for their guidance, feedback, and contributions. By creating a vibrant ecosystem where AI professionals can share projects, insights, and innovations, the Ready Tensor community fosters collective learning and collaboration. This environment of open exchange plays a meaningful role in accelerating the advancement of AI technology and in shaping practical, real-world developer tools such as this project.  
+An acknowledgement to **Ready Tensor developer community** for their guidance, feedback, and contributions. By creating a vibrant ecosystem where AI professionals can share projects, insights, and innovations, the Ready Tensor community fosters collective learning and collaboration and plays a meaningful role in accelerating the advancement of AI technology and in shaping practical, real-world developer tools such as this project.  
