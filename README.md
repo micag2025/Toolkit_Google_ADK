@@ -242,9 +242,8 @@ Start the ADK Web app:
 adk web
 ```
 
-### Open in  browser
- from the Google ADK user interface in the left pane, select the `app_01` agent (or whichever agent you added), and interact.
-ADK will provide a local URL. Open it in your browser.From the Google ADK user interface in the left pane, select the `app_01` agent. You can now interact with the ADK AI Developer.    
+### Open in  browser  
+ADK will provide a local URL. Open it in your browser. From the Google ADK user interface in the left pane, select the `app_01` agent. You can now interact with the ADK AI Developer.    
 
 ### Kill ADK process    
 Stop the ADK process (if needed):
@@ -339,12 +338,12 @@ app_01/
     .env
 ```
 
->_Note_ : ADK create supports two project types. The `--type=code` option generates a Python-based agent in `agent.py`. The `--type=config` option creates a YAML-based agent configuration. In this the project `--type=code` option is been selected. The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.   
+>_Note_ : In this the project `--type=code` option has been selected to generate a Python-based agent in `agent.py`. The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.     
 
 ## 1.2 Writing the first `agent.py`
 
- `adk create` command is used to create folders and then write to its `agent.py` using the cell magic in the notebook. Cell magic uses specific commands to interact with the files in the new agent folder.  `%%writefile FILENAME` has been used to do this.
-
+ `adk create` command is used to create folders and then write to its `agent.py` using the specific command, `%%writefile FILENAME`,  to interact with the files in the new agent folder.  
+ 
 ## 1.3 Adding a text model  
 
 The next steps is to create an Agent with a unique name, specify the LLM model, and give it basic instructions. As with any agent, an LLM is required to start with ADK is model agnostic - meaning you can provide it with any model of your choice like Gemini, Claude, Ollama and even use LiteLLM to bring in other models. In this project the `Gemini 2.0 flash` is used since text-focused models like `gemini-2.5-flash` are ideal when the purpose is to optimize text processing. They often provide faster response times. 
@@ -403,29 +402,7 @@ You can test the enhanced agent with both valid and invalid requests:
 - "What's the weather today?"
 
 
-Watch how the agent now maintains strict boundaries while still being helpful for AI-related queries.
-
-
-## Limitations for ADK tools¶
-Some [ADK tools have limitations](https://google.github.io/adk-docs/tools/limitations/#workaround-2-bypass_multi_tools_limit) that can impact how you implement them within an agent workflow. Here we list these tool limitations and workarounds, if available.
-
-One tool per agent limitation¶
-In general, you can use more than one tool in an agent, but use of specific tools within an agent excludes the use of any other tools in that agent. The following ADK Tools can only be used by themselves, without any other tools, in a single agent object:  
-
-- Code Execution with Gemini API  
-- Google Search with Gemini API
-
-Therefore, the approach that uses one of these tools along with other tools, within a single agent, is not supported. To overcome these limitation, it has been used a Workaround, called `AgentTool.create() method`,  
-that consists in using a soecific code that shows how to use `multiple built-in tools` or `how to use built-in tools with other tools by using multiple agent`.
-
-This snippet defines a multi-agent setup using Google ADK:
-- It creates a **SearchAgent** specialized in Google Search, equipped with the google_search tool.  
-- It creates a **CodeAgent** specialized in executing code, using the built-in code executor.
-- It creates a **HuggingFaceAgent** specialized in ...................  
-- It creates a **GitHubAgent** specialized in ...................  
-- It then defines a **RootAgent** that acts as an orchestrator, delegating tasks to either the SearchAgent or the CodeAgent or HuggingFaceAgent or GitHubAgent via AgentTool.
-
-In short, the **RootAgent** coordinates specialized agents for search and code execution using the Gemini 2.0 Flash model. Happy coding! Don't hesitate to return if you have more questions.
+Watch how the agent now maintains strict boundaries while still being helpful for AI-related queries.  
 
 ---
 
@@ -462,29 +439,34 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ### 3.  Example Prompts: Python Explain Code   
 -  Python explain code
    - Ask :  "Explain this Python code:”
-   - Flow: RootAgent → CodeExplainAgent  → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
+   - Flow: RootAgent → CodeExplainAgent  →  return explanation only (no execution).  
         
 ![PythonExplainCode_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_CodeExplainAgent1.jpeg))
 
-### 4.  Example Prompts: HuggingFace Code Execution  
+### 4.  Example Prompts: HuggingFace 
 - Enrichment:
    - RootAgent can request Hugging Face signals to rank or annotate discoveries.
+   - Flow: RootAgent → hugging_face_agent  →  return explanation.  
      
 ![HuggingFace_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/2346fda5b929151f790eb73e30a15b6350158637/Screenshot_22-12-2025_145157_127.0.0.1.jpeg) 
 
 - Direct queries  
   - Ask :“Show me popular Hugging Face models for text summarization”
+  -  - Flow: RootAgent → hugging_face_agent  →  return explanation  
     
 ![HuggingFace_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/69f2d33c238f6360544ca3b733e74eb7f219c0b4/Screenshots_Examples_Usage/Screenshot_huggingfaceAgent_1.jpeg)
 
 - Enrichment tests  
-  - Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1
+  - Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1  
+  -  - Flow: RootAgent → hugging_face_agent   →  return link   
 
 !![HuggingFace_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/69f2d33c238f6360544ca3b733e74eb7f219c0b4/Screenshots_Examples_Usage/Screenshot_huggingfaceAgent_2.jpeg)
 
 ### 5.  Example Prompts: GitHub Code Execution    
 -  Enrichment:
-   - RootAgent can request Hugging Face signals to rank or annotate discoveries.  
+   - RootAgent can request Hugging Face signals to rank or annotate discoveries.
+   -  - Flow: RootAgent → github_agent  →  return explanation only 
+         
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
 
 ---
@@ -498,6 +480,27 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 See ADK docs:
 - Tools: https://google.github.io/adk-docs/tools/
 - Limitations: https://google.github.io/adk-docs/tools/limitations/
+
+## Limitations for ADK tools¶
+Some [ADK tools have limitations](https://google.github.io/adk-docs/tools/limitations/#workaround-2-bypass_multi_tools_limit) that can impact how you implement them within an agent workflow. Here we list these tool limitations and workarounds, if available.
+
+One tool per agent limitation¶
+In general, you can use more than one tool in an agent, but use of specific tools within an agent excludes the use of any other tools in that agent. The following ADK Tools can only be used by themselves, without any other tools, in a single agent object:  
+
+- Code Execution with Gemini API  
+- Google Search with Gemini API
+
+Therefore, the approach that uses one of these tools along with other tools, within a single agent, is not supported. To overcome these limitation, it has been used a Workaround, called `AgentTool.create() method`,  
+that consists in using a soecific code that shows how to use `multiple built-in tools` or `how to use built-in tools with other tools by using multiple agent`.
+
+This snippet defines a multi-agent setup using Google ADK:
+- It creates a **SearchAgent** specialized in Google Search, equipped with the google_search tool.  
+- It creates a **CodeAgent** specialized in executing code, using the built-in code executor.
+- It creates a **HuggingFaceAgent** specialized in ...................  
+- It creates a **GitHubAgent** specialized in ...................  
+- It then defines a **RootAgent** that acts as an orchestrator, delegating tasks to either the SearchAgent or the CodeAgent or HuggingFaceAgent or GitHubAgent via AgentTool.
+
+In short, the **RootAgent** coordinates specialized agents for search and code execution using the Gemini 2.0 Flash model. Happy coding! Don't hesitate to return if you have more questions.
 
 ---
 
@@ -532,7 +535,8 @@ Please follow the repository code style and add tests for major features.
 ## Future Implementations  
 
 We are actively seeking contributors who want to help implement and/or propose the following future features (suggested improvements): 
--  **Use different Gemini models intentionally** :  The current design uses `gemini-2.5-flash` everywhere. You might upgrade AIDevSearchAgent using model `gemini-2.5-pro`.
+-  **Use different Gemini models intentionally** :  The current design uses `gemini-2.5-flash`. You might upgrade AIDevSearchAgent using model `gemini-2.5-pro` and investigate its impact
+  on several aspects such as latency, cost, quality. 
 
 | Aspect     | Impact               |
 | ---------- | -------------------- |
@@ -541,15 +545,11 @@ We are actively seeking contributors who want to help implement and/or propose t
 | Throughput | Lower                |
 | Quality    | Significantly higher |
 
->_Note_ : Use gemini-2.5-pro for AIDevSearchAgent if you want Trustworthy summaries, Reliable enrichment fields, Long-form developer-facing output A foundation for trend analysis
-Stick with Flash only if: You want fast headline scraping You don’t care about enrichment quality You plan to post-process heavily 
-
 - **Adding new AgentTools** without destabilizing the system.  
 - **Structured JSON outputs for headlines** (machine-readable)  
 - **Persistent session storage across restarts**  
 - **Search refinements** (filters, "only open-source", date ranges)
 - **UI enhancements** (buttons for selection, debugging/observability mode)
-- **Additional specialist agents** (................t)
 - **Stronger execution guardrails and resource limits**  
 
 Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
@@ -582,4 +582,4 @@ If you encounter bugs, have questions, or want to request a new feature, please 
 
 ## Acknowledgements
 
-Built with Google Agent Development Kit (ADK). 
+TO BE DRAFTED  
