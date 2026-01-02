@@ -1,13 +1,20 @@
-# Designing a Safe Multi-Agent Developer Assistant with ADK  
+# Designing a Safe Multi-Agent Developer Assistant with ADK  / Toolkit Google ADK – Multi‑Agent Developer Assistant
+
+## Overview
 
 This repository contains the full implementation for the publication **Designing a Safe Multi-Agent Developer Assistant with ADK**, published on the [Ready Tensor](https://www.readytensor.ai/) platform.
 
 This project is built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture,  giving an example toolkit that demonstrates how to build, orchestrate, and deploy multi-agent systems using Google’s Agent Development Kit (ADK). The project focuses on creating an **AI Developer Agent** capable of discovering real-time AI news, generating Python code, and integrating with developer platforms like Hugging Face and GitHub.  
 
-Key goals:
-- Real-time discovery and summarization of AI news relevant to developers
-- Execute and return Python code results in a sandboxed environment
-- Provide a clean, multi-agent architecture for reliable orchestration and extensibility
+This project implements a **RootAgent–based multi‑agent system** designed for developers. The RootAgent never answers user queries directly. Instead, it **routes user input** to the most appropriate specialist agent, ensuring a clean separation of responsibilities and predictable behavior.
+
+The system is optimized for:
+
+* AI developer news discovery and summarization
+* Safe and deterministic Python code execution
+* Clear explanation of Python code
+* Transparent use of third‑party developer platforms
+
 
 ---
 
@@ -57,25 +64,121 @@ RootAgent
 
 The application is built using a **state-aware, multi-agent architecture powered by Gemini models and Google ADK Web**, designed specifically for AI developers.   
 
-### Architecture Diagram (Control Flow vs Data Flow)
+---
 
-The architecture Diagram is based on a `Control Flow lane` and a `Data Flow lane` that identifies who decides and delegates and points out where data actually travels, respectively. 
+## Core Architecture
 
-- **Control Flow Lane answers** 
-  - Who decides what happens next? 
-  - Only RootAgent      
-  - All agents are children      
-  - No agent self-invokes       
-  - No external system can trigger logic      
+### RootAgent
 
-- **Data Flow Lane answers**:  
-  - Where does execution/data actually go?    
-  - Some flows stay local    
-  - Some cross process boundaries    
-  - Some cross network boundaries    
-  - Transport differences do not imply authority    
+The **RootAgent** acts as the central orchestrator:
 
-```yaml
+* Routes all user input
+* Never responds directly to the user
+* Ensures correct agent selection
+* Enforces separation of concerns between agents
+
+The RootAgent has **direct access** to:
+
+* Gemini‑powered specialist agents
+* Third‑party developer APIs (custom tools)
+
+---
+
+## Gemini‑Powered Specialist Agents
+
+### AIDevSearchAgent
+
+*(also known as the **AI Developer News Agent**)*
+
+Responsible for discovering and summarizing AI‑related news relevant to developers.
+
+**Capabilities:**
+
+* Searches AI developer news, articles, platforms, and use cases
+* Uses `google_search`
+* Manages headline selection and summarization
+
+**Workflow:**
+
+1. Clarify the number of items to retrieve
+2. Search and filter AI‑related content
+3. Present candidate headlines
+4. Summarize selected items
+
+---
+
+### CodeAgent
+
+*(also known as the **Python Code Agent**)*
+
+Responsible **only** for executing Python code.
+
+**Constraints:**
+
+* Executes Python code exclusively
+* Uses `BuiltInCodeExecutor`
+* Returns raw execution output or errors
+* No explanations or commentary
+
+---
+
+### CodeExplainAgent
+
+Responsible for **explaining Python code**.
+
+**Constraints:**
+
+* Explains code logic and behavior
+* Does **not** execute code
+
+---
+
+## Third‑Party Developer APIs (Custom Tools)
+
+### Hugging Face Hub Agent
+
+Provides access to Hugging Face ecosystem data:
+
+* Model metadata
+* Spaces
+* Datasets
+* Popularity and usage signals
+
+---
+
+### GitHub Agent
+
+Provides insights into open‑source repositories:
+
+* Repository metadata
+* Stars, issues, and commits
+* Open‑source activity signals
+
+---
+
+## Architecture Diagram (Control Flow vs Data Flow)
+
+This system architecture is intentionally described using **two parallel lanes**:
+
+* a **Control Flow lane**, which defines *who decides* and *who delegates*
+* a **Data Flow lane**, which defines *where execution and data actually travel*
+
+Keeping these lanes separate makes authority, responsibility, and trust boundaries explicit.
+
+### Control Flow Lane — *Who decides what happens next?*
+
+The **Control Flow lane** represents **decision‑making and orchestration**, entirely owned by the **RootAgent**.
+
+Key rules:
+
+* **Only the RootAgent decides** what happens next
+* All specialist agents are **children** of the RootAgent
+* **No agent self‑invokes** or chains other agents
+* **No external system** can directly trigger agent logic
+
+This guarantees a single, auditable decision point and prevents hidden agent autonomy.
+
+```text
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗
 ║                          CONTROL FLOW                                                             ║
 ║          (Decision, routing, orchestration – ADK)                                                 ║
@@ -98,26 +201,36 @@ The architecture Diagram is based on a `Control Flow lane` and a `Data Flow lane
 ║          │              │              │              │                       │                   ║
 ║          ▼              ▼              ▼              ▼                       ▼                   ║
 ║  ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ ┌────────────────┐    ┌────────────────┐    ║
-║  │ AIDevSearch  │ │   CodeAgent  │ │   CodeExplain  │ │ hugging_face   │    │ github_agent   │    ║
-║  │   Agent      │ │              │ │   _agent       │ │    _agent      │    │                │    ║
-║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)  │    │ (Gemini Tool)  │    ║
+║  │ AIDevSearch  │ │   CodeAgent  │ │   CodeExplain  │ │ HuggingFace     │    │ GitHub         │    ║
+║  │   Agent      │ │              │ │   Agent       │ │ Agent           │    │ Agent          │    ║
+║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)   │    │ (Gemini Tool)  │    ║
 ║  └──────────────┘ └──────────────┘ └────────────────┘ └────────────────┘    └────────────────┘    ║
 ║                                                                                                   ║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝
+```
 
+### Data Flow Lane — *Where does execution and data actually go?*
 
+The **Data Flow lane** represents **execution, transport, and I/O paths**. These flows may:
 
+* remain local
+* cross process boundaries
+* cross network boundaries
+
+**Important:** transport differences do **not** imply authority. All flows still originate from RootAgent decisions.
+
+```text
 ╔════════════════════════════════════════════════════════════════════════════════════════════════════╗
 ║                           DATA FLOW                                                                ║
-║            (Execution, transport, external systems)                                                ║                                
+║            (Execution, transport, external systems)                                                ║
 ╠════════════════════════════════════════════════════════════════════════════════════════════════════╣
 ║                                                                                                    ║
 ║  ┌─────────────────────┐      ┌──────────────────────────────┐    ┌──────────────────────────────┐ ║
-║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │    │CodeExplain                   │ ║
+║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │    │ CodeExplain                  │ ║
 ║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │    │ (Python sandbox, no net/fs)  │ ║
 ║            │                  └─────────┬────────────────────┘    └─────────┬────────────────────┘ ║
 ║            ▼                            ▼                                   ▼                      ║
-║  External search results          Python execution output              Python explain output       ║
+║  External search results          Python execution output              Python explanation output  ║
 ║                                                                                                    ║
 ║  ┌─────────────────────┐      ┌────────────────────────────────┐                                   ║
 ║  │ HF MCP Server       │      │ GitHub MCP Server              │                                   ║
@@ -131,13 +244,15 @@ The architecture Diagram is based on a `Control Flow lane` and a `Data Flow lane
 ║  - spaces                       - commits / releases                                               ║
 ║                                                                                                    ║
 ╚════════════════════════════════════════════════════════════════════════════════════════════════════╝
-
 ```
+
 ---
 
-## Agents & tools
+## Agents & Tools
 
-### Tool schema:  
+This section provides a **concise, authoritative mapping** between agents, tools, and execution backends. It complements the architecture diagrams by making *attachments, responsibilities, and transport mechanisms explicit*.
+
+### Tool Schema
 
 |              Component | Type                             | Attached To        | Purpose                                      |
 | ---------------------: | -------------------------------- | ------------------ | -------------------------------------------- |
@@ -145,120 +260,62 @@ The architecture Diagram is based on a `Control Flow lane` and a `Data Flow lane
 |          **CodeAgent** | `AgentTool`                      | RootAgent          | Execute Python code safely                   |
 |   **CodeExplainAgent** | `AgentTool`                      | RootAgent          | Explain Python code safely                   |
 | **hugging_face_agent** | `AgentTool` (Gemini + MCP stdio) | RootAgent          | Hugging Face models, datasets, spaces        |
-|       **github_agent** | `AgentTool` (Gemini + MCP HTTP)  | RootAgent          | GitHub repositories, issues, PRs (read-only) |
-|        `google_search` | Built-in ADK Tool                | AIDevSearchAgent   | Web discovery for news                       |
+|       **github_agent** | `AgentTool` (Gemini + MCP HTTP)  | RootAgent          | GitHub repositories, issues, PRs (read‑only) |
+|        `google_search` | Built‑in ADK Tool                | AIDevSearchAgent   | Web discovery for news                       |
 |  `BuiltInCodeExecutor` | ADK Executor                     | CodeAgent          | Deterministic Python sandbox                 |
 |      **HF MCP Server** | MCP Backend (stdio)              | hugging_face_agent | Transport to Hugging Face Hub                |
 |  **GitHub MCP Server** | MCP Backend (HTTP)               | github_agent       | Transport to GitHub API (Copilot MCP)        |
 
+**Why this matters:**
 
-> _Note_
-```bash
- User → "Explain this Python code"  
-             │  
-             ▼  
-        RootAgent  
-             ├─ detects "explain"  
-             └─ delegates to CodeExplainAgent  
-                      │  
-                      ▼  
-               Explanation only (no execution)
-```
-
-### Agents  
-
-### RootAgent (Central Orchestrator)
-
-The **RootAgent** is the intelligence hub of the system. It is responsible for:
-
-- Intent detection
-- Deterministic workflow control
-- Tool and agent selection
-- Context aggregation
-- Final response assembly
-- Routes user input  
-- Never answers directly   
-- Ensures correct agent selection ( Ensures clean separation of responsibilities:  News Search Agent or Python Code Execution Agent)
- 
-The RootAgent has **direct access** to:
-- Gemini-powered specialist agents
-- Third-party developer APIs
-
-### Gemini-Powered Agents
-
-- **AIDevSearchAgent** (know also as `AI Developer News Agent`)  
-  - Discovers and summarizes AI developer news (Specializes in AI news for developers from AI articles, platforms and uses cases)
-  - Uses `google_search`
-  - Manages headline selection and summaries
-  - Follows an interactive, multi-step workflow:  
-    1. Clarify number of items  
-    2. Search and filter AI-related content  
-    3. Present headlines  
-    4. Summarize selected items  
-
-- **CodeAgent** (known also as  `Python Code Agent`)  
-  - Executes Python code only
-  - Uses `BuiltInCodeExecutor`
-  - Returns execution results without explanation  
-  - No explanations, no commentary  
-  - Returns execution output or errors  
-
-- **CodeExplainAgent**
-- Explain Python code (no execution)
-
-### Third-Party Developer APIs (Custom Tools)
-
-- **Hugging Face Hub Agent**
-  - Model metadata
-  - Spaces
-  - Datasets
-  - Popularity and usage signals
-
-- **GitHub Agent**
-  - Repository metadata
-  - Stars, issues, commits
-  - Open-source activity signals
+* Makes **agent–tool attachment explicit**
+* Clarifies **execution vs transport vs authority**
+* Supports audits, reviews, and future extension
+* Prevents accidental agent autonomy or tool misuse
 
 ---
 
-### Design principles:
-- Separation of concerns: RootAgent routes, specialist agents perform tasks.
-- Deterministic workflows: minimal LLM guesswork for critical steps.
-- Tool transparency: sources and tool usage are explicit.
-- Developer-first UX and safe code execution.
+## Design Principles
 
----  
+* **Separation of concerns** – RootAgent routes, specialist agents execute
+* **Deterministic workflows** – Minimal LLM guesswork for critical steps
+* **Tool transparency** – Explicit tool usage and sources
+* **Developer‑first UX** – Safe code execution and predictable outputs
 
-## Project structure (Repository structure)
+---
+
+## Project Structure
 
 ```bash
-Toolkit_Google_ADK/                          # Root directory of the project; contains all source code, configs, and documentation
-├── app_01/                                  # Main application module containing the core agent implementation
-│   ├── __init__.py                          # Marks app_01 as a Python package and enables module imports
-│   ├── agent.py                             # Defines the primary agent logic (Google ADK integration, tools, prompts, execution flow)
-│   └── .env                                 # Local environment variables (API keys, secrets); not committed to version control
-├── Notebbook_app_001.ipynb                  # Jupyter Notebook for experimentation, testing, and demoing agent behavior
-├── requirements.txt                         # List of Python dependencies   
-├── .env.example                             # Example environment variable template   
-├── LICENSE                                  # License
-├── .gitignore                               # Defines ignore rules for environment variables, Python artifacts, notebooks, logs, and local editor files  
-├── README.md                                # Project documentation: setup, usage, architecture, and examples
-├── Screenshots_Examples_Usage/              # Visual assets demonstrating application usage and outputs
-│   ├── Screenshot_UI_interface.jpeg         # Example screenshot showing initial UI or agent interaction
-│   ├── Screenshot_AIDevSearchAgent_2.jpeg   # Example screenshot demonstrating AIDevSearchAgent output  
-│   ├── Screenshot_AIDevSearchAgent_3.jpeg   # Example screenshot highlighting a core feature of AIDevSearchAgen
-│   ├── Screenshot_CodeAgent_1.jpeg          # Example screenshot demonstrating CodeAgent output 
-│   ├── Screenshot_CodeExplainAgent1.jpeg    # Example screenshot highlighting a core feature of CodeExplainAgent1
-│   ├── Screenshot_HuggingFaceAgent1.jpeg    # Example screenshot highlighting a core feature of HuggingFaceAgent1 TO BE ENCLOSED UPDATED VERSION 
-│   ├── Screenshot_GitHubAgent1.Agentjpeg    # Example screenshot highlighting a core feature of GitHub TO BE ENCLOSED UPDATED VERSION 
-│   ├── Screenshot_2                    # Example screenshot highlighting a core feature or workflow
-│   ├── Screenshot_3                    # Example screenshot demonstrating agent output or results
-│   ├── Screenshot_4                    # Example screenshot showing advanced or edge-case behavior
+Toolkit_Google_ADK/                     # Root project directory
+├── app_01/                             # Main application module
+│   ├── __init__.py                     # Python package marker
+│   ├── agent.py                        # Core agent logic (Google ADK integration)
+│   └── .env                            # Local environment variables (not committed)
+│
+├── Notebbook_app_001.ipynb              # Notebook for experiments and demos
+├── requirements.txt                    # Python dependencies
+├── .env.example                        # Environment variable template
+├── LICENSE                             # Project license
+├── .gitignore                          # Ignore rules for secrets and artifacts
+├── README.md                           # Project documentation
+│
+├── Screenshots_Examples_Usage/          # UI and agent output examples
+│   ├── Screenshot_UI_interface.jpeg
+│   ├── Screenshot_AIDevSearchAgent_2.jpeg
+│   ├── Screenshot_AIDevSearchAgent_3.jpeg
+│   ├── Screenshot_CodeAgent_1.jpeg
+│   ├── Screenshot_CodeExplainAgent1.jpeg
+│   ├── Screenshot_HuggingFaceAgent1.jpeg
+│   ├── Screenshot_GitHubAgent1.jpeg
+│   ├── Screenshot_2
+│   ├── Screenshot_3
+│   └── Screenshot_4
 ```
 
----  
+---
 
-## Quick start / Getting Started
+## Getting Started
 This section shows how to install dependencies, configure authentication, and run the full pipeline.  
 
 ### Prerequisites:
@@ -307,16 +364,6 @@ Stop the ADK process (if needed):
 ```bash
 pkill -f "adk web"
 ```
----
-
-## Design Principles
-
-- Clear separation of concerns
-- Deterministic workflows
-- Minimal LLM guesswork
-- Tool transparency
-- Developer-first UX
-
 ---
 
 ## Examples Usage (UI)
@@ -384,27 +431,43 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ---
 
-## Limitations & workarounds
+## Limitations & Workarounds
 
-- [ADK tool restrictions](https://google.github.io/adk-docs/tools/limitations/): some built-in tools (e.g., google_search, code execution) typically cannot be combined inside a single agent instance. Workaround: create specialized agents (SearchAgent, CodeAgent) and orchestrate via RootAgent using AgentTool.create() to delegate requests.
-- Model variability: responses can differ between runs. Test determinism in production-critical workflows.
-- API quotas and billing: monitor Vertex AI / Google Cloud costs.
+### ADK Tool Restrictions
 
-See ADK docs:
-- Tools: https://google.github.io/adk-docs/tools/
-- Limitations: https://google.github.io/adk-docs/tools/limitations/
+Some built-in ADK tools (for example `google_search` and code execution) typically **cannot be combined within a single agent instance**.
+
+**Workaround:**
+
+* Create **specialized agents** (e.g. `SearchAgent`, `CodeAgent`)
+* Orchestrate them exclusively via the **RootAgent**
+* Delegate requests using `AgentTool.create()`
+
+This preserves architectural clarity while respecting ADK constraints.
 
 ---
 
-## Testing & CI
+### Model Variability
 
-Suggested test categories:
-- Agent routing tests (RootAgent → specialists)
-- News workflow tests (search → summary → citation)
-- Code execution tests (sandboxed runs, error handling)
-- Integration tests for Hugging Face & GitHub enrichments
+LLM responses may vary between runs, even with identical inputs.
 
-Add automated tests and CI pipelines as needed (e.g., GitHub Actions).
+**Mitigation:**
+
+* Avoid relying on implicit determinism
+* Explicitly test and validate determinism in **production-critical workflows**
+* Prefer structured outputs where possible
+
+---
+
+### API Quotas & Billing
+
+Usage is subject to **Vertex AI / Google Cloud quotas and billing limits**.
+
+**Recommendation:**
+
+* Monitor usage and costs closely
+* Set budget alerts and quota thresholds
+* Test new agents or models in controlled environments first
 
 ---
 
@@ -424,25 +487,69 @@ Please follow the repository code style and add tests for major features.
 
 ---
 
-## Future Implementations  
+## Future Implementations
 
-We are actively seeking contributors who want to help implement and/or propose the following future features (suggested improvements): 
--  **Use different Gemini models intentionally** :  The current design uses `gemini-2.5-flash`. You might upgrade AIDevSearchAgent using model `gemini-2.5-pro` and investigate its impact
-  on several aspects such as latency, cost, quality. 
+We actively welcome contributors who want to help **extend the system without compromising its architectural guarantees**. The following items represent suggested and validated directions for future work.
 
-| Aspect     | Impact               |
+### Intentional Model Selection
+
+The current implementation uses `gemini-2.5-flash` across agents. A promising improvement is to **intentionally mix Gemini models by responsibility**. For example, upgrading **AIDevSearchAgent** to `gemini-2.5-pro` and evaluating trade-offs:
+
+| Aspect     | Expected Impact      |
 | ---------- | -------------------- |
 | Latency    | Slightly higher      |
 | Cost       | Higher per token     |
 | Throughput | Lower                |
 | Quality    | Significantly higher |
 
-- **Adding new AgentTools** without destabilizing the system.  
-- **Structured JSON outputs for headlines** (machine-readable)  
-- **Persistent session storage across restarts**  
-- **Search refinements** (filters, "only open-source", date ranges)
-- **UI enhancements** (buttons for selection, debugging/observability mode)
-- **Stronger execution guardrails and resource limits**  
+This enables controlled experimentation around **quality vs cost vs latency**, while preserving RootAgent orchestration.
+
+---
+
+### Additional AgentTools
+
+* Add new `AgentTool`s **without destabilizing** existing flows
+* Preserve RootAgent-only delegation
+* Avoid agent-to-agent invocation chains
+
+---
+
+### Structured Outputs
+
+* Produce **machine-readable JSON outputs** for headlines and summaries
+* Enable downstream automation and evaluation pipelines
+
+---
+
+### Session & State Management
+
+* Persistent session storage across restarts
+* Reproducible conversations and debugging support
+
+---
+
+### Search & Retrieval Refinements
+
+* Filters (e.g. *only open-source*)
+* Date ranges and recency controls
+* Improved relevance scoring
+
+---
+
+### UI & Observability
+
+* UI buttons for explicit selection and confirmation
+* Debug / observability modes
+* Clear visibility into control vs data flow at runtime
+
+---
+
+### Stronger Execution Guardrails
+
+* Tighter resource limits
+* Enhanced sandbox policies
+* Explicit failure modes and reporting
+
 
 Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
  [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues). For general questions or share your thoughts, start a 
@@ -476,4 +583,4 @@ If you encounter bugs, have questions, or want to request a new feature, please 
 
 ## Acknowledgements
 
-An acknowledgement to the contributions of the Ready Tensor developer community (for their guidance and contributions) for  creating a vibrant ecosystem where AI professionals can share their projects, insights, and innovations, fostering collective growth and accelerating the advancement of AI technology.
+An acknowledgement to **Ready Tensor developer community** for their guidance, feedback, and contributions. By creating a vibrant ecosystem where AI professionals can share projects, insights, and innovations, the Ready Tensor community fosters collective learning and collaboration. This environment of open exchange plays a meaningful role in accelerating the advancement of AI technology and in shaping practical, real-world developer tools such as this project.  
