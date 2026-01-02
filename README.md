@@ -165,6 +165,62 @@ The architecture Diagram is based on a `Control Flow lane` and a `Data Flow lane
                Explanation only (no execution)
 ```
 
+### Agents  
+
+### RootAgent (Central Orchestrator)
+
+The **RootAgent** is the intelligence hub of the system. It is responsible for:
+
+- Intent detection
+- Deterministic workflow control
+- Tool and agent selection
+- Context aggregation
+- Final response assembly
+- Routes user input  
+- Never answers directly   
+- Ensures correct agent selection ( Ensures clean separation of responsibilities:  News Search Agent or Python Code Execution Agent)
+ 
+The RootAgent has **direct access** to:
+- Gemini-powered specialist agents
+- Third-party developer APIs
+
+### Gemini-Powered Agents
+
+- **AIDevSearchAgent** (know also as `AI Developer News Agent`)  
+  - Discovers and summarizes AI developer news (Specializes in AI news for developers from AI articles, platforms and uses cases)
+  - Uses `google_search`
+  - Manages headline selection and summaries
+  - Follows an interactive, multi-step workflow:  
+    1. Clarify number of items  
+    2. Search and filter AI-related content  
+    3. Present headlines  
+    4. Summarize selected items  
+
+- **CodeAgent** (known also as  `Python Code Agent`)  
+  - Executes Python code only
+  - Uses `BuiltInCodeExecutor`
+  - Returns execution results without explanation  
+  - No explanations, no commentary  
+  - Returns execution output or errors  
+
+- **CodeExplainAgent**
+- Explain Python code (no execution)
+
+### Third-Party Developer APIs (Custom Tools)
+
+- **Hugging Face Hub Agent**
+  - Model metadata
+  - Spaces
+  - Datasets
+  - Popularity and usage signals
+
+- **GitHub Agent**
+  - Repository metadata
+  - Stars, issues, commits
+  - Open-source activity signals
+
+---
+
 ### Design principles:
 - Separation of concerns: RootAgent routes, specialist agents perform tasks.
 - Deterministic workflows: minimal LLM guesswork for critical steps.
@@ -253,64 +309,6 @@ pkill -f "adk web"
 ```
 ---
 
-## Agents  
-
-### RootAgent (Central Orchestrator)
-
-The **RootAgent** is the intelligence hub of the system. It is responsible for:
-
-- Intent detection
-- Deterministic workflow control
-- Tool and agent selection
-- Context aggregation
-- Final response assembly
-- Routes user input  
-- Never answers directly   
-- Ensures correct agent selection ( Ensures clean separation of responsibilities:  News Search Agent or Python Code Execution Agent)
- 
-The RootAgent has **direct access** to:
-- Gemini-powered specialist agents
-- Third-party developer APIs
-
-### Gemini-Powered Agents
-
-- **AIDevSearchAgent** (know also as `AI Developer News Agent`)  
-  - Discovers and summarizes AI developer news (Specializes in AI news for developers from AI articles, platforms and uses cases)
-  - Uses `google_search`
-  - Manages headline selection and summaries
-  - Follows an interactive, multi-step workflow:  
-    1. Clarify number of items  
-    2. Search and filter AI-related content  
-    3. Present headlines  
-    4. Summarize selected items  
-
-- **CodeAgent** (known also as  `Python Code Agent`)  
-  - Executes Python code only
-  - Uses `BuiltInCodeExecutor`
-  - Returns execution results without explanation  
-  - No explanations, no commentary  
-  - Returns execution output or errors  
-
-- **CodeExplainAgent**
-- Explain Python code (no execution)
-
-### Third-Party Developer APIs (Custom Tools)
-
-- **Hugging Face Hub Agent**
-  - Model metadata
-  - Spaces
-  - Datasets
-  - Popularity and usage signals
-
-- **GitHub Agent**
-  - Repository metadata
-  - Stars, issues, commits
-  - Open-source activity signals
-
-These APIs are exposed as **custom tools** directly to the RootAgent and are used for enrichment, ranking, and developer relevance scoring.
-
----
-
 ## Design Principles
 
 - Clear separation of concerns
@@ -318,91 +316,6 @@ These APIs are exposed as **custom tools** directly to the RootAgent and are use
 - Minimal LLM guesswork
 - Tool transparency
 - Developer-first UX
-
----
-
-## 1.1 Setting up the agent
-
-Before we dive into building agents, a new folder structure with ADK's built-in project is set up scaffolding using the `adk create` command.
-
-When you run `adk create`, it generates three essential files. 
-1. The `.env` file securely stores your API credentials and configuration. 
-2. The `__init__.py` file marks the directory as a Python package, nabling proper imports. 
-3. Most importantly, the `agent.py` file provides a clean foundation where you'll implement your agent.
-
-File structure:
-```
-app_01/
-    __init__.py
-    agent.py
-    .env
-```
-
->_Note_ : In this the project `--type=code` option has been selected to generate a Python-based agent in `agent.py`. The `--model` parameter specifies the LLM to be used by the agent. We will override this and experiment with different tools.     
-
-## 1.2 Writing the first `agent.py`
-
- `adk create` command is used to create folders and then write to its `agent.py` using the specific command, `%%writefile FILENAME`,  to interact with the files in the new agent folder.  
- 
-## 1.3 Adding a text model  
-
-The next steps is to create an Agent with a unique name, specify the LLM model, and give it basic instructions. As with any agent, an LLM is required to start with ADK is model agnostic - meaning you can provide it with any model of your choice like Gemini, Claude, Ollama and even use LiteLLM to bring in other models. In this project the `Gemini 2.0 flash` is used since text-focused models like `gemini-2.5-flash` are ideal when the purpose is to optimize text processing. They often provide faster response times. 
-
-## 1.4 Adding tools to your agent  
-
-**But here's the problem:** try asking this agent about the latest AI developments, and you'll quickly discover it can only tell you about things that happened before its training cutoff date. For an AI news assistant that's supposed to fetch the latest news, that's not particularly helpful. Therefore, you need to fix that by providing your agent with **Tools**. In Google ADK, the word [“tool”](https://google.github.io/adk-docs/tools/) has two meanings:  
-
-
-| Term                 | Meaning                                                                   |
-| -------------------- | ------------------------------------------------------------------------- |
-| **ADK Tool**         | A callable object exposed to an agent (e.g. `google_search`, `AgentTool`) |
-| **Third-Party Tool** | Any external system or API                                                |
-
-
-### Adding Google Search Tool
-
-In this scenario, to fetch the latest news, let's provide the agent with a built-in tool, `google_search`. These built-in tools come pre-packed with the library. To add it to the agent, just import it and provide it as a tool in the tools array.  Let's test the agent with the Google search tool by asking a query `"What is the latest AI News?"`. The agent will use the Google Search tool to find current information, process the results, and give you a comprehensive, up-to-date response with sources. Just like that, the agent can now access **real-time information** from across the web!
-
-ADK comes with several other `powerful built-in tools—there` are tools for running your code in a `sandbox`, `querying databases`, even `integrations with Google Workspace tools` like Calendar, Drive etc.  
-
-### Adding Python code executor Tool
-
-To fetch the latest news, the agent has been provided with a built-in tool, **google_search**. These built-in tools come `pre-packed with the library`. Now, in order to allow the agent also to execute code and debug using Gemini models, it has been used the **built_in_code_execution tool** that enables the agent to execute code, specifically when using Gemini 2 and higher models. This allows the model to perform tasks like calculations, data manipulation, or running small scripts. Also this tool comes from `pre-packed with the library`. To add it to the agent, just import it and provide it as a tool in the tools array. Run the cell below to import it
-
-### Adding HuggingFace Execution Agent Tool  
-TO BE DRAFTED   
-
-### Adding GitHub Execution Agent Tool  
-TO BE DRAFTED     
-
-## 1.5 Fine-tuning agent instructions
-
-So far the agent has simple instructions, but for reliable behavior, you need more sophisticated instruction engineering. Therefore, the agent has been enhanced  with strict behavioral controls.  
-
-### Understanding Advanced Instructions
-
-This enhanced instruction pattern includes:
-
-- **Clear Identity**: Explicitly defines the agent's sole purpose
-- **Refusal Mechanism**: Provides exact phrases for rejecting off-topic requests  
-- **Workflow Requirements**: Forces the agent to use tools and cite sources
-- **Behavioral Boundaries**: Sets expectations for valid vs. invalid requests
-
-This creates a much more reliable and focused agent behavior.
-
-### Testing Instructions
-
-You can test the enhanced agent with both valid and invalid requests:
-
-**Valid prompts** (should get a response):
-- "What's the latest AI news about Google?"
-- "Tell me about recent AI chip developments"
-
-**Invalid prompts** (should be refused):
-- "What's the weather today?"
-
-
-Analyze how the agent now maintains strict boundaries while still being helpful for AI-related queries.  
 
 ---
 
@@ -480,27 +393,6 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 See ADK docs:
 - Tools: https://google.github.io/adk-docs/tools/
 - Limitations: https://google.github.io/adk-docs/tools/limitations/
-
-## Limitations for ADK tools¶
-Some [ADK tools have limitations](https://google.github.io/adk-docs/tools/limitations/#workaround-2-bypass_multi_tools_limit) that can impact how you implement them within an agent workflow. Here we list these tool limitations and workarounds, if available.
-
-One tool per agent limitation¶
-In general, you can use more than one tool in an agent, but use of specific tools within an agent excludes the use of any other tools in that agent. The following ADK Tools can only be used by themselves, without any other tools, in a single agent object:  
-
-- Code Execution with Gemini API  
-- Google Search with Gemini API
-
-Therefore, the approach that uses one of these tools along with other tools, within a single agent, is not supported. To overcome these limitation, it has been used a Workaround, called `AgentTool.create() method`,  
-that consists in using a soecific code that shows how to use `multiple built-in tools` or `how to use built-in tools with other tools by using multiple agent`.
-
-This snippet defines a multi-agent setup using Google ADK:
-- It creates a **SearchAgent** specialized in Google Search, equipped with the google_search tool.  
-- It creates a **CodeAgent** specialized in executing code, using the built-in code executor.
-- It creates a **HuggingFaceAgent** specialized in ...................  
-- It creates a **GitHubAgent** specialized in ...................  
-- It then defines a **RootAgent** that acts as an orchestrator, delegating tasks to either the SearchAgent or the CodeAgent or HuggingFaceAgent or GitHubAgent via AgentTool.
-
-In short, the **RootAgent** coordinates specialized agents for search and code execution using the Gemini 2.0 Flash model. Happy coding! Don't hesitate to return if you have more questions.
 
 ---
 
