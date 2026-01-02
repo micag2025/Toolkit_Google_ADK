@@ -3,6 +3,9 @@
 # An ADK-Powered Developer Intelligence Platform  
 # Designing a Safe Multi-Agent Developer Assistant with ADK  
 
+---
+![cover_Image](https://github.com/micag2025/Toolkit_Google_ADK/blob/86f13406fb6c52a31fb35d8d017923d873825ad0/Cover_Image_publication.png)
+---
 
 ## Tags   
 `multi-agent-systems`, `llm-agents`, `Agent Development Kit (ADK)`, `google-adk`, `gemini (models)`, `developer-intelligence`, `code-assistant`, `huggingface`, `github`, `mcp`, `tool-grounded-ai`, `agent-routing`, `agent-orchestration`, `open-source`, `web-ui`
