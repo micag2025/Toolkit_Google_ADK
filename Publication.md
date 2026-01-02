@@ -622,4 +622,4 @@ michelaagostini73@gmail.com
 
 ## Acknowledgements
 
-At Ready Tensor, our mission is to create a vibrant ecosystem where AI professionals can share their projects, insights, and innovations, fostering collective growth and accelerating the advancement of AI technology.
+An acknowledgement to the contributions of the Ready Tensor developer community (for their guidance and contributions) for  creating a vibrant ecosystem where AI professionals can share their projects, insights, and innovations, fostering collective growth and accelerating the advancement of AI technology.  
