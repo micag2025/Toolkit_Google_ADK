@@ -623,6 +623,6 @@ michelaagostini73@gmail.com
 
 ---
 
-## Acknowledgements
+## Acknowledgements  
 
-An acknowledgement to the contributions of the Ready Tensor developer community (for their guidance and contributions) for  creating a vibrant ecosystem where AI professionals can share their projects, insights, and innovations, fostering collective growth and accelerating the advancement of AI technology.  
+An acknowledgement to **Ready Tensor developer community** for creating a vibrant ecosystem where AI professionals can share projects, insights, and innovations, playing a meaningful role in accelerating the advancement of AI technology and in shaping practical, real-world developer tools such as this project.  
