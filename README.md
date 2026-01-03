@@ -201,9 +201,9 @@ This guarantees a single, auditable decision point and prevents hidden agent aut
 ║          │              │              │              │                       │                   ║
 ║          ▼              ▼              ▼              ▼                       ▼                   ║
 ║  ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ ┌────────────────┐    ┌────────────────┐    ║
-║  │ AIDevSearch  │ │   CodeAgent  │ │   CodeExplain  │ │ HuggingFace     │    │ GitHub         │    ║
-║  │   Agent      │ │              │ │   Agent       │ │ Agent           │    │ Agent          │    ║
-║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)   │    │ (Gemini Tool)  │    ║
+║  │ AIDevSearch  │ │   CodeAgent  │ │   CodeExplain  │ │ HuggingFace    │    │ GitHub         │    ║
+║  │   Agent      │ │              │ │   Agent       │  │ Agent          │    │ Agent          │    ║
+║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)  │    │ (Gemini Tool)  │    ║
 ║  └──────────────┘ └──────────────┘ └────────────────┘ └────────────────┘    └────────────────┘    ║
 ║                                                                                                   ║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝
@@ -230,7 +230,7 @@ The **Data Flow lane** represents **execution, transport, and I/O paths**. These
 ║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │    │ (Python sandbox, no net/fs)  │ ║
 ║            │                  └─────────┬────────────────────┘    └─────────┬────────────────────┘ ║
 ║            ▼                            ▼                                   ▼                      ║
-║  External search results          Python execution output              Python explanation output  ║
+║  External search results          Python execution output              Python explanation output   ║
 ║                                                                                                    ║
 ║  ┌─────────────────────┐      ┌────────────────────────────────┐                                   ║
 ║  │ HF MCP Server       │      │ GitHub MCP Server              │                                   ║
@@ -500,8 +500,8 @@ Contributions are welcomed to improve the ADK Toolkit! Suggested workflow:
 ```bash
 git checkout -b feat/your-feature
 ```
-3 Commit and push your changes  
-4 Submit a Pull Request and describe your contribution.  
+3. Commit and push your changes  
+4. Submit a Pull Request and describe your contribution.  
 
 Please follow the repository code style and add tests for major features.
 
