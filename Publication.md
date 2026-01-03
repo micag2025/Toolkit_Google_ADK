@@ -565,6 +565,75 @@ Please follow the repository code style and add tests for major features.
 
 ---
 
+## Future Implementations
+
+We actively welcome contributors who want to help **extend the system without compromising its architectural guarantees**. The following items represent suggested and validated directions for future work.
+
+### Intentional Model Selection
+
+The current implementation uses `gemini-2.5-flash` across agents. A promising improvement is to **intentionally mix Gemini models by responsibility**. For example, upgrading **AIDevSearchAgent** to `gemini-2.5-pro` and evaluating trade-offs:
+
+| Aspect     | Expected Impact      |
+| ---------- | -------------------- |
+| Latency    | Slightly higher      |
+| Cost       | Higher per token     |
+| Throughput | Lower                |
+| Quality    | Significantly higher |
+
+This enables controlled experimentation around **quality vs cost vs latency**, while preserving RootAgent orchestration.
+
+---
+
+### Additional AgentTools
+
+* Add new `AgentTool`s **without destabilizing** existing flows
+* Preserve RootAgent-only delegation
+* Avoid agent-to-agent invocation chains
+
+---
+
+### Structured Outputs
+
+* Produce **machine-readable JSON outputs** for headlines and summaries
+* Enable downstream automation and evaluation pipelines
+
+---
+
+### Session & State Management
+
+* Persistent session storage across restarts
+* Reproducible conversations and debugging support
+
+---
+
+### Search & Retrieval Refinements
+
+* Filters (e.g. *only open-source*)
+* Date ranges and recency controls
+* Improved relevance scoring
+
+---
+
+### UI & Observability
+
+* UI buttons for explicit selection and confirmation
+* Debug / observability modes
+* Clear visibility into control vs data flow at runtime
+
+---
+
+### Stronger Execution Guardrails
+
+* Tighter resource limits
+* Enhanced sandbox policies
+* Explicit failure modes and reporting
+
+
+Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
+ [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues).    
+
+---    
+
 ## References  
 
 - [Google AI Studio](https://cloud.google.com/free?hl=en)
@@ -576,33 +645,6 @@ Please follow the repository code style and add tests for major features.
 - [Engage and Inspire: Best Practices for Publishing on Ready Tensor](https://app.readytensor.ai/publications/engage-and-inspire-best-practices-for-publishing-on-ready-tensor-SBgkOyUsP8qQ)
 - [The Open Source Repository Guide: Best Practices for Sharing Your AI/ML and Data Science Projects](https://app.readytensor.ai/publications/best-practices-for-ai-project-code-repositories-0llldKKtn8Xb)
 - [Markdown for Machine Learning Projects: A Comprehensive Guide](https://app.readytensor.ai/publications/markdown-for-machine-learning-projects-a-comprehensive-guide-LX9cbIx7mQs9)  
-
----
-
-
-## Future Implementations  
-
-We are actively seeking contributors who want to help implement and/or propose the following future features (suggested improvements): 
--  **Use different Gemini models intentionally** :  The current design uses `gemini-2.5-flash`. You might upgrade AIDevSearchAgent using model `gemini-2.5-pro` and investigate its impact
-  on several aspects such as latency, cost, quality. 
-
-| Aspect     | Impact               |
-| ---------- | -------------------- |
-| Latency    | Slightly higher      |
-| Cost       | Higher per token     |
-| Throughput | Lower                |
-| Quality    | Significantly higher |
-
-- **Adding new AgentTools** without destabilizing the system.  
-- **Structured JSON outputs for headlines** (machine-readable)  
-- **Persistent session storage across restarts**  
-- **Search refinements** (filters, "only open-source", date ranges)
-- **UI enhancements** (buttons for selection, debugging/observability mode)
-- **Stronger execution guardrails and resource limits**  
-
-Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
- [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues). For general questions or share your thoughts, start a 
-[comment](LINK TO BE ENCLOSED).  
 
 ---
 
