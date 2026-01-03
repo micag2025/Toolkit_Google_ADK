@@ -321,7 +321,8 @@ This section shows how to install dependencies, configure authentication, and ru
 
 ### Interactive Notebook: Getting Started with ADK  
 
-For hands-on learning and experimentation, `Notebbook_app_001.ipynb` demonstrates:
+For hands-on learning and experimentation, [`Notebbook_app_001.ipynb`](https://github.com/micag2025/Toolkit_Google_ADK/blob/6f8b46ee3a254513fcbcc5fcd1af4c1ca4b8a878/Notebook_app_01.ipynb)
+ demonstrates:
 
 - Setting up a new agent folder (`adk create`)
 - Writing the first `agent.py`
