@@ -509,49 +509,59 @@ The below table gives an overview of how this ADK Toolkit is not designed only f
 
 ---
 
-## Limitations & workarounds
+## Limitations & Workarounds
 
-- ADK tool restrictions: some built-in tools (e.g., google_search, code execution) typically cannot be combined inside a single agent instance. Workaround: create specialized agents (SearchAgent, CodeAgent) and orchestrate via RootAgent using AgentTool.create() to delegate requests.
-- Model variability: responses can differ between runs. Test determinism in production-critical workflows.
-- API quotas and billing: monitor Vertex AI / Google Cloud costs.
+### ADK Tool Restrictions
 
-See ADK docs:
-- Tools: https://google.github.io/adk-docs/tools/
-- Limitations: https://google.github.io/adk-docs/tools/limitations/
+Some built-in ADK tools (for example `google_search` and code execution) typically **cannot be combined within a single agent instance**.
 
+**Workaround:**
 
-## Limitations for ADK tools¶
-Some [ADK tools have limitations](https://google.github.io/adk-docs/tools/limitations/#workaround-2-bypass_multi_tools_limit) that can impact how you implement them within an agent workflow. Here we list these tool limitations and workarounds, if available.
+* Create **specialized agents** (e.g. `SearchAgent`, `CodeAgent`)
+* Orchestrate them exclusively via the **RootAgent**
+* Delegate requests using `AgentTool.create()`
 
-One tool per agent limitation¶
-In general, you can use more than one tool in an agent, but use of specific tools within an agent excludes the use of any other tools in that agent. The following ADK Tools can only be used by themselves, without any other tools, in a single agent object:  
-
-- Code Execution with Gemini API  
-- Google Search with Gemini API
-
-Therefore, the approach that uses one of these tools along with other tools, within a single agent, is not supported. To overcome these limitation, it has been used a Workaround, called `AgentTool.create() method`,  
-that consists in using a soecific code that shows how to use `multiple built-in tools` or `how to use built-in tools with other tools by using multiple agent`.
-
-This snippet defines a multi-agent setup using Google ADK:
-- It creates a **SearchAgent** specialized in Google Search, equipped with the google_search tool.  
-- It creates a **CodeAgent** specialized in executing code, using the built-in code executor.
-- It creates a **HuggingFaceAgent** specialized in ...................  
-- It creates a **GitHubAgent** specialized in ...................  
-- It then defines a **RootAgent** that acts as an orchestrator, delegating tasks to either the SearchAgent or the CodeAgent or HuggingFaceAgent or GitHubAgent via AgentTool.
-
-In short, the **RootAgent** coordinates specialized agents for search and code execution using the Gemini 2.0 Flash model. Happy coding! Don't hesitate to return if you have more questions.
+This preserves architectural clarity while respecting ADK constraints.
 
 ---
 
-## Testing & CI
+### Model Variability
 
-Suggested test categories:
-- Agent routing tests (RootAgent → specialists)
-- News workflow tests (search → summary → citation)
-- Code execution tests (sandboxed runs, error handling)
-- Integration tests for Hugging Face & GitHub enrichments
+LLM responses may vary between runs, even with identical inputs.
 
-Add automated tests and CI pipelines as needed (e.g., GitHub Actions).
+**Mitigation:**
+
+* Avoid relying on implicit determinism
+* Explicitly test and validate determinism in **production-critical workflows**
+* Prefer structured outputs where possible
+
+---
+
+### API Quotas & Billing
+
+Usage is subject to **Vertex AI / Google Cloud quotas and billing limits**.
+
+**Recommendation:**
+
+* Monitor usage and costs closely
+* Set budget alerts and quota thresholds
+* Test new agents or models in controlled environments first
+
+---
+
+## Contributing
+
+Contributions are welcomed to improve the ADK Toolkit! Suggested workflow:  
+
+1. Fork the GitHub repository
+2. Create a feature branch:
+```bash
+git checkout -b feat/your-feature
+```
+3. Commit and push your changes  
+4. Submit a Pull Request and describe your contribution.  
+
+Please follow the repository code style and add tests for major features.
 
 ---
 
@@ -569,21 +579,6 @@ Add automated tests and CI pipelines as needed (e.g., GitHub Actions).
 
 ---
 
-## Contributing
-
-Contributions are welcomed to improve the ADK Toolkit! Suggested workflow:  
-
-1. Fork the GitHub repository
-2. Create a feature branch:
-```bash
-git checkout -b feat/your-feature
-```
-3 Commit and push your changes  
-4 Submit a Pull Request and describe your contribution.  
-
-Please follow the repository code style and add tests for major features.
-
----
 
 ## Future Implementations  
 
