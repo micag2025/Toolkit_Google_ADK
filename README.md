@@ -1,4 +1,5 @@
-# Designing a Safe Multi-Agent Developer Assistant with ADK  / Toolkit Google ADK – Multi‑Agent Developer Assistant
+# Designing a Safe Multi-Agent Developer Assistant with ADK  
+# Toolkit Google ADK – Multi‑Agent Developer Assistant
 
 ## Overview
 
@@ -321,11 +322,7 @@ This section shows how to install dependencies, configure authentication, and ru
 
 ### Interactive Notebook: Getting Started with ADK  
 
-For hands-on learning and experimentation, we provide a Jupyter notebook:
-
-`Notebbook_app_001.ipynb`
-
-This notebook demonstrates:
+For hands-on learning and experimentation, `Notebbook_app_001.ipynb` demonstrates:
 
 - Setting up a new agent folder (`adk create`)
 - Writing the first `agent.py`
@@ -333,11 +330,7 @@ This notebook demonstrates:
 - Fine-tuning agent instructions and behavior
 - Testing valid and invalid prompts
 
-> **Note:** This notebook is instructional and exploratory.  
-> The authoritative architecture, agent responsibilities, and design invariants are defined in `README.md`.  
-> This notebook is meant for learning and experimentation only and does not override RootAgent orchestration rules.
-
-### Prerequisites:  
+### Prerequisites  
 
 - Python 3.10+
 - Google account & Vertex AI / Gemini access (API key)
@@ -354,7 +347,7 @@ pip install -r requirements.txt
 ```
 
 ### Environment variables 
-Set environment variables (keys) in `.env` or your environment. See example `.env.example`:
+Set environment variables (keys) in `.env` or your environment. See example `.env.example`.  
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -365,7 +358,7 @@ ADK_DEV_MODE=true
 
 > _Notes:_  
 > - The project expects API keys to be correctly provisioned for Vertex AI / Gemini usage.
-> - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API. A step-by-step guide can be found on o [Google AI Studio](https://cloud.google.com/free?hl=en) : O
+> - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API. A step-by-step guide can be found on o [Google AI Studio](https://cloud.google.com/free?hl=en)
 
 
 ### Launch the ADK Web App  / Get the app URL  
