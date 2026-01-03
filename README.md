@@ -14,8 +14,7 @@ The system is optimized for:
 * AI developer news discovery and summarization
 * Safe and deterministic Python code execution
 * Clear explanation of Python code
-* Transparent use of third‑party developer platforms
-
+* Transparent use of third‑party developer platforms  
 
 ---
 
@@ -565,8 +564,7 @@ This enables controlled experimentation around **quality vs cost vs latency**, w
 
 
 Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
- [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues). For general questions or share your thoughts, start a 
-[comment](LINK TO BE ENCLOSED).
+ [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues).  
 
 ---
 
