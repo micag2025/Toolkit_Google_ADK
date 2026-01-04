@@ -397,6 +397,33 @@ You can test the enhanced agent with both valid and invalid requests:
 **Invalid prompts** (should be refused):
 - "What's the weather today?"
 
+|**Agent**               | **Valid prompts** (should get a response)                                    |**Invalid prompts** (should be refused)          | 
+| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
+| AidevSearchAgent       |  1. Start with a general request: "Give me AI news for Google"               | Test boundaries: "What's the weather today?"    |
+|                        |  2. Respond to clarification: "Give me 3 top AI news items for developers"   |                                                 | 
+|                        |  3. Pick a specific story: "Tell me more about the first one"                |                                                 |
+| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
+| Code Agent             | Simple execution: Execute python code: print(sum(range(10)))                 |                                                 |
+|                        |  Data handling: “Execute python code: import math; math.sqrt(16)”            |                                                 |
+|                        |                 Execute python code: sum(i*i for i in range(10))             |                                                 |
+| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
+| Code_explain_agent     | Explain this Python code:        |                                             
+ |                       |             def fib(n):          |
+  |                       |               a, b = 0, 1        |
+  |                         |            for _ in range(n):     |
+  |                        |              a, b = b, a + b        |  |                                                                                         |
+    |                      |               return a               |                                       |                                                 |
+|                          |                                      |                                      |                                                 | 
+| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
+
+IN PROGRESS 
+
+
+
+
+
+
+
 Analyze how the agent now maintains strict boundaries while still being helpful for AI-related queries.
 
 What You’re Testing with These Prompts
