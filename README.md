@@ -377,7 +377,81 @@ Stop the ADK process (if needed):
 ```bash
 pkill -f "adk web"
 ```
+---  
+
+### Testing Instructions  
+
+You can test the enhanced multi-agent system using both **valid** and **invalid** prompts.
+
+The examples below are designed to validate multiple aspects of the system, including:  
+- **Routing accuracy** (correct delegation by the RootAgent)  
+- **Agent specialization** (each agent handles only its intended scope)  
+- **MCP integrations** (GitHub and Hugging Face tool usage)  
+- **Safety boundaries** (sandboxing, no guessing, no unauthorized access)  
+- **Session state handling** (headline selection and follow-up flows)  
+- **Instruction adherence** (strict output formats and guardrails)  
+- **Model choice impact** (behavior differences across Gemini models)
+
+Use the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system 
+**refuses**, **redirects**, **or safely degrades** as intended.  
+
+- **AIDevSearchAgent**
+    
+| ✅ Valid prompts (should get a response)                              | ❌ Invalid prompts (should be refused / redirected) |
+| -------------------------------------------------------------------- | -------------------------------------------------- |
+| **General request**<br>• “Give me AI news for Google”                | “What’s the weather today?”                        |
+| **Scoped request**<br>• “Give me 3 top AI news items for developers” | “Give me sports news headlines”                    |
+| **Follow-up**<br>• “Tell me more about the first one”                | “Tell me celebrity gossip”                         |
+| **Company-focused**<br>• “Recent AI developer news from Meta”        | “Latest stock price of Apple”                      |
+| **Technology-focused**<br>• “AI tooling news for Python developers”  | “Movie releases this week”                         |
+
 ---
+
+- **CodeAgent (Python Execution)**  
+
+| ✅ Valid prompts                                                          | ❌ Invalid prompts                                      |
+| ------------------------------------------------------------------------ | --------------------------------------------------------- |
+| **Simple execution**<br>`Execute python code: print(sum(range(10)))`     | `Execute python code: import os; os.listdir()`            |
+| **Math operations**<br>`Execute python code: import math; math.sqrt(16)` | `Execute python code: import requests; requests.get(...)` |
+| **Computation**<br>`Execute python code: sum(i*i for i in range(10))`    | `Execute python code: while True: pass`                   |
+| **Data structures**<br>`Execute python code: [x*2 for x in range(5)]`    | `Execute python code: open("file.txt")`                   |
+
+---
+
+- **CodeExplainAgent**
+
+| ✅ Valid prompts                                                            | ❌ Invalid prompts                |
+| -------------------------------------------------------------------------- | ----------------------------------- |
+| **Basic explanation**<br>“Explain this Python code:” *(fib example)*       | “Explain this JavaScript code”      |
+| **Pedagogical**<br>“Explain this code line by line for a junior developer” | “Optimize this code and rewrite it” |
+| **Conceptual**<br>“What does this loop do?”                                | “Execute this code”                 |
+| **Edge cases**<br>“Explain possible pitfalls in this Python function”      | “Convert this code to Rust”         |
+
+
+--- 
+
+- **hugging_face_agent (Canonical Reference Only)**
+
+| ✅ Valid prompts                                                                                  | ❌ Invalid prompts                                      |
+| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
+| **Exact model ID**<br>“Give me the Hugging Face link for `mistralai/Mixtral-8x7B-Instruct-v0.1`” | “Show popular Hugging Face models for text summarization” |
+| **Validation**<br>“Is `facebook/bart-large-cnn` available on Hugging Face?”                      | “What is the best summarization model on Hugging Face?”   |
+| **Direct lookup**<br>“Hugging Face link for `google/pegasus-arxiv`”                              | “List Hugging Face models by popularity”                  |
+| **Exact dataset/model**<br>“Hugging Face link for `openai/whisper-large-v3`”                     | “Recommend a Hugging Face model for me”                   |
+
+---  
+
+- **github_agent (Repo Inspection Only)**
+
+| ✅ Valid prompts                                                            | ❌ Invalid prompts                      |
+| -------------------------------------------------------------------------- | ----------------------------------------- |
+| **Explicit repo**<br>“Show me details of `langchain-ai/langchain`”         | “Find good GitHub repos for AI”           |
+| **Explicit URL**<br>“Summarize `github.com/openai/evals`”                  | “Who maintains the best AI repos?”        |
+| **Repo discovery**<br>“Show me the GitHub repo for LangGraph”              | “Search GitHub for trending LLM projects” |
+| **Activity insights**<br>“Summarize activity for the LangChain repository” | “Compare LangChain vs LlamaIndex”         |
+| **Stats lookup**<br>“Give repo stats for `crewAIInc/crewAI`”               | “Which GitHub repo should I use?”         |
+
+---  
 
 ## Examples Usage (UI)
 
