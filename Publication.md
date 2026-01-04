@@ -399,6 +399,20 @@ You can test the enhanced agent with both valid and invalid requests:
 
 Analyze how the agent now maintains strict boundaries while still being helpful for AI-related queries.
 
+What You’re Testing with These Prompts
+| Area                   | Tested |
+| ---------------------- | ------ |
+| Routing accuracy       | ✅      |
+| Agent specialization   | ✅      |
+| MCP integrations       | ✅      |
+| Safety boundaries      | ✅      |
+| Session state handling | ✅      |
+| Instruction adherence  | ✅      |
+| Model choice impact    | ✅      |
+
+
+
+
 ---
 
 ## Examples Usage UI  
