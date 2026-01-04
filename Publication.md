@@ -43,7 +43,22 @@ ML Engineers, Researchers, Technical Writers).
 - **Production readiness**: guardrails, persistent memory, logging, and deployment on Vertex AI Agent Engine.
 
 ---
+## Use Cases and Target Users  
 
+This toolkit is designed to support a diverse set of users involved in the AI development lifecycle, ranging from researchers and machine learning engineers to backend developers and product stakeholders. By combining multiple specialized agents with strict routing and tool-level constraints, the system enables users to access high-signal information, perform code-centric reasoning, and retrieve authoritative references across AI tooling ecosystems. The following use cases illustrate how different user roles can leverage the toolkit to address role-specific needs, highlighting its flexibility, practical relevance, and applicability beyond expert AI practitioners.  
+
+| User Type         | Core Value Provided                | Representative Usage Examples                               |
+| ----------------- | ---------------------------------- | ----------------------------------------------------------- |
+| ML Engineers      | Deep insights into AI tooling      | Discover open-source LLM tools; compare Hugging Face models |
+| Backend Engineers | AI relevance without ML overhead   | Identify AI tools suitable for backend services             |
+| MLOps Engineers   | Deployment and maintenance signals | Assess model maturity and on-prem deployability             |
+| Tech Leads        | High-level, actionable summaries   | Weekly AI developer trend summaries                         |
+| Dev Advocates     | Structured technical narratives    | Explain AI articles for non-experts                         |
+| Product Managers  | Strategic and competitive insight  | Identify proprietary vs open-source trends                  |
+| Researchers       | Bridge research and implementation | Find working implementations of research ideas              |
+| Students          | Guided learning and exploration    | Learn Python and AI tooling fundamentals                    |
+
+---
 ## Tool Overview & Architecture  
 
 ## Architecture overview
