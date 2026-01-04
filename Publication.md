@@ -263,6 +263,26 @@ The **Data Flow lane** represents **execution, transport, and I/O paths**. These
 
 ## Agents & Tools
 
+## Building AI Agents with ADK
+**ADK Overview**  
+- ADK provides modular components including models, tools, memory, and orchestration.    
+- Supports both simple agents and complex multi-agent systems.   
+
+**Text Agents**  
+Create a text agent that:
+- Takes text input.  
+- Uses an LLM to reason and generate responses.  
+- Integrates tools and APIs for executing real-world tasks.  
+Evaluate agent sessions, memory, and state for reliability.
+Extend capabilities with callbacks and guardrails for safe and predictable behavior.
+
+**Specialized Agents**  
+Design agents that:
+Research topics.
+Generate text  outputs using Gemini text-to-text models.
+Combine multiple agents with orchestration to create coordinated workflows.  
+
+
 This section provides a **concise, authoritative mapping** between agents, tools, and execution backends. It complements the architecture diagrams by making *attachments, responsibilities, and transport mechanisms explicit*.
 
 ### Tool Schema
@@ -343,50 +363,6 @@ Stop the ADK process (if needed):
 ```bash
 pkill -f "adk web"
 ```
-
----
-
-
-## Building AI Agents with ADK
-**ADK Overview**  
-- ADK provides modular components including models, tools, memory, and orchestration.    
-- Supports both simple agents and complex multi-agent systems.   
-
-**Text Agents**  
-Create a text agent that:
-- Takes text input.  
-- Uses an LLM to reason and generate responses.  
-- Integrates tools and APIs for executing real-world tasks.  
-Evaluate agent sessions, memory, and state for reliability.
-Extend capabilities with callbacks and guardrails for safe and predictable behavior.
-
-**Specialized Agents**  
-Design agents that:
-Research topics.
-Generate text  outputs using Gemini text-to-text models.
-Combine multiple agents with orchestration to create coordinated workflows.  
-
-## Step-by-Step Development Process
-**Agent Setup**  
-Build the agent in ADK and connect it to Google Search.  
-Test text interactions via the ADK Web UI.  
-**Memory & Context Management**  
-Use sessions, state, and memory to manage conversations.  
-Enable short-term tracking and long-term recall across interactions.  
-**Tools & API Integration**  
-Add custom tools and APIs.  
-Refine agent instructions to ensure adherence to defined workflows.  
-**Research & Reporting**  
-Generate structured research reports using schemas.  
-Act as a coordinator to collect, organize, and save outputs in markdown for downstream use.  
-**Guardrails & Callbacks**  
-Filter unsafe sources and enforce rules.    
-Log tool activity for predictability and production readiness.    
-**Production Deployment**  
-Give agents persistent memory.  
-Test reliability and deploy on Vertex AI.    
-Add security, monitoring, and scaling features for safe production use.     
-
 ---
 
 ## Design Principles
