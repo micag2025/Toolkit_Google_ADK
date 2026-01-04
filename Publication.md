@@ -384,9 +384,21 @@ This enhanced instruction pattern includes:
 
 This creates a much more reliable and focused agent behavior.
 
-### Testing Instructions
+### Testing Instructions  
 
-You can test the enhanced agent with both valid and invalid requests:
+You can test the enhanced multi-agent system using both **valid** and **invalid** prompts.
+
+The examples below are designed to validate multiple aspects of the system, including:  
+- **Routing accuracy** (correct delegation by the RootAgent)  
+- **Agent specialization** (each agent handles only its intended scope)  
+- **MCP integrations** (GitHub and Hugging Face tool usage)  
+- **Safety boundaries** (sandboxing, no guessing, no unauthorized access)  
+- **Session state handling** (headline selection and follow-up flows)  
+- **Instruction adherence** (strict output formats and guardrails)  
+- **Model choice impact** (behavior differences across Gemini models)
+
+Use the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system 
+**refuses**, **redirects**, **or safely degrades** as intended.  
 
 - **AIDevSearchAgent**
     
@@ -443,20 +455,6 @@ You can test the enhanced agent with both valid and invalid requests:
 | **Repo discovery**<br>“Show me the GitHub repo for LangGraph”              | “Search GitHub for trending LLM projects” |
 | **Activity insights**<br>“Summarize activity for the LangChain repository” | “Compare LangChain vs LlamaIndex”         |
 | **Stats lookup**<br>“Give repo stats for `crewAIInc/crewAI`”               | “Which GitHub repo should I use?”         |
-
-
-Analyze how the agent now maintains strict boundaries while still being helpful for AI-related queries.
-
-What You’re Testing with These Prompts
-| Area                   | Tested |
-| ---------------------- | ------ |
-| Routing accuracy       | ✅      |
-| Agent specialization   | ✅      |
-| MCP integrations       | ✅      |
-| Safety boundaries      | ✅      |
-| Session state handling | ✅      |
-| Instruction adherence  | ✅      |
-| Model choice impact    | ✅      |
 
 ---  
 
