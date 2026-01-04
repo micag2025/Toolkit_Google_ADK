@@ -19,9 +19,7 @@ This project is built using **Google Agent Development Kit (ADK)** with a clean 
 Key goals:
 - Real-time discovery and summarization of AI news relevant to developers
 - Execute and return Python code results in a sandboxed environment
-- Provide a clean, multi-agent architecture for reliable orchestration and extensibility
-
-Built with: Google ADK, Gemini models, and a minimal ADK Web interface.  
+- Provide a clean, multi-agent architecture for reliable orchestration and extensibility  
 
 The project is best described as `Agent-based developer intelligence with strict routing and tool grounding`. The system is a `Structured, agent-based, tool-grounded developer intelligence`. it’s an agent-based developer intelligence toolkit. It’s a developer intelligence system opinionated, structured, tool-grounded and role-aware.
 This ADK Toolkit is not designed only for AI developers and builders but it can be used also by different user types, such as  Ready Tensor users, 
@@ -397,29 +395,36 @@ You can test the enhanced agent with both valid and invalid requests:
 **Invalid prompts** (should be refused):
 - "What's the weather today?"
 
-|**Agent**               | **Valid prompts** (should get a response)                                    |**Invalid prompts** (should be refused)          | 
-| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
-| AidevSearchAgent       |  1. Start with a general request: "Give me AI news for Google"               | Test boundaries: "What's the weather today?"    |
-|                        |  2. Respond to clarification: "Give me 3 top AI news items for developers"   |                                                 | 
-|                        |  3. Pick a specific story: "Tell me more about the first one"                |                                                 |
-| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
-| Code Agent             | Simple execution: Execute python code: print(sum(range(10)))                 |                                                 |
-|                        |  Data handling: “Execute python code: import math; math.sqrt(16)”            |                                                 |
-|                        |                 Execute python code: sum(i*i for i in range(10))             |                                                 |
-| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
-| Code_explain_agent     | Explain this Python code:        |                                             
- |                       |             def fib(n):          |
-  |                       |               a, b = 0, 1        |
-  |                         |            for _ in range(n):     |
-  |                        |              a, b = b, a + b        |  |                                                                                         |
-    |                      |               return a               |                                       |                                                 |
-|                          |                                      |                                      |                                                 | 
-| ---------------------- | -----------------------------------------------------------------------------|-------------------------------------------------|
 
-IN PROGRESS 
-
-
-
+| **Agent**              | **Valid prompts** (should get a response)                                                 | **Invalid prompts** (should be refused / empty / redirected)   |
+| ---------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **AIDevSearchAgent**   | 1. *General request*: “Give me AI news for Google”                                        | “What’s the weather today?”                                    |
+|                        | 2. *Scoped request*: “Give me 3 top AI news items for developers”                         | “Give me sports news headlines”                                |
+|                        | 3. *Follow-up*: “Tell me more about the first one”                                        | “Tell me celebrity gossip”                                     |
+|                        | 4. *Company-focused*: “Recent AI developer news from Meta”                                | “Latest stock price of Apple”                                  |
+|                        | 5. *Technology-focused*: “AI tooling news for Python developers”                          | “Movie releases this week”                                     |
+| ---------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **CodeAgent**          | 1. Simple execution: `Execute python code: print(sum(range(10)))`                         | `Execute python code: import os; os.listdir()`                 |
+|                        | 2. Math usage: `Execute python code: import math; math.sqrt(16)`                          | `Execute python code: import requests; requests.get(...)`      |
+|                        | 3. Computation: `Execute python code: sum(i*i for i in range(10))`                        | `Execute python code: while True: pass`                        |
+|                        | 4. Data structures: `Execute python code: [x*2 for x in range(5)]`                        | `Execute python code: open("file.txt")`                        |
+| ---------------------- | ------------------------------------------------------------------------------------------| -------------------------------------------------------------- |
+| **CodeExplainAgent**   | 1. *Basic explanation*: “Explain this Python code:” *(fib example)*                       | “Explain this JavaScript code”                                 |
+|                        | 2. *Pedagogical*: “Explain this code line by line for a junior developer”                 | “Optimize this code and rewrite it”                            |
+|                        | 3. *Conceptual*: “What does this loop do?”                                                | “Execute this code”                                            |
+|                        | 4. *Edge cases*: “Explain possible pitfalls in this Python function”                      | “Convert this code to Rust”                                    |
+| ---------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **hugging_face_agent** | 1. *Exact ID*: “Give me the Hugging Face link for `mistralai/Mixtral-8x7B-Instruct-v0.1`” | “Show popular Hugging Face models for text summarization”      |
+|                        | 2. *Validation*: “Is `facebook/bart-large-cnn` available on Hugging Face?”                | “What is the best summarization model on Hugging Face?”        |
+|                        | 3. *Direct lookup*: “Hugging Face link for `google/pegasus-arxiv`”                        | “List Hugging Face models by popularity”                       |
+|                        | 4. *Exact dataset*: “Hugging Face link for `openai/whisper-large-v3`”                     | “Recommend a Hugging Face model for me”                        |
+| ---------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **github_agent**       | 1. *Explicit repo*: “Show me details of `langchain-ai/langchain`”                         | “Find good GitHub repos for AI”                                |
+|                        | 2. *Explicit URL*: “Summarize `github.com/openai/evals`”                                  | “Who maintains the best AI repos?”                             |
+|                        | 3. *Discovered repo*: “Show me the GitHub repo for LangGraph”                             | “Search GitHub for trending LLM projects”                      |
+|                        | 4. *Activity*: “Summarize activity for the LangChain repository”                          | “Compare LangChain vs LlamaIndex”                              |
+|                        | 5. *Inspection*: “Give repo stats for `crewAIInc/crewAI`”                                 | “Which GitHub repo should I use?”                              |
+| ---------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 
 
 
