@@ -316,7 +316,7 @@ This section provides a **concise, authoritative mapping** between agents, tools
 ---  
 
 ## Installation Instructions
-This pubblication has a **GitHub code repository** attached under the "Code" section.
+This pubblication has a [GitHub code repository](https://github.com/micag2025/Toolkit_Google_ADK.git) attached also under the **Code** section.  
 
 ### Prerequisites  
 
@@ -386,7 +386,7 @@ This creates a much more reliable and focused agent behavior.
 
 ### Testing Instructions    
 
-You can test the enhanced multi-agent system using both **valid** and **invalid** prompts.  A full set of reproducible test prompts and expected behaviors is provided in the accompanying **GitHub repository**.  
+You can test the enhanced multi-agent system using both **valid** and **invalid** prompts.  A full set of reproducible test prompts and expected behaviors is provided in the accompanying [GitHub repository](https://github.com/micag2025/Toolkit_Google_ADK.git).  
 
 ---  
 
