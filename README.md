@@ -321,7 +321,7 @@ This section shows how to install dependencies, configure authentication, and ru
 
 ### Interactive Notebook: Getting Started with ADK  
 
-For hands-on learning and experimentation, [`Notebbook_app_001.ipynb`](https://github.com/micag2025/Toolkit_Google_ADK/blob/6f8b46ee3a254513fcbcc5fcd1af4c1ca4b8a878/Notebook_app_01.ipynb)
+For hands-on learning and experimentation, [`Notebbook_app_001.ipynb`](https://github.com/micag2025/Toolkit_Google_ADK/blob/96b5476392dc201e4710fbf9aa76c7bb0fa63d99/Notebook_app_01.ipynb)
  demonstrates:
 
 - Setting up a new agent folder (`adk create`)
