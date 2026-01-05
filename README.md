@@ -1,5 +1,5 @@
-# Designing a Safe Multi-Agent Developer Assistant with ADK  
-# Toolkit Google ADK – Multi‑Agent Developer Assistant
+# Designing a Safe Multi-Agent Developer Assistant with Google ADK  
+_An extensible toolkit for AI news, code execution, and MCP-based enrichment_
 
 ## Overview
 
