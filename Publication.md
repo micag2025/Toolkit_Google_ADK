@@ -57,7 +57,7 @@ This toolkit is designed to support a diverse set of users involved in the AI de
 | Students          | Guided learning and exploration    | Learn Python and AI tooling fundamentals                    |
 
 ---
-## Tool Overview & Architecture  
+## Architecture & Agents & Tools
 
 ## Architecture overview
 
@@ -252,27 +252,7 @@ The **Data Flow lane** represents **execution, transport, and I/O paths**. These
 
 ---
 
-## Agents & Tools
-
-## Building AI Agents with ADK
-**ADK Overview**  
-- ADK provides modular components including models, tools, memory, and orchestration.    
-- Supports both simple agents and complex multi-agent systems.   
-
-**Text Agents**  
-Create a text agent that:
-- Takes text input.  
-- Uses an LLM to reason and generate responses.  
-- Integrates tools and APIs for executing real-world tasks.  
-Evaluate agent sessions, memory, and state for reliability.
-Extend capabilities with callbacks and guardrails for safe and predictable behavior.
-
-**Specialized Agents**  
-Design agents that:
-Research topics.
-Generate text  outputs using Gemini text-to-text models.
-Combine multiple agents with orchestration to create coordinated workflows.  
-
+## Agents & Tools  
 
 This section provides a **concise, authoritative mapping** between agents, tools, and execution backends. It complements the architecture diagrams by making *attachments, responsibilities, and transport mechanisms explicit*.
 
@@ -356,16 +336,6 @@ pkill -f "adk web"
 ```
 ---
 
-## Design Principles
-
-- Clear separation of concerns
-- Deterministic workflows
-- Minimal LLM guesswork
-- Tool transparency
-- Developer-first UX
-
----
-
 ### Understanding Advanced Instructions
 
 This enhanced instruction pattern includes:
@@ -383,8 +353,7 @@ You can test the enhanced multi-agent system using both **valid** and **invalid*
 
 ---  
 
-## Examples Usage UI  
-## Examples Usage (UI)
+## Examples Usage UI    
 
 ### ADK Web UI: 
 ![ADK_interface](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_UI_interface.jpeg)
@@ -422,9 +391,7 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
         
 ![PythonExplainCode_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_1.jpeg)
 
-![PythonExplainCode_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_2.jpeg)  
-
-![PythonExplainCode_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_3.jpeg)  
+![PythonExplainCode_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_2.jpeg)    
 
 ### 4.  Example Prompts: HuggingFace 
 - Enrichment tests  
