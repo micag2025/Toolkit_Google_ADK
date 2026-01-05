@@ -16,6 +16,16 @@ The system is optimized for:
 * Clear explanation of Python code
 * Transparent use of third‑party developer platforms  
 
+
+An extensible toolkit that demonstrates a RootAgent-based multi-agent architecture built with the Google Agent Development Kit (ADK). The toolkit focuses on:
+
+- discovering and summarizing AI developer news
+- safely executing Python in a sandbox
+- explaining code clearly
+- integrating with developer platforms (Hugging Face, GitHub)
+
+
+
 ---
 
 ## Highlights
@@ -307,6 +317,13 @@ Toolkit_Google_ADK/                     # Root project directory
 │   ├── Screenshot_GitHubAgent1.jpeg
 
 ```
+> _Note_: For hands-on learning and experimentation, [`Notebbook_app_001.ipynb`](https://github.com/micag2025/Toolkit_Google_ADK/blob/96b5476392dc201e4710fbf9aa76c7bb0fa63d99/Notebook_app_01.ipynb)
+ demonstrates:  
+>- Setting up a new agent folder (`adk create`)
+>- Writing the  `agent.py`
+>- Adding text models and built-in tools (`google_search`, `BuiltInCodeExecutor`)
+>- Fine-tuning agent instructions and behavior
+>- Testing valid and invalid prompts
 
 ---
 
@@ -314,24 +331,13 @@ Toolkit_Google_ADK/                     # Root project directory
 
 This section shows how to install dependencies, configure authentication, and run the full pipeline.  
 
-### Interactive Notebook: Getting Started with ADK  
-
-For hands-on learning and experimentation, [`Notebbook_app_001.ipynb`](https://github.com/micag2025/Toolkit_Google_ADK/blob/96b5476392dc201e4710fbf9aa76c7bb0fa63d99/Notebook_app_01.ipynb)
- demonstrates:
-
-- Setting up a new agent folder (`adk create`)
-- Writing the first `agent.py`
-- Adding text models and built-in tools (`google_search`, `BuiltInCodeExecutor`)
-- Fine-tuning agent instructions and behavior
-- Testing valid and invalid prompts
-
-### Prerequisites  
+Prerequisites:
 
 - Python 3.10+
-- Google account & Vertex AI / Gemini access (API key)
-- Optional: Hugging Face and GitHub API keys for enrichment
+- Google Cloud account with Vertex AI / Gemini access
+- (Optional) Hugging Face and GitHub API keys
 
-### Clone and install:
+Clone and install:
 
 ```bash
 git clone https://github.com/micag2025/Toolkit_Google_ADK.git
@@ -341,8 +347,7 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Environment variables 
-Set environment variables (keys) in `.env` or your environment. See example `.env.example`.  
+Configure environment variables (see .env.example):
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -356,23 +361,32 @@ ADK_DEV_MODE=true
 > - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API. A step-by-step guide can be found on o [Google AI Studio](https://cloud.google.com/free?hl=en)
 
 
-### Launch the ADK Web App  / Get the app URL  
-Start the ADK Web app:
+Start the ADK Web UI:
 
 ```bash
 adk web
 ```
 
-### Open in  browser  
 ADK will provide a local URL. Open it in your browser. From the Google ADK user interface in the left pane, select the `app_01` agent. You can now interact with the ADK AI Developer.    
 
-### Kill ADK process    
-Stop the ADK process (if needed):
+Stop the ADK process if needed:
 
 ```bash
 pkill -f "adk web"
 ```
 ---  
+
+## Testing and prompts
+
+Designated agents accept constrained prompt types:
+
+- AIDevSearchAgent: news discovery and summarization (clarifies number of items, cites sources)
+- CodeAgent: safe Python execution only (no network/fs)
+- CodeExplainAgent: explanation and pedagogy (no execution)
+- hugging_face_agent and github_agent: read-only metadata lookups
+
+Include both valid and invalid prompt tests to verify routing, guardrails, and sandboxing.
+
 
 ### Testing Instructions  
 
@@ -402,6 +416,20 @@ Use the valid prompts to confirm expected behavior, and the invalid prompts to v
 
 ---
 
+### AIDevSearchAgent — news discovery and summarization
+
+Searches developer‑focused AI news, returns a short list of headlines and concise summaries, and cites sources. The agent clarifies scope (for example, number of items or company focus) before running `google_search`.
+
+| ✅ Valid prompts (should get a response) | ❌ Invalid prompts (should be refused / redirected) |
+| --------------------------------------- | -------------------------------------------------- |
+| **General request** — “Give me AI news for Google” | “What’s the weather today?” |
+| **Scoped request** — “Give me 3 top AI news items for developers” | “Give me sports news headlines” |
+| **Follow‑up** — “Tell me more about the first one” (agent should fetch and summarize the selected item) | “Tell me celebrity gossip” |
+| **Company‑focused** — “Recent AI developer news from Meta” | “Latest stock price of Apple” |
+| **Technology‑focused** — “AI tooling news for Python developers” | “Movie releases this week” |
+
+Flow: RootAgent → AIDevSearchAgent → `google_search` → summarize & cite sources.
+
 - **CodeAgent (Python Execution)**  
 
 | ✅ Valid prompts                                                          | ❌ Invalid prompts                                      |
@@ -410,6 +438,32 @@ Use the valid prompts to confirm expected behavior, and the invalid prompts to v
 | **Math operations**<br>`Execute python code: import math; math.sqrt(16)` | `Execute python code: import requests; requests.get(...)` |
 | **Computation**<br>`Execute python code: sum(i*i for i in range(10))`    | `Execute python code: while True: pass`                   |
 | **Data structures**<br>`Execute python code: [x*2 for x in range(5)]`    | `Execute python code: open("file.txt")`                   |
+
+---
+
+### CodeAgent — Python execution (sandboxed)
+
+Executes user-provided Python in a restricted sandbox (no filesystem, no network). Returns raw stdout/stderr or execution errors; the agent does not add commentary.
+
+| ✅ Valid examples | ❌ Disallowed examples |
+| ----------------- | ---------------------- |
+| `Execute python code: print(sum(range(10)))` — simple output | `Execute python code: import os; os.listdir()` — filesystem access |
+| `Execute python code: import math; math.sqrt(16)` — math ops | `Execute python code: import requests; requests.get(...)` — network I/O |
+| `Execute python code: sum(i*i for i in range(10))` — computation | `Execute python code: while True: pass` — long‑running / infinite loops |
+| `Execute python code: [x*2 for x in range(5)]` — data structures | `Execute python code: open("file.txt")` — file I/O |
+
+---
+
+### CodeExplainAgent — Python explanation (no execution)
+
+Explains code logic, intent, and edge cases. Good for pedagogical, line‑by‑line, or conceptual explanations. This agent does not run code.
+
+| ✅ Valid examples | ❌ Disallowed examples |
+| ----------------- | ---------------------- |
+| “Explain this Python code:” — high‑level and line‑by‑line explanations | “Execute this code” — no execution allowed
+| “Explain this code line by line for a junior developer” — pedagogy | “Explain this JavaScript code” — language mismatch
+| “What does this loop do?” — conceptual explanation | “Optimize this code and rewrite it” — out of scope for explanation-only agent
+| “Explain possible pitfalls in this Python function” — edge cases | “Convert this code to Rust” — translation/rewriting not supported here
 
 ---
 
@@ -436,6 +490,18 @@ Use the valid prompts to confirm expected behavior, and the invalid prompts to v
 
 ---  
 
+### Hugging Face agent — read-only model/dataset lookups
+
+Performs exact, read-only lookups (model IDs or dataset IDs). It is not a recommendation engine.
+
+| ✅ Valid examples | ❌ Disallowed examples |
+| ----------------- | ---------------------- |
+| “Give me the Hugging Face link for `mistralai/Mixtral-8x7B-Instruct-v0.1`” — exact ID lookup | “Show popular Hugging Face models for text summarization” — discovery/recommendation
+| “Is `facebook/bart-large-cnn` available on Hugging Face?” — availability check | “Recommend a Hugging Face model for me” — subjective recommendation
+| “Hugging Face link for `google/pegasus-arxiv`” — direct lookup | “List Hugging Face models by popularity” — ranking/discovery
+
+---
+
 - **Github_agent (Repo Inspection Only)**
 
 | ✅ Valid prompts                                                            | ❌ Invalid prompts                      |
@@ -447,6 +513,25 @@ Use the valid prompts to confirm expected behavior, and the invalid prompts to v
 | **Stats lookup**<br>“Give repo stats for `crewAIInc/crewAI`”               | “Which GitHub repo should I use?”         |
 
 ---  
+
+### GitHub agent — read-only repo inspection
+
+Inspects explicit repositories or URLs and returns metadata and activity summaries. It does not perform broad repo discovery or recommend projects.
+
+| ✅ Valid examples | ❌ Disallowed examples |
+| ----------------- | ---------------------- |
+| “Show me details of `langchain-ai/langchain`” — explicit repo lookup | “Find good GitHub repos for AI” — broad discovery
+| “Summarize `github.com/openai/evals`” — explicit URL summary | “Who maintains the best AI repos?” — subjective ranking
+| “Summarize activity for the LangChain repository” — activity summary | “Search GitHub for trending LLM projects” — discovery/search
+| “Give repo stats for `crewAIInc/crewAI`” — explicit stats lookup | “Which GitHub repo should I use?” — recommendation
+
+---
+
+
+
+
+
+
 
 ## Examples Usage (UI)
 
