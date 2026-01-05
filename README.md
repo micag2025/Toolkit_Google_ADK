@@ -517,6 +517,21 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
 
 ---
+## Use Cases and Usage Examples  
+The below table gives an overview of how this ADK Toolkit is not designed only for AI developers and builders but it can be used also by different user types. Example general queries for each user tyoe is also shown in the table.  
+
+| User Type         | Core Value                         |       Example prompts                                                                                                 |
+| ----------------- | ---------------------------------- |---------------------------------------------------------------------------------------------------------------------- |
+| ML Engineers      | Deep, accurate AI tooling insights |“What are the latest open-source LLM tools for summarization?”, Show me Hugging Face models for text generation”       |
+| Backend Engineers | AI relevance without ML overload   |“Any AI tools relevant for backend search or summarization?”, Which of these tools are production-ready?”              |
+| MLOps             | Deployment & infra signals         |“Which of these tools are open-source and actively maintained?”, “Are these models deployable on-prem?”                |
+| Tech Leads        | High-signal summaries              |“Summarize the most relevant AI dev news this week”, “Which of these trends impact backend teams?”                     |
+| Dev Advocates     | Structured content                 |“Explain this article for developers new to LLMs”, “Extract the key technical points” (Technical Writers|              |
+| Product Managers  | Strategic clarity                  |“Which of these tools are proprietary?”, “What trends should we care about?”
+| Researchers       | Research → practice bridge         |“Which research projects have working implementations?”, “Are there Hugging Face models for this approach?”
+| Students          | Guided learning                    |“Explain this Python code”, “Which tools should I learn first?”
+
+---
 
 ## Limitations & Workarounds
 
