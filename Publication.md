@@ -2,7 +2,7 @@
 # Toolkit Google ADK – Multi‑Agent Developer Assistant  
 
 ---
-![cover_Image](https://github.com/micag2025/Toolkit_Google_ADK/blob/86f13406fb6c52a31fb35d8d017923d873825ad0/Cover_Image_publication.png)
+![cover_Image](https://github.com/micag2025/Toolkit_Google_ADK/blob/a5f9dd6f448c88fd5fda4c816d5bb509236f3e17/Cover_image_publication.png)
 ---
 
 ## Tags   
