@@ -284,6 +284,22 @@ This section provides a **concise, authoritative mapping** between agents, tools
 
 ---
 
+## Use Cases and Example Prompts by User Type  
+This table highlights how different user roles can use the ADK Toolkit, along with example prompts that demonstrate typical interactions and expected value.
+
+
+| **User Type**           | **Primary Value**                            | **Example Prompts**                                                                                                                 |
+| ----------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **ML Engineers**        | Deep technical insight into models & tooling | • “Show popular open-source LLMs for text summarization”<br>• “Which Hugging Face models are state-of-the-art for text generation?” |
+| **Backend Engineers**   | AI relevance without ML complexity           | • “Are there AI tools useful for backend search or summarization?”<br>• “Which of these tools are production-ready?”                |
+| **MLOps Engineers**     | Deployment & infrastructure signals          | • “Which of these tools are open-source and actively maintained?”<br>• “Are these models deployable on-prem or via containers?”     |
+| **Tech Leads**          | High-signal summaries & trend awareness      | • “Summarize the most relevant AI developer news this week”<br>• “Which AI trends could impact backend teams?”                      |
+| **Technical Writers** | Structured, reusable technical content       | • “Explain this article for developers new to LLMs”<br>• “Extract the key technical takeaways from this news item”                  |
+| **Product Managers**    | Strategic clarity & market signals           | • “Which of these tools are proprietary vs open-source?”<br>• “What AI trends should product teams care about?”                     |
+| **Researchers**         | Bridge from research to implementation       | • “Which research projects have working implementations?”<br>• “Are there Hugging Face models implementing this approach?”          |
+| **Students & Learners** | Guided learning & exploration                | • “Explain this Python code step by step”<br>• “Which AI tools should I learn first as a beginner?”                                 |
+---
+
 ## Project Structure
 
 ```bash
@@ -515,21 +531,6 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
    - Flow: RootAgent → github_agent  →  GitHub MCP Server → return explanation only     
          
 ![GitHub_tool](https://github.com/micag2025/Toolkit_Google_ADK/blob/a67aba7ca64eec68225e5120c11f8ed0b4f5d18c/Screenshot_28-12-2025_111447_127.0.0.1.jpeg) 
-
----
-## Use Cases and Usage Examples  
-The below table gives an overview of how this ADK Toolkit is not designed only for AI developers and builders but it can be used also by different user types. Example general queries for each user tyoe is also shown in the table.  
-
-| User Type         | Core Value                         |       Example prompts                                                                                                 |
-| ----------------- | ---------------------------------- |---------------------------------------------------------------------------------------------------------------------- |
-| ML Engineers      | Deep, accurate AI tooling insights |“What are the latest open-source LLM tools for summarization?”, Show me Hugging Face models for text generation”       |
-| Backend Engineers | AI relevance without ML overload   |“Any AI tools relevant for backend search or summarization?”, Which of these tools are production-ready?”              |
-| MLOps             | Deployment & infra signals         |“Which of these tools are open-source and actively maintained?”, “Are these models deployable on-prem?”                |
-| Tech Leads        | High-signal summaries              |“Summarize the most relevant AI dev news this week”, “Which of these trends impact backend teams?”                     |
-| Dev Advocates     | Structured content                 |“Explain this article for developers new to LLMs”, “Extract the key technical points” (Technical Writers|              |
-| Product Managers  | Strategic clarity                  |“Which of these tools are proprietary?”, “What trends should we care about?”
-| Researchers       | Research → practice bridge         |“Which research projects have working implementations?”, “Are there Hugging Face models for this approach?”
-| Students          | Guided learning                    |“Explain this Python code”, “Which tools should I learn first?”
 
 ---
 
