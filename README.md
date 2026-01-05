@@ -427,7 +427,7 @@ Use the valid prompts to confirm expected behavior, and the invalid prompts to v
 
 --- 
 
-- **hugging_face_agent (Canonical Reference Only)**
+- **Hugging_face_agent (Canonical Reference Only)**
 
 | ✅ Valid prompts                                                                                  | ❌ Invalid prompts                                      |
 | ------------------------------------------------------------------------------------------------ | --------------------------------------------------------- |
@@ -438,7 +438,7 @@ Use the valid prompts to confirm expected behavior, and the invalid prompts to v
 
 ---  
 
-- **github_agent (Repo Inspection Only)**
+- **Github_agent (Repo Inspection Only)**
 
 | ✅ Valid prompts                                                            | ❌ Invalid prompts                      |
 | -------------------------------------------------------------------------- | ----------------------------------------- |
