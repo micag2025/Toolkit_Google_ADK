@@ -86,9 +86,7 @@ The RootAgent has **direct access** to:
 
 ## Gemini‑Powered Specialist Agents
 
-### AIDevSearchAgent
-
-*(also known as the **AI Developer News Agent**)*
+### AIDevSearchAgent *(also known as the **AI Developer News Agent**)*  
 
 Responsible for discovering and summarizing AI‑related news relevant to developers.
 
@@ -107,9 +105,7 @@ Responsible for discovering and summarizing AI‑related news relevant to develo
 
 ---
 
-### CodeAgent
-
-*(also known as the **Python Code Agent**)*
+### CodeAgent *(also known as the **Python Code Agent**)*
 
 Responsible **only** for executing Python code.
 
