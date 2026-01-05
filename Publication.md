@@ -22,8 +22,7 @@ Key goals:
 - Provide a clean, multi-agent architecture for reliable orchestration and extensibility  
 
 The project is best described as `Agent-based developer intelligence with strict routing and tool grounding`. The system is a `Structured, agent-based, tool-grounded developer intelligence`. it’s an agent-based developer intelligence toolkit. It’s a developer intelligence system opinionated, structured, tool-grounded and role-aware.
-This ADK Toolkit is not designed only for AI developers and builders but it can be used also by different user types, such as  Ready Tensor users, 
-ML Engineers, Researchers, Technical Writers).        
+This ADK Toolkit is designed for more than just AI developers. It supports a wide range of technical and non-technical users such as  Ready Tensor users, ML Engineers, Researchers, Technical Writers.   
 
 ---
 
