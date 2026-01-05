@@ -472,68 +472,23 @@ Please follow the repository code style and add tests for major features.
 
 We actively welcome contributors who want to help **extend the system without compromising its architectural guarantees**. The following items represent suggested and validated directions for future work.
 
-### Intentional Model Selection
+- **Intentional Model Selection** : The current implementation uses `gemini-2.5-flash` across agents. A promising improvement is to `intentionally mix Gemini models by responsibility`. For example, upgrading `AIDevSearchAgent` to `gemini-2.5-pro` and evaluating trade-offs enables controlled experimentation around **quality vs cost vs latency**, while preserving RootAgent orchestration.  
+  
+- **Additional AgentTools** :  Add new `AgentTool`s `without destabilizing` existing flows, preserving  RootAgent-only delegation and avoiding agent-to-agent invocation chains.    
 
-The current implementation uses `gemini-2.5-flash` across agents. A promising improvement is to **intentionally mix Gemini models by responsibility**. For example, upgrading **AIDevSearchAgent** to `gemini-2.5-pro` and evaluating trade-offs:
+- **Structured Outputs**:  Produce `machine-readable JSON outputs` for headlines and summaries . Enable downstream automation and evaluation pipelines.  
 
-| Aspect     | Expected Impact      |
-| ---------- | -------------------- |
-| Latency    | Slightly higher      |
-| Cost       | Higher per token     |
-| Throughput | Lower                |
-| Quality    | Significantly higher |
+- **Session & State Management**:  Persistent session storage across restarts.  Reproducible conversations and debugging support.  
 
-This enables controlled experimentation around **quality vs cost vs latency**, while preserving RootAgent orchestration.
+- **Search & Retrieval Refinements** : Filters (e.g. *only open-source*).  Date ranges and recency controls. Improved relevance scoring.  
 
----
+- **UI & Observability** :  UI buttons for explicit selection and confirmation.  Debug / observability modes. Clear visibility into control vs data flow at runtime.  
 
-### Additional AgentTools
-
-* Add new `AgentTool`s **without destabilizing** existing flows
-* Preserve RootAgent-only delegation
-* Avoid agent-to-agent invocation chains
-
----
-
-### Structured Outputs
-
-* Produce **machine-readable JSON outputs** for headlines and summaries
-* Enable downstream automation and evaluation pipelines
-
----
-
-### Session & State Management
-
-* Persistent session storage across restarts
-* Reproducible conversations and debugging support
-
----
-
-### Search & Retrieval Refinements
-
-* Filters (e.g. *only open-source*)
-* Date ranges and recency controls
-* Improved relevance scoring
-
----
-
-### UI & Observability
-
-* UI buttons for explicit selection and confirmation
-* Debug / observability modes
-* Clear visibility into control vs data flow at runtime
-
----
-
-### Stronger Execution Guardrails
-
-* Tighter resource limits
-* Enhanced sandbox policies
-* Explicit failure modes and reporting
+- **Stronger Execution Guardrails** :  Tighter resource limits. Enhanced sandbox policies. Explicit failure modes and reporting.  
 
 
 Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
- [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues).    
+ [open an issue](https://github.com/micag2025/Toolkit_Google_ADK/issues).      
 
 ---    
 
