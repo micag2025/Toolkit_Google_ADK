@@ -71,22 +71,6 @@ High-level flow:
    - HugginFaceAgent  
    - GitHib Agent  
 
-Compact ASCII diagram:  
-
-```bash  
-RootAgent
-   ├── AgentTool → AIDevSearchAgent → google_search
-   ├── AgentTool → CodeAgent → BuiltInCodeExecutor  
-   ├── AgentTool → CodeExplainAgent   
-   ├── AgentTool → hugging_face_agent → HF MCP → HF Hub
-   └── AgentTool → github_agent → GitHub MCP → GitHub
-``` 
-> _Note_: Final architectural rule :   
-          - APIs belong to agents.    
-          - Agents belong to RootAgent.  
->         - RootAgent never talks to APIs directly.  
-
-
 
 The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
 
