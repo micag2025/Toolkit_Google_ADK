@@ -305,9 +305,7 @@ Toolkit_Google_ADK/                     # Root project directory
 │   ├── Screenshot_CodeExplainAgent1.jpeg
 │   ├── Screenshot_HuggingFaceAgent1.jpeg
 │   ├── Screenshot_GitHubAgent1.jpeg
-│   ├── Screenshot_2
-│   ├── Screenshot_3
-│   └── Screenshot_4
+
 ```
 
 ---
