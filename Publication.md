@@ -4,8 +4,10 @@
 ![cover_Image](https://github.com/micag2025/Toolkit_Google_ADK/blob/a5f9dd6f448c88fd5fda4c816d5bb509236f3e17/Cover_image_publication.png)
 ---
 
-## Tags   
-`multi-agent-systems`, `llm-agents`, `Agent Development Kit (ADK)`, `google-adk`, `gemini (models)`, `developer-intelligence`, `code-assistant`, `huggingface`, `github`, `mcp`, `tool-grounded-ai`, `agent-routing`, `agent-orchestration`, `open-source`, `web-ui`
+## Tags  
+
+`multi-agent-systems`, `llm-agents`, `agent-development-kit`, `google-adk`, `gemini-models`, `developer-intelligence`, `code-assistant`, `huggingface`, `github`, `mcp`, `tool-grounded-ai`, `agent-routing`, `agent-orchestration`, `open-source`,` web-ui`  
+
 
 ## Author 
 Michela Agostini 
