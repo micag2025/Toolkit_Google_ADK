@@ -9,43 +9,47 @@
 `multi-agent-systems`, `llm-agents`, `agent-development-kit`, `google-adk`, `gemini-models`, `developer-intelligence`, `code-assistant`, `huggingface`, `github`, `mcp`, `tool-grounded-ai`, `agent-routing`, `agent-orchestration`, `open-source`,` web-ui`  
 
 
-## Author 
+## Author  
+
 Michela Agostini 
 
 
-## TL;DR:
+## TL;DR  
 
-This project is built using **Google Agent Development Kit (ADK)** with a clean multi-agent architecture,  giving an example toolkit that demonstrates how to build, orchestrate, and deploy multi-agent systems using Google’s Agent Development Kit (ADK). The project focuses on creating an **AI Developer Agent** capable of discovering real-time AI news, generating Python code, and integrating with developer platforms like Hugging Face and GitHub.  
+This project demonstrates how to design, orchestrate, and deploy a **safe, tool‑grounded, multi‑agent developer assistant** using **Google Agent Development Kit (ADK)** and **Gemini models**.  
 
-Key goals:
-- Real-time discovery and summarization of AI news relevant to developers
-- Execute and return Python code results in a sandboxed environment
-- Provide a clean, multi-agent architecture for reliable orchestration and extensibility  
+The system implements a **strictly routed multi‑agent architecture** where a central RootAgent orchestrates specialist agents for:  
+- Real‑time AI developer news discovery  
+- Safe Python code execution and explanation  
+- Enrichment via Hugging Face and GitHub  
 
-The project is best described as `Agent-based developer intelligence with strict routing and tool grounding`. The system is a `Structured, agent-based, tool-grounded developer intelligence`. it’s an agent-based developer intelligence toolkit. It’s a developer intelligence system opinionated, structured, tool-grounded and role-aware.
-This ADK Toolkit is designed for more than just AI developers. It supports a wide range of technical and non-technical users such as  Ready Tensor users, ML Engineers, Researchers, Technical Writers.   
-
----
-
-## Highlights
-- Interactive ADK Web UI for experimenting with agents
-- Multi-agent orchestration with a RootAgent that routes to specialist agents
-- Real-time web discovery using `google_search`
-- Safe Python execution via ADK's sandboxed executor
-- Extensible: plug in Hugging Face and GitHub integrations for richer developer signals
+The result is an **opinionated developer‑intelligence toolkit** that prioritizes **safety, determinism, and architectural clarity**, while remaining extensible for real‑world production use. This ADK Toolkit is designed not only for AI developers, since it supports a wide range of technical and non-technical users such as  Ready Tensor users, ML Engineers, Researchers, Technical Writers.     
 
 ---
 
-## Core capabilities
+## Key Highlights    
 
-- **Real-time text agents**: natural conversational interaction with web access for up-to-date information.
-- **Multi-agent orchestration**: coordinated workflows (e.g., researchers, planners, executors).
-- **Production readiness**: guardrails, persistent memory, logging, and deployment on Vertex AI Agent Engine.
+- Interactive **ADK Web UI** for agent experimentation  
+- **Central RootAgent** enforcing deterministic routing  
+- Real‑time web discovery using `google_search`  
+- Secure Python execution via ADK’s sandboxed executor  
+- Modular integrations with **Hugging Face** and **GitHub**    
 
 ---
-## Use Cases and Target Users  
 
-This toolkit is designed to support a diverse set of users involved in the AI development lifecycle, ranging from researchers and machine learning engineers to backend developers and product stakeholders. By combining multiple specialized agents with strict routing and tool-level constraints, the system enables users to access high-signal information, perform code-centric reasoning, and retrieve authoritative references across AI tooling ecosystems. The following use cases illustrate how different user roles can leverage the toolkit to address role-specific needs, highlighting its flexibility, practical relevance, and applicability beyond expert AI practitioners.  
+## Core Capabilities  
+
+- **Real‑time conversational agents** with web access.  
+- **Multi‑agent orchestration** with strict separation of concerns.
+- **Production‑ready design**: guardrails, logging, and deployment support via Vertex AI Agent Engine
+
+---
+
+## Target Users & Use Cases  
+
+This toolkit supports a broad range of users across the AI development lifecycle. By combining specialist agents with explicit tool constraints, users can retrieve high‑signal information, execute safe code, and access authoritative references without managing agent complexity directly.
+
+The following use cases illustrate how different user roles can leverage the toolkit to address role-specific needs, highlighting its flexibility, practical relevance, and applicability beyond expert AI practitioners.  
 
 | User Type         | Core Value Provided                | Representative Usage Examples                               |
 | ----------------- | ---------------------------------- | ----------------------------------------------------------- |
