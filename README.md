@@ -45,6 +45,8 @@ Design rationale, architectural trade-offs, and **control- vs data-flow diagrams
 
 ---
 
+## Agent Responsibilities  
+
 | Agent                | Purpose                         | Capabilities                                                                                      | Constraints                                                            |
 | -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
 | **RootAgent**        | Central router and orchestrator | • Intent detection<br>• Deterministic routing<br>• Delegation to specialist agents                | • Never answers directly<br>• No tool calls<br>• Delegation only       |
@@ -53,15 +55,6 @@ Design rationale, architectural trade-offs, and **control- vs data-flow diagrams
 | **CodeExplainAgent** | Explain Python code             | • Step-by-step explanation<br>• Highlight logic and pitfalls                                      | • No execution<br>• No code modification                               |
 | **HuggingFaceAgent** | Canonical HF references         | • Validate exact HF IDs<br>• Return official URLs                                                 | • Exact IDs only<br>• No guessing<br>• No recommendations              |
 | **GitHubAgent**      | GitHub repository inspection    | • Fetch repo metadata<br>• Stars, issues, PRs<br>• Recent activity via MCP                        | • Explicit `owner/repo` required<br>• No discovery<br>• No inference   |
-
----
-
-## Architecture Overview (Control Flow vs Data Flow)
-
-The diagrams below highlight the strict separation between **control flow*** and **data flow** in the system. **Control flow** is centrally managed 
-by the `RootAgent`, which receives all user input, performs intent classification, and deterministically routes requests to the appropriate specialist agent. The `RootAgent` never generates user-facing answers itself. **Data flow** occurs only within specialist agents and their attached tools (such as `google_search`, GitHub MCP, and Hugging Face MCP), where external data is retrieved, processed, and returned as structured outputs. This design enforces clear responsibility boundaries, predictable behavior, and tool-grounded execution across the multi-agent architecture.
-
-
 
 ---
 
