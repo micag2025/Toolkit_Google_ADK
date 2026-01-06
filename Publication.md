@@ -77,7 +77,9 @@ At a high level, the system consists of:
    - CodeAgent — safe Python execution
    - CodeExplainAgent — Python code explanation  
    - HuggingFaceAgent — canonical Hugging Face references
-   - GitHubAgent — GitHub repository inspection  
+   - GitHubAgent — GitHub repository inspection
+  
+The below table shows the main **Agent Responsibilities**
 
 | Agent                | Purpose                         | Capabilities                                                                                      | Constraints                                                            |
 | -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
@@ -87,90 +89,6 @@ At a high level, the system consists of:
 | **CodeExplainAgent** | Explain Python code             | • Step-by-step explanation<br>• Highlight logic and pitfalls                                      | • No execution<br>• No code modification                               |
 | **HuggingFaceAgent** | Canonical HF references         | • Validate exact HF IDs<br>• Return official URLs                                                 | • Exact IDs only<br>• No guessing<br>• No recommendations              |
 | **GitHubAgent**      | GitHub repository inspection    | • Fetch repo metadata<br>• Stars, issues, PRs<br>• Recent activity via MCP                        | • Explicit `owner/repo` required<br>• No discovery<br>• No inference   |
-
-## Core Architecture
-
-### RootAgent
-
-The **RootAgent** acts as the central orchestrator:
-
-* Routes all user input
-* Never responds directly to the user
-* Ensures correct agent selection
-* Enforces separation of concerns between agents
-
-The RootAgent has **direct access** to:
-
-* Gemini‑powered specialist agents
-* Third‑party developer APIs (custom tools)
-
----
-
-## Gemini‑Powered Specialist Agents
-
-### AIDevSearchAgent *(also known as the **AI Developer News Agent**)*
-
-Responsible for discovering and summarizing AI‑related news relevant to developers.
-
-**Capabilities:**
-
-* Searches AI developer news, articles, platforms, and use cases
-* Uses `google_search`
-* Manages headline selection and summarization
-
-**Workflow:**
-
-1. Clarify the number of items to retrieve
-2. Search and filter AI‑related content
-3. Present candidate headlines
-4. Summarize selected items
-
----
-
-### CodeAgent *(also known as the **Python Code Agent**)*
-
-Responsible **only** for executing Python code.
- 
-**Constraints:**
-
-* Executes Python code exclusively
-* Uses `BuiltInCodeExecutor`
-* Returns raw execution output or errors
-* No explanations or commentary
-
----
-
-### CodeExplainAgent
-
-Responsible for **explaining Python code**.
-
-**Constraints:**
-
-* Explains code logic and behavior
-* Does **not** execute code
-
----
-
-## Third‑Party Developer APIs (Custom Tools)
-
-### Hugging Face Hub Agent
-
-Provides access to Hugging Face ecosystem data:
-
-* Model metadata
-* Spaces
-* Datasets
-* Popularity and usage signals
-
----
-
-### GitHub Agent
-
-Provides insights into open‑source repositories:
-
-* Repository metadata
-* Stars, issues, and commits
-* Open‑source activity signals
 
 ---
 
