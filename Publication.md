@@ -211,7 +211,7 @@ This guarantees a single, auditable decision point and prevents hidden agent aut
 ║          ▼              ▼              ▼              ▼                       ▼                   ║
 ║  ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ ┌────────────────┐    ┌────────────────┐    ║
 ║  │ AIDevSearch  │ │   CodeAgent  │ │   CodeExplain  │ │ HuggingFace    │    │ GitHub         │    ║
-║  │   Agent      │ │              │ │   Agent       │  │ Agent          │    │ Agent          │    ║
+║  │   Agent      │ │              │ │   Agent        │  │ Agent         │    │ Agent          │    ║
 ║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)  │    │ (Gemini Tool)  │    ║
 ║  └──────────────┘ └──────────────┘ └────────────────┘ └────────────────┘    └────────────────┘    ║
 ║                                                                                                   ║
@@ -270,15 +270,6 @@ This section provides a **concise, authoritative mapping** between agents, tools
 | github_agent           | AgentTool + MCP       | RootAgent          |GitHub insights                               |
 | google_search          | ADK Tool              | AIDevSearchAgent   | Web discovery                                |
 | BuiltInCodeExecutor    | ADK Executor          | CodeAgent          | Deterministic Python sandbox                 |
-
-
-
-
-
-
-
-
-
 
 **Why this matters:**
 
@@ -372,6 +363,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 > _Note_ : Different Run Results: The output generated can vary with each execution due to their dynamic, probabilistic nature.     
 
+---
+
 ### 1. Example Prompts: AI News AIDevSearchAgent     
 -  AI news discovery `General discovery (clarification expected)`:    
    - Ask: "What's the latest AI news about Google?" → After poviding a list of 3 headlines  → Should ask: “Which headline would you explore in more details”  
@@ -386,6 +379,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ![Google_Search_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevsearch_3.jpeg)
 
+---
+
 ### 2.  Example Prompts: Python Code Execution 
 - Python execution (`valid prompt):
    - Ask: "Execute python code:→  Simple execution and Data handling
@@ -394,6 +389,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
   - Ask: "Excute import os → Should cloarify the this operation is not allowed for secuirty reasons. 
      
 ![PythonDevelopr_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_agent_1.jpeg)
+
+---
 
 ### 3.  Example Prompts: Python Explain Code   
 -  Python explain code
@@ -406,6 +403,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ![PythonExplainCode_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_3.jpeg)  
 
+---
+
 ### 4.  Example Prompts: HuggingFace 
 - Enrichment tests  
   - "validi prompt": Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1    →  return link    
@@ -413,6 +412,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
  - `invalid prompt`: List HuggingFace for popularity  → Should clarify that this can not allowed. 
     
 ![HuggingFace_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_hf_agent_3.jpeg)
+
+---
 
 ### 5.  Example Prompts: GitHub Code Execution    
 -  Enrichment:
