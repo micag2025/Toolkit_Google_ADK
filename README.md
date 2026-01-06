@@ -24,8 +24,6 @@ An extensible toolkit that demonstrates a RootAgent-based multi-agent architectu
 - explaining code clearly
 - integrating with developer platforms (Hugging Face, GitHub)
 
-
-
 ---
 
 ## Highlights
@@ -147,14 +145,9 @@ Provides insights into open‑source repositories:
 
 ---
 
-## Architecture Diagram (Control Flow vs Data Flow)
+## Architecture Overview (Control Flow vs Data Flow)
 
-This system architecture is intentionally described using **two parallel lanes**:
-
-* a **Control Flow lane**, which defines *who decides* and *who delegates*
-* a **Data Flow lane**, which defines *where execution and data actually travel*
-
-Keeping these lanes separate makes authority, responsibility, and trust boundaries explicit.
+This system architecture is intentionally described using **two parallel lanes**: a **Control Flow lane**, which defines *who decides* and *who delegates* and a **Data Flow lane**, which defines *where execution and data actually travel*. The system is intentionally designed with explicit separation between decision authority (control flow) and execution/data movement (data flow).
 
 ### Control Flow Lane — *Who decides what happens next?*
 
@@ -275,22 +268,6 @@ This section provides a **concise, authoritative mapping** between agents, tools
 
 ---
 
-## Use Cases and Example Prompts by User Type  
-This table highlights how different user roles can use the ADK Toolkit, along with example prompts that demonstrate typical interactions and expected value.
-
-
-| **User Type**           | **Primary Value**                            | **Example Prompts**                                                                                                                 |
-| ----------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **ML Engineers**        | Deep technical insight into models & tooling | • “Show popular open-source LLMs for text summarization”<br>• “Which Hugging Face models are state-of-the-art for text generation?” |
-| **Backend Engineers**   | AI relevance without ML complexity           | • “Are there AI tools useful for backend search or summarization?”<br>• “Which of these tools are production-ready?”                |
-| **MLOps Engineers**     | Deployment & infrastructure signals          | • “Which of these tools are open-source and actively maintained?”<br>• “Are these models deployable on-prem or via containers?”     |
-| **Tech Leads**          | High-signal summaries & trend awareness      | • “Summarize the most relevant AI developer news this week”<br>• “Which AI trends could impact backend teams?”                      |
-| **Technical Writers** | Structured, reusable technical content       | • “Explain this article for developers new to LLMs”<br>• “Extract the key technical takeaways from this news item”                  |
-| **Product Managers**    | Strategic clarity & market signals           | • “Which of these tools are proprietary vs open-source?”<br>• “What AI trends should product teams care about?”                     |
-| **Researchers**         | Bridge from research to implementation       | • “Which research projects have working implementations?”<br>• “Are there Hugging Face models implementing this approach?”          |
-| **Students & Learners** | Guided learning & exploration                | • “Explain this Python code step by step”<br>• “Which AI tools should I learn first as a beginner?”                                 |
----
-
 ## Project Structure
 
 ```bash
@@ -380,6 +357,24 @@ Stop the ADK process if needed:
 pkill -f "adk web"
 ```
 ---  
+
+## Use Cases and Example Prompts by User Type  
+
+This table highlights how different user roles can use the ADK Toolkit, along with example prompts that demonstrate typical interactions and expected value.  
+
+| **User Type**           | **Primary Value**                            | **Example Prompts**                                                                                                                 |
+| ----------------------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **ML Engineers**        | Deep technical insight into models & tooling | • “Show popular open-source LLMs for text summarization”<br>• “Which Hugging Face models are state-of-the-art for text generation?” |
+| **Backend Engineers**   | AI relevance without ML complexity           | • “Are there AI tools useful for backend search or summarization?”<br>• “Which of these tools are production-ready?”                |
+| **MLOps Engineers**     | Deployment & infrastructure signals          | • “Which of these tools are open-source and actively maintained?”<br>• “Are these models deployable on-prem or via containers?”     |
+| **Tech Leads**          | High-signal summaries & trend awareness      | • “Summarize the most relevant AI developer news this week”<br>• “Which AI trends could impact backend teams?”                      |
+| **Technical Writers** | Structured, reusable technical content       | • “Explain this article for developers new to LLMs”<br>• “Extract the key technical takeaways from this news item”                  |
+| **Product Managers**    | Strategic clarity & market signals           | • “Which of these tools are proprietary vs open-source?”<br>• “What AI trends should product teams care about?”                     |
+| **Researchers**         | Bridge from research to implementation       | • “Which research projects have working implementations?”<br>• “Are there Hugging Face models implementing this approach?”          |
+| **Students & Learners** | Guided learning & exploration                | • “Explain this Python code step by step”<br>• “Which AI tools should I learn first as a beginner?”                                 |
+---
+
+---
 
 ## Testing and prompts
 
