@@ -31,106 +31,32 @@ Overall, this repository serves as an **extensible ADK toolkit** illustrating ho
 
 ---
 
-## Architecture overview
+## Architecture (High-Level)  
 
-High-level flow:
-1. **ADK Web UI**: user input, headline selection, and execution requests.
-2. **Session state**: tracks mode (news / code), last query, headlines, selections.
-3. **RootAgent**: intent detection, context aggregation, and deterministic routing.
-4. **Specialist agents**:
-   - AIDevSearchAgent (news + google_search)
-   - CodeAgent (sandboxed Python execution)
-   - CodeExplainAgent   
-   - HugginFaceAgent  
-   - GitHib Agent    
+The application is built using a state-aware, RootAgent-centric multi-agent architecture powered by Google Agent Development Kit (ADK) and Gemini models.  
 
-The application is built using a **state-aware, multi-agent architecture powered by Gemini models and Google ADK Web**, designed specifically for AI developers.     
+At a high level, the system consists of:  
 
----
-
-## Core Architecture
-
-### RootAgent
-
-The **RootAgent** acts as the central orchestrator:
-
-* Routes all user input
-* Never responds directly to the user
-* Ensures correct agent selection
-* Enforces separation of concerns between agents
-
-The RootAgent has **direct access** to:
-
-* Gemini‑powered specialist agents
-* Third‑party developer APIs (custom tools)
+1. **ADK Web UI**: Handles user input, headline selection, and explicit execution requests.  
+2. **Session state**: Maintains lightweight UI state, such as:Retrieved headlines, User selections and Interaction context (No business logic or routing decisions are stored here.)  
+3. **RootAgent (Router / Orchestrator)**: Performs deterministic intent classification and delegates requests to specialist agents.
+4. **Specialist agents**: Purpose-built agents responsible for a single, well-defined task:   
+   - AIDevSearchAgent — AI developer news discovery  
+   - CodeAgent — safe Python execution
+   - CodeExplainAgent — Python code explanation  
+   - HuggingFaceAgent — canonical Hugging Face references
+   - GitHubAgent — GitHub repository inspection  
 
 ---
 
-## Gemini‑Powered Specialist Agents
-
-### AIDevSearchAgent *(also known as the **AI Developer News Agent**)*  
-
-Responsible for discovering and summarizing AI‑related news relevant to developers.
-
-**Capabilities:**
-
-* Searches AI developer news, articles, platforms, and use cases
-* Uses `google_search`
-* Manages headline selection and summarization
-
-**Workflow:**
-
-1. Clarify the number of items to retrieve
-2. Search and filter AI‑related content
-3. Present candidate headlines
-4. Summarize selected items
-
----
-
-### CodeAgent *(also known as the **Python Code Agent**)*
-
-Responsible **only** for executing Python code.
-
-**Constraints:**
-
-* Executes Python code exclusively
-* Uses `BuiltInCodeExecutor`
-* Returns raw execution output or errors
-* No explanations or commentary
-
----
-
-### CodeExplainAgent
-
-Responsible for **explaining Python code**.
-
-**Constraints:**
-
-* Explains code logic and behavior
-* Does **not** execute code
-
----
-
-## Third‑Party Developer APIs (Custom Tools)
-
-### Hugging Face Hub Agent
-
-Provides access to Hugging Face ecosystem data:
-
-* Model metadata
-* Spaces
-* Datasets
-* Popularity and usage signals
-
----
-
-### GitHub Agent
-
-Provides insights into open‑source repositories:
-
-* Repository metadata
-* Stars, issues, and commits
-* Open‑source activity signals
+| Agent                | Purpose                         | Capabilities                                                                                      | Constraints                                                            |
+| -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **RootAgent**        | Central router and orchestrator | • Intent detection<br>• Deterministic routing<br>• Delegation to specialist agents                | • Never answers directly<br>• No tool calls<br>• Delegation only       |
+| **AIDevSearchAgent** | AI developer news discovery     | • Search AI dev news<br>• Headline extraction<br>• Structured summaries<br>• Uses `google_search` | • AI content only<br>• Must use `google_search`<br>• No code execution |
+| **CodeAgent**        | Safe Python execution           | • Execute Python code<br>• Return raw output or errors                                            | • Python only<br>• No filesystem<br>• No network<br>• No explanations  |
+| **CodeExplainAgent** | Explain Python code             | • Step-by-step explanation<br>• Highlight logic and pitfalls                                      | • No execution<br>• No code modification                               |
+| **HuggingFaceAgent** | Canonical HF references         | • Validate exact HF IDs<br>• Return official URLs                                                 | • Exact IDs only<br>• No guessing<br>• No recommendations              |
+| **GitHubAgent**      | GitHub repository inspection    | • Fetch repo metadata<br>• Stars, issues, PRs<br>• Recent activity via MCP                        | • Explicit `owner/repo` required<br>• No discovery<br>• No inference   |
 
 ---
 
@@ -380,8 +306,9 @@ Include both valid and invalid prompt tests to verify routing, guardrails, and s
 ### Testing Instructions  
 
 You can test the enhanced multi-agent system using both **valid** and **invalid** prompts. These tests are designed to validate routing, guardrails, MCP usage, and failure modes.  The below table gives an overview of the use of the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system 
-**refuses** or **redirects** as intended.  
+**refuses** or **redirects** as intended.   
 
+---
 ### AIDevSearchAgent — news discovery and summarization
 
 Searches developer‑focused AI news, returns a short list of headlines and concise summaries, and cites sources. The agent clarifies scope (for example, number of items or company focus) before running `google_search`.
@@ -396,6 +323,8 @@ Searches developer‑focused AI news, returns a short list of headlines and conc
 
 Flow: RootAgent → AIDevSearchAgent → `google_search` → summarize & cite sources.
 
+---
+
 ### CodeAgent — Python execution (sandboxed)
 
 Executes user-provided Python in a restricted sandbox (no filesystem, no network). Returns raw stdout/stderr or execution errors; the agent does not add commentary.  
@@ -407,6 +336,7 @@ Executes user-provided Python in a restricted sandbox (no filesystem, no network
 | `Execute python code: sum(i*i for i in range(10))` — computation | `Execute python code: while True: pass` — long‑running / infinite loops |
 | `Execute python code: [x*2 for x in range(5)]` — data structures | `Execute python code: open("file.txt")` — file I/O |
 
+---
 
 ### CodeExplainAgent — Python explanation (no execution)
 
@@ -419,6 +349,7 @@ Explains code logic, intent, and edge cases. Good for pedagogical, line‑by‑l
 | “What does this loop do?” — conceptual explanation | “Optimize this code and rewrite it” — out of scope for explanation-only agent
 | “Explain possible pitfalls in this Python function” — edge cases | “Convert this code to Rust” — translation/rewriting not supported here
 
+---
 
 ### Hugging Face agent — read-only model/dataset lookups
 
@@ -466,6 +397,14 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
    - Ask: “What’s the weather today?”   → Should say:"My capabilities are limited only to AI developrs news. 
 
 ![Google_Search_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevsearch_3.jpeg)
+
+>_Note_: **Workflow:**    
+>         1. Clarify the number of items to retrieve  
+>         2. Search and filter AI‑related content  
+>         3. Present candidate headlines  
+>         4. Summarize selected items  
+
+
 
 ### 2.  Example Prompts: Python Code Execution 
 - Python execution (`valid prompt):
