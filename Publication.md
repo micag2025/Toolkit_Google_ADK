@@ -63,9 +63,8 @@ The following table gives an overview of use cases that illustrate how different
 | Students          | Guided learning                    | Learn Python and AI tooling                |
 
 ---
-## Architecture & Agents & Tools
 
-## Architecture overview
+### Architecture overview
 
 High-level flow:
 1. ADK Web UI: user input, headline selection, and execution requests.
@@ -258,23 +257,28 @@ The **Data Flow lane** represents **execution, transport, and I/O paths**. These
 
 ---
 
-## Agents & Tools  
+## Tool & Agent Mapping  
 
-This section provides a **concise, authoritative mapping** between agents, tools, and execution backends. It complements the architecture diagrams by making *attachments, responsibilities, and transport mechanisms explicit*.
+This section provides a **concise, authoritative mapping** between agents, tools, and execution backends. It complements the architecture diagrams by making *attachments, responsibilities, and transport mechanisms explicit*.  
 
-### Tool Schema
+| Component              |  Type                 | Attached To        |   Purpose                                     |
+| ---------------------- | ----------------------| ------------------ | -------------------------------------------- |
+| AIDevSearchAgent       | AgentTool             | RootAgent          | Discover & summarize AI developer news       |
+| CodeAgent              | AgentTool             | RootAgent          | Execute Python code safely                   |
+| CodeExplainAgent       | AgentTool             | RootAgent          | Explain Python code safely                   |
+| hugging_face_agent     | AgentTool + MCP       | RootAgent          | Hugging Face data (models, datasets, spaces) access      |
+| github_agent           | AgentTool + MCP       | RootAgent          |GitHub insights                               |
+| google_search          | ADK Tool              | AIDevSearchAgent   | Web discovery                                |
+| BuiltInCodeExecutor    | ADK Executor          | CodeAgent          | Deterministic Python sandbox                 |
 
-|              Component | Type                             | Attached To        | Purpose                                      |
-| ---------------------: | -------------------------------- | ------------------ | -------------------------------------------- |
-|   **AIDevSearchAgent** | `AgentTool`                      | RootAgent          | Discover & summarize AI developer news       |
-|          **CodeAgent** | `AgentTool`                      | RootAgent          | Execute Python code safely                   |
-|   **CodeExplainAgent** | `AgentTool`                      | RootAgent          | Explain Python code safely                   |
-| **hugging_face_agent** | `AgentTool` (Gemini + MCP stdio) | RootAgent          | Hugging Face models, datasets, spaces        |
-|       **github_agent** | `AgentTool` (Gemini + MCP HTTP)  | RootAgent          | GitHub repositories, issues, PRs (read‑only) |
-|        `google_search` | Built‑in ADK Tool                | AIDevSearchAgent   | Web discovery for news                       |
-|  `BuiltInCodeExecutor` | ADK Executor                     | CodeAgent          | Deterministic Python sandbox                 |
-|      **HF MCP Server** | MCP Backend (stdio)              | hugging_face_agent | Transport to Hugging Face Hub                |
-|  **GitHub MCP Server** | MCP Backend (HTTP)               | github_agent       | Transport to GitHub API (Copilot MCP)        |
+
+
+
+
+
+
+
+
 
 **Why this matters:**
 
