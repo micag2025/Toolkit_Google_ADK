@@ -64,20 +64,29 @@ The following table gives an overview of use cases that illustrate how different
 
 ---
 
-### Architecture overview
+## Architecture (High-Level)    
+The application is built using a state-aware, **RootAgent-centric multi-agent architecture** powered by **Google ADK** and **Gemini models**.  
 
-High-level flow:
-1. ADK Web UI: user input, headline selection, and execution requests.
-2. Session state: tracks mode (news / code), last query, headlines, selections.
-3. RootAgent: intent detection, context aggregation, and deterministic routing.
-4. Specialist agents:
-   - AIDevSearchAgent (news + google_search)
-   - CodeAgent (sandboxed Python execution)  
-   - HugginFaceAgent  
-   - GitHib Agent  
+At a high level, the system consists of:  
 
+1. **ADK Web UI**: Handles user input, headline selection, and explicit execution requests.  
+2. **Session state**: Maintains lightweight UI state, such as:Retrieved headlines, User selections and Interaction context (No business logic or routing decisions are stored here.)  
+3. **RootAgent (Router / Orchestrator)**: Performs deterministic intent classification and delegates requests to specialist agents.
+4. **Specialist agents**: Purpose-built agents responsible for a single, well-defined task:   
+   - AIDevSearchAgent — AI developer news discovery  
+   - CodeAgent — safe Python execution
+   - CodeExplainAgent — Python code explanation  
+   - HuggingFaceAgent — canonical Hugging Face references
+   - GitHubAgent — GitHub repository inspection  
 
-The application is built using a **multi-agent architecture powered by Gemini models and Google ADK Web**. This application uses a **state-aware, multi-agent architecture** built with **Google ADK Web** and **Gemini models**, designed specifically for AI developers. The below schema diplays hows who decides, who executes, and where data comes from.
+| Agent                | Purpose                         | Capabilities                                                                                      | Constraints                                                            |
+| -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| **RootAgent**        | Central router and orchestrator | • Intent detection<br>• Deterministic routing<br>• Delegation to specialist agents                | • Never answers directly<br>• No tool calls<br>• Delegation only       |
+| **AIDevSearchAgent** | AI developer news discovery     | • Search AI dev news<br>• Headline extraction<br>• Structured summaries<br>• Uses `google_search` | • AI content only<br>• Must use `google_search`<br>• No code execution |
+| **CodeAgent**        | Safe Python execution           | • Execute Python code<br>• Return raw output or errors                                            | • Python only<br>• No filesystem<br>• No network<br>• No explanations  |
+| **CodeExplainAgent** | Explain Python code             | • Step-by-step explanation<br>• Highlight logic and pitfalls                                      | • No execution<br>• No code modification                               |
+| **HuggingFaceAgent** | Canonical HF references         | • Validate exact HF IDs<br>• Return official URLs                                                 | • Exact IDs only<br>• No guessing<br>• No recommendations              |
+| **GitHubAgent**      | GitHub repository inspection    | • Fetch repo metadata<br>• Stars, issues, PRs<br>• Recent activity via MCP                        | • Explicit `owner/repo` required<br>• No discovery<br>• No inference   |
 
 ## Core Architecture
 

@@ -15,11 +15,13 @@ Overall, this repository serves as an **extensible ADK toolkit** illustrating ho
 
 ---
 
-## Highlights
-- Interactive ADK Web UI for experimenting with agents
-- Multi-agent orchestration with a RootAgent that routes to specialist agents
-- Real-time web discovery using `google_search`
-- Safe Python execution via ADK's sandboxed executor
+## Key Highlights    
+
+- Interactive **ADK Web UI** for agent experimentation  
+- **Central RootAgent** enforcing deterministic routing  
+- Real‑time web discovery using `google_search`  
+- Secure Python execution via ADK’s sandboxed executor  
+- Modular integrations with **Hugging Face** and **GitHub**    
 
 ---
 
@@ -147,23 +149,19 @@ The **Data Flow lane** represents **execution, transport, and I/O paths**. These
 
 ---
 
-## Agents & Tools
+## Tool & Agent Mapping  
 
-This section provides a **concise, authoritative mapping** between agents, tools, and execution backends. It complements the architecture diagrams by making *attachments, responsibilities, and transport mechanisms explicit*.
+This section provides a **concise, authoritative mapping** between agents, tools, and execution backends. It complements the architecture diagrams by making *attachments, responsibilities, and transport mechanisms explicit*.  
 
-### Tool Schema
-
-|              Component | Type                             | Attached To        | Purpose                                      |
-| ---------------------: | -------------------------------- | ------------------ | -------------------------------------------- |
-|   **AIDevSearchAgent** | `AgentTool`                      | RootAgent          | Discover & summarize AI developer news       |
-|          **CodeAgent** | `AgentTool`                      | RootAgent          | Execute Python code safely                   |
-|   **CodeExplainAgent** | `AgentTool`                      | RootAgent          | Explain Python code safely                   |
-| **hugging_face_agent** | `AgentTool` (Gemini + MCP stdio) | RootAgent          | Hugging Face models, datasets, spaces        |
-|       **github_agent** | `AgentTool` (Gemini + MCP HTTP)  | RootAgent          | GitHub repositories, issues, PRs (read‑only) |
-|        `google_search` | Built‑in ADK Tool                | AIDevSearchAgent   | Web discovery for news                       |
-|  `BuiltInCodeExecutor` | ADK Executor                     | CodeAgent          | Deterministic Python sandbox                 |
-|      **HF MCP Server** | MCP Backend (stdio)              | hugging_face_agent | Transport to Hugging Face Hub                |
-|  **GitHub MCP Server** | MCP Backend (HTTP)               | github_agent       | Transport to GitHub API (Copilot MCP)        |
+| Component              |  Type                 | Attached To        |   Purpose                                     |
+| ---------------------- | ----------------------| ------------------ | -------------------------------------------- |
+| AIDevSearchAgent       | AgentTool             | RootAgent          | Discover & summarize AI developer news       |
+| CodeAgent              | AgentTool             | RootAgent          | Execute Python code safely                   |
+| CodeExplainAgent       | AgentTool             | RootAgent          | Explain Python code safely                   |
+| hugging_face_agent     | AgentTool + MCP       | RootAgent          | Hugging Face data (models, datasets, spaces) access      |
+| github_agent           | AgentTool + MCP       | RootAgent          |GitHub insights                               |
+| google_search          | ADK Tool              | AIDevSearchAgent   | Web discovery                                |
+| BuiltInCodeExecutor    | ADK Executor          | CodeAgent          | Deterministic Python sandbox                 |
 
 **Why this matters:**
 
