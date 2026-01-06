@@ -364,7 +364,7 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ### 1. Example Prompts: AI News AIDevSearchAgent     
 -  AI news discovery `General discovery (clarification expected)`:    
-   - Ask: "What's the latest AI news about Google?" → Should ask: “How many news items would you like me to find?”  
+   - Ask: "What's the latest AI news about Google?" → After poviding a list of 3 headlines  → Should ask: “Which headline would you explore in more details”  
    - Flow: RootAgent → AIDevSearchAgent → google_search → summarize & cite sources.
 
 ![Google_Search_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevsearch_1.jpeg)
@@ -372,39 +372,43 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ![Google_Search_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevseach_2.jpeg)  
 
 -  AI news discovery `Invalid prompts`:
-   - Ask: “What’s the weather today?”   
+   - Ask: “What’s the weather today?”   → Should say:"My capabilities are limited only to AI developrs news. 
 
 ![Google_Search_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevsearch_3.jpeg)
 
 ### 2.  Example Prompts: Python Code Execution 
 - Python execution (`valid prompt):
-   - Ask: "Run this Python code..." / "Execute python code: print(2 + 2)" / Simple execution and Data handling
+   - Ask: "Execute python code:→  Simple execution and Data handling
    - Flow: RootAgent → CodeAgent → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
 - Python execution (`invalid prompt`):
+  - Ask: "Excute import os → Should cloarify the this operation is not allowed for secuirty reasons. 
      
 ![PythonDevelopr_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_agent_1.jpeg)
 
 ### 3.  Example Prompts: Python Explain Code   
 -  Python explain code
-   - Ask :  "Explain this Python code:”
+   - Ask :  "Explain this Python code:” →  Should explain the given code
    - Flow: RootAgent → CodeExplainAgent  →  return explanation only (no execution).  
         
 ![PythonExplainCode_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_1.jpeg)
 
-![PythonExplainCode_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_2.jpeg)    
+![PythonExplainCode_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_2.jpeg)  
+
+![PythonExplainCode_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_3.jpeg)  
 
 ### 4.  Example Prompts: HuggingFace 
 - Enrichment tests  
-  - Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1    
+  - "validi prompt": Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1    →  return link    
   - Flow: RootAgent → hugging_face_agent   →  *HF MCP Server"  →  return link     
- - Python execution (`invalid prompt`):
+ - `invalid prompt`: List HuggingFace for popularity  → Should clarify that this can not allowed. 
     
 ![HuggingFace_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_hf_agent_3.jpeg)
 
 ### 5.  Example Prompts: GitHub Code Execution    
 -  Enrichment:
-   - RootAgent can request Hugging Face signals to rank or annotate discoveries.   
-   - Flow: RootAgent → github_agent  →  GitHub MCP Server → return explanation only     
+   - RootAgent can request Hugging Face signals to rank or annotate discoveries. Ask:  Show me details about https://github.com/langchain-ai/langgraph? → Return overview github
+   - Flow: RootAgent → github_agent  →  GitHub MCP Server → return explanation only
+- - `invalid prompt` Ask : Show me the repo for Langchain      
          
 ![GitHub_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_github_agent_1.jpeg)   
 
