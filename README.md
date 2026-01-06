@@ -41,6 +41,8 @@ At a high level, the system consists of:
    - HuggingFaceAgent — canonical Hugging Face references
    - GitHubAgent — GitHub repository inspection  
 
+Design rationale, architectural trade-offs, and **control- vs data-flow diagrams** are discussed in the **accompanying Ready Tensor publication**.
+
 ---
 
 | Agent                | Purpose                         | Capabilities                                                                                      | Constraints                                                            |
@@ -59,62 +61,7 @@ At a high level, the system consists of:
 The diagrams below highlight the strict separation between **control flow*** and **data flow** in the system. **Control flow** is centrally managed 
 by the `RootAgent`, which receives all user input, performs intent classification, and deterministically routes requests to the appropriate specialist agent. The `RootAgent` never generates user-facing answers itself. **Data flow** occurs only within specialist agents and their attached tools (such as `google_search`, GitHub MCP, and Hugging Face MCP), where external data is retrieved, processed, and returned as structured outputs. This design enforces clear responsibility boundaries, predictable behavior, and tool-grounded execution across the multi-agent architecture.
 
-```text
-╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                          CONTROL FLOW                                                             ║
-║          (Decision, routing, orchestration – ADK)                                                 ║
-╠═══════════════════════════════════════════════════════════════════════════════════════════════════╣
-║                                                                                                   ║
-║  ┌─────────────────────────────────────────────────────────────────────────────────────┐          ║
-║  │                    ADK Web UI                                                       │          ║
-║  │  - User prompts                                                                     │          ║
-║  │  - Headline selection                                                               │          ║
-║  └──────────────────────────┬──────────────────────────────────────────────────────────┘          ║
-║                             ▼                                                                     ║
-║  ┌─────────────────────────────────────────────────────────────────────────────────────┐          ║
-║  │                    RootAgent                                                        │          ║
-║  │        (Gemini 2.5 Flash – Router / Orchestrator)                                   │          ║
-║  │                                                                                     │          ║
-║  │  - Intent classification                                                            │          ║
-║  │  - Delegation (AgentTool)                                                           │          ║
-║  │  - Result aggregation                                                               │          ║
-║  └───────┬──────────────┬──────────────┬──────────────┬───────────────────────┬────────┘          ║
-║          │              │              │              │                       │                   ║
-║          ▼              ▼              ▼              ▼                       ▼                   ║
-║  ┌──────────────┐ ┌──────────────┐ ┌────────────────┐ ┌────────────────┐    ┌────────────────┐    ║
-║  │ AIDevSearch  │ │   CodeAgent  │ │   CodeExplain  │ │ HuggingFace    │    │ GitHub         │    ║
-║  │   Agent      │ │              │ │   Agent       │  │ Agent          │    │ Agent          │    ║
-║  │ (Gemini Tool)│ │ (Gemini Tool)│ │ (Gemini Tool)  │ │ (Gemini Tool)  │    │ (Gemini Tool)  │    ║
-║  └──────────────┘ └──────────────┘ └────────────────┘ └────────────────┘    └────────────────┘    ║
-║                                                                                                   ║
-╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝
-```
-```text
-╔════════════════════════════════════════════════════════════════════════════════════════════════════╗
-║                           DATA FLOW                                                                ║
-║            (Execution, transport, external systems)                                                ║
-╠════════════════════════════════════════════════════════════════════════════════════════════════════╣
-║                                                                                                    ║
-║  ┌─────────────────────┐      ┌──────────────────────────────┐    ┌──────────────────────────────┐ ║
-║  │ google_search (ADK) │      │ BuiltInCodeExecutor          │    │ CodeExplain                  │ ║
-║  └─────────┬───────────┘      │ (Python sandbox, no net/fs)  │    │ (Python sandbox, no net/fs)  │ ║
-║            │                  └─────────┬────────────────────┘    └─────────┬────────────────────┘ ║
-║            ▼                            ▼                                   ▼                      ║
-║  External search results          Python execution output              Python explanation output   ║
-║                                                                                                    ║
-║  ┌─────────────────────┐      ┌────────────────────────────────┐                                   ║
-║  │ HF MCP Server       │      │ GitHub MCP Server              │                                   ║
-║  │ (stdio, local proc) │      │ (HTTP, remote Copilot MCP)     │                                   ║
-║  └─────────┬───────────┘      └─────────┬──────────────────────┘                                   ║
-║            │                            │                                                          ║
-║            ▼                            ▼                                                          ║
-║  Hugging Face Hub               GitHub Platform                                                    ║
-║  - models                       - repos                                                            ║
-║  - datasets                     - issues / PRs                                                     ║
-║  - spaces                       - commits / releases                                               ║
-║                                                                                                    ║
-╚════════════════════════════════════════════════════════════════════════════════════════════════════╝
-```
+
 
 ---
 
