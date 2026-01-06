@@ -305,8 +305,7 @@ Include both valid and invalid prompt tests to verify routing, guardrails, and s
 
 ### Testing Instructions  
 
-You can test the enhanced multi-agent system using both **valid** and **invalid** prompts. These tests are designed to validate routing, guardrails, MCP usage, and failure modes.  The below table gives an overview of the use of the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system 
-**refuses** or **redirects** as intended.   
+You can test the enhanced multi-agent system using both **valid** and **invalid** prompts. These tests are designed to validate routing, guardrails, MCP usage, and failure modes.  The below table gives an overview of the use of the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system  **refuses** or **redirects** as intended.  Below follow an overview of valid and invalid prompts for  AIDevSearchAgent,  CodeAgent,  CodeExplainAgent hugging_face_agent and github_agent, respectively.
 
 ---
 ### AIDevSearchAgent — news discovery and summarization
@@ -320,8 +319,6 @@ Searches developer‑focused AI news, returns a short list of headlines and conc
 | “Tell me more about the first one” (agent should fetch and summarize the selected item) - follow-up | “Tell me celebrity gossip” |
 | “Company‑focused** — “Recent AI developer news from Meta” - company focused| “Latest stock price of Apple” |
 | “AI tooling news for Python developers” - technology focused | “Movie releases this week” |
-
-Flow: RootAgent → AIDevSearchAgent → `google_search` → summarize & cite sources.
 
 ---
 
@@ -387,7 +384,7 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ### 1. Example Prompts: AI News AIDevSearchAgent     
 -  AI news discovery `General discovery (clarification expected)`:    
    - Ask: "What's the latest AI news about Google?" → After poviding a list of 3 headlines  → Should ask: “Which headline would you explore in more details”  
-   - Flow: RootAgent → AIDevSearchAgent → google_search → summarize & cite sources.
+   - Flow: RootAgent → AIDevSearchAgent → `google_search` → summarize & cite sources    
 
 ![Google_Search_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevsearch_1.jpeg)
 
@@ -404,7 +401,7 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 >         3. Present candidate headlines  
 >         4. Summarize selected items  
 
-
+---
 
 ### 2.  Example Prompts: Python Code Execution 
 - Python execution (`valid prompt):
@@ -414,6 +411,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
   - Ask: "Excute import os → Should cloarify the this operation is not allowed for secuirty reasons. 
      
 ![PythonDevelopr_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_agent_1.jpeg)
+
+---
 
 ### 3.  Example Prompts: Python Explain Code   
 -  Python explain code
@@ -426,6 +425,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ![PythonExplainCode_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_3.jpeg)  
 
+---
+
 ### 4.  Example Prompts: HuggingFace 
 - Enrichment tests  
   - "validi prompt": Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1    →  return link    
@@ -433,6 +434,8 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
  - `invalid prompt`: List HuggingFace for popularity  → Should clarify that this can not allowed. 
     
 ![HuggingFace_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_hf_agent_3.jpeg)
+
+---
 
 ### 5.  Example Prompts: GitHub Code Execution    
 -  Enrichment:
