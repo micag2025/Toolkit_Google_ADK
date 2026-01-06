@@ -25,14 +25,6 @@ Overall, this repository serves as an **extensible ADK toolkit** illustrating ho
 
 ---
 
-## Core capabilities
-
-- **Real-time text agents**: natural conversational interaction with web access for up-to-date information.
-- **Multi-agent orchestration**: coordinated workflows (e.g., researchers, planners, executors).
-- **Production readiness**: guardrails, persistent memory, logging, and deployment on Vertex AI Agent Engine.
-
----
-
 ## Architecture (High-Level)  
 
 The application is built using a state-aware, RootAgent-centric multi-agent architecture powered by Google Agent Development Kit (ADK) and Gemini models.  
@@ -64,20 +56,8 @@ At a high level, the system consists of:
 
 ## Architecture Overview (Control Flow vs Data Flow)
 
-This system architecture is intentionally described using **two parallel lanes**: a **Control Flow lane**, which defines *who decides* and *who delegates* and a **Data Flow lane**, which defines *where execution and data actually travel*. The system is intentionally designed with explicit separation between decision authority (control flow) and execution/data movement (data flow).
-
-### Control Flow Lane — *Who decides what happens next?*
-
-The **Control Flow lane** represents **decision‑making and orchestration**, entirely owned by the **RootAgent**.
-
-Key rules:
-
-* **Only the RootAgent decides** what happens next
-* All specialist agents are **children** of the RootAgent
-* **No agent self‑invokes** or chains other agents
-* **No external system** can directly trigger agent logic
-
-This guarantees a single, auditable decision point and prevents hidden agent autonomy.
+The diagrams below highlight the strict separation between **control flow*** and **data flow** in the system. **Control flow** is centrally managed 
+by the `RootAgent`, which receives all user input, performs intent classification, and deterministically routes requests to the appropriate specialist agent. The `RootAgent` never generates user-facing answers itself. **Data flow** occurs only within specialist agents and their attached tools (such as `google_search`, GitHub MCP, and Hugging Face MCP), where external data is retrieved, processed, and returned as structured outputs. This design enforces clear responsibility boundaries, predictable behavior, and tool-grounded execution across the multi-agent architecture.
 
 ```text
 ╔═══════════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -109,17 +89,6 @@ This guarantees a single, auditable decision point and prevents hidden agent aut
 ║                                                                                                   ║
 ╚═══════════════════════════════════════════════════════════════════════════════════════════════════╝
 ```
-
-### Data Flow Lane — *Where does execution and data actually go?*
-
-The **Data Flow lane** represents **execution, transport, and I/O paths**. These flows may:
-
-* remain local
-* cross process boundaries
-* cross network boundaries
-
-**Important:** transport differences do **not** imply authority. All flows still originate from RootAgent decisions.
-
 ```text
 ╔════════════════════════════════════════════════════════════════════════════════════════════════════╗
 ║                           DATA FLOW                                                                ║
