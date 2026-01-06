@@ -395,25 +395,14 @@ Include both valid and invalid prompt tests to verify routing, guardrails, and s
 
 ### Testing Instructions  
 
-You can test the enhanced multi-agent system using both **valid** and **invalid** prompts.
-
-The examples below are designed to validate multiple aspects of the system, including:  
-- **Routing accuracy** (correct delegation by the RootAgent)  
-- **Agent specialization** (each agent handles only its intended scope)  
-- **MCP integrations** (GitHub and Hugging Face tool usage)  
-- **Safety boundaries** (sandboxing, no guessing, no unauthorized access)  
-- **Session state handling** (headline selection and follow-up flows)  
-- **Instruction adherence** (strict output formats and guardrails)  
-- **Model choice impact** (behavior differences across Gemini models)
-
-The below table gives an overview of the use of the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system 
-**refuses**, **redirects**, **or safely degrades** as intended.  
+You can test the enhanced multi-agent system using both **valid** and **invalid** prompts. These tests are designed to validate routing, guardrails, MCP usage, and failure modes.  The below table gives an overview of the use of the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system 
+**refuses** or **redirects** as intended.  
 
 ### AIDevSearchAgent — news discovery and summarization
 
 Searches developer‑focused AI news, returns a short list of headlines and concise summaries, and cites sources. The agent clarifies scope (for example, number of items or company focus) before running `google_search`.
 
-| ✅ Valid prompts (should get a response) | ❌ Invalid prompts (should be refused / redirected) |
+| ✅ Valid prompts (should get a response) | ❌ Invalid prompts (should be refused or redirected) |
 | --------------------------------------- | -------------------------------------------------- |
 | “Give me AI news for Google” - general request | “What’s the weather today?” |
 | “Give me 3 top AI news items for developers” - scoped request | “Give me sports news headlines” |
@@ -427,7 +416,7 @@ Flow: RootAgent → AIDevSearchAgent → `google_search` → summarize & cite so
 
 Executes user-provided Python in a restricted sandbox (no filesystem, no network). Returns raw stdout/stderr or execution errors; the agent does not add commentary.  
 
-| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused / redirected) |
+| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused or redirected) |
 | ----------------- | ---------------------- |
 | `Execute python code: print(sum(range(10)))` — simple output | `Execute python code: import os; os.listdir()` — filesystem access |
 | `Execute python code: import math; math.sqrt(16)` — math ops | `Execute python code: import requests; requests.get(...)` — network I/O |
@@ -439,7 +428,7 @@ Executes user-provided Python in a restricted sandbox (no filesystem, no network
 
 Explains code logic, intent, and edge cases. Good for pedagogical, line‑by‑line, or conceptual explanations. This agent does not run code.
 
-| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused / redirected) |
+| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused or redirected) |
 | ----------------- | ---------------------- |
 | “Explain this Python code:” — high‑level and line‑by‑line explanations | “Execute this code” — no execution allowed
 | “Explain this code line by line for a junior developer” — pedagogy | “Explain this JavaScript code” — language mismatch
@@ -451,7 +440,7 @@ Explains code logic, intent, and edge cases. Good for pedagogical, line‑by‑l
 
 Performs exact, read-only lookups (model IDs or dataset IDs). It is not a recommendation engine.
 
-| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused / redirected) |
+| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused or redirected) |
 | ----------------- | ---------------------- |
 | “Give me the Hugging Face link for `mistralai/Mixtral-8x7B-Instruct-v0.1`” — exact ID lookup | “Show popular Hugging Face models for text summarization” — discovery/recommendation
 | “Is `facebook/bart-large-cnn` available on Hugging Face?” — availability check | “Recommend a Hugging Face model for me” — subjective recommendation
@@ -462,7 +451,7 @@ Performs exact, read-only lookups (model IDs or dataset IDs). It is not a recomm
 
 Inspects explicit repositories or URLs and returns metadata and activity summaries. It does not perform broad repo discovery or recommend projects.
 
-|✅ Valid prompts (should get a response) | ❌ Invalid prompts (should be refused / redirected) |
+|✅ Valid prompts (should get a response) | ❌ Invalid prompts (should be refused or redirected) |
 | ----------------- | ---------------------- |
 | “Show me details of `langchain-ai/langchain`” — explicit repo lookup | “Find good GitHub repos for AI” — broad discovery
 | “Summarize `github.com/openai/evals`” — explicit URL summary | “Who maintains the best AI repos?” — subjective ranking
@@ -471,7 +460,7 @@ Inspects explicit repositories or URLs and returns metadata and activity summari
 
 ---
 
-## Examples Usage (UI)
+## UI Walkthrough & Example Runs
 
 ### ADK Web UI: 
 ![ADK_interface](https://github.com/micag2025/Toolkit_Google_ADK/blob/739b84b0c46e2b53255baa3bdc2a6614666bbc57/Screenshots_Examples_Usage/Screenshot_UI_interface.jpeg)
