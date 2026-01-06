@@ -186,13 +186,13 @@ Toolkit_Google_ADK/                     # Root project directory
 
 This section shows how to install dependencies, configure authentication, and run the full pipeline.  
 
-Prerequisites:
+- **Prerequisites:**
 
-- Python 3.10+
-- Google Cloud account with Vertex AI / Gemini access
-- (Optional) Hugging Face and GitHub API keys
+  - Python 3.10+  
+  - Google Cloud account with Vertex AI / Gemini access  
+  - (Optional) Hugging Face and GitHub API keys  
 
-Clone and install:
+- **Clone and install:**
 
 ```bash
 git clone https://github.com/micag2025/Toolkit_Google_ADK.git
@@ -202,7 +202,7 @@ source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-Configure environment variables (see .env.example):
+- **Configure environment variables (see .env.example):**
 
 ```env
 GEMINI_API_KEY=your_gemini_api_key
@@ -216,7 +216,7 @@ ADK_DEV_MODE=true
 > - You can create a [Gemini API key](https://docs.cloud.google.com/vertex-ai/generative-ai/docs/start/quickstart?usertype=apikey#python-gen-ai-sdk). This key is essential for authenticating your requests to the Gemini API. A step-by-step guide can be found on o [Google AI Studio](https://cloud.google.com/free?hl=en)
 
 
-Start the ADK Web UI:
+- **Start the ADK Web UI:**
 
 ```bash
 adk web
@@ -224,7 +224,7 @@ adk web
 
 ADK will provide a local URL. Open it in your browser. From the Google ADK user interface in the left pane, select the `app_01` agent. You can now interact with the ADK AI Developer.    
 
-Stop the ADK process if needed:
+- **Stop the ADK process if needed:**  
 
 ```bash
 pkill -f "adk web"
@@ -245,7 +245,6 @@ This table highlights how different user roles can use the ADK Toolkit, along wi
 | **Product Managers**    | Strategic clarity & market signals           | • “Which of these tools are proprietary vs open-source?”<br>• “What AI trends should product teams care about?”                     |
 | **Researchers**         | Bridge from research to implementation       | • “Which research projects have working implementations?”<br>• “Are there Hugging Face models implementing this approach?”          |
 | **Students & Learners** | Guided learning & exploration                | • “Explain this Python code step by step”<br>• “Which AI tools should I learn first as a beginner?”                                 |
----
 
 ---
 
@@ -264,7 +263,7 @@ Use valid prompts to confirm expected behavior, and invalid prompts to ensure th
 
 ---
 
-### AIDevSearchAgent — — AI developer news
+### AIDevSearchAgent — AI developer news
 
 Discovers and summarizes AI news relevant to developers, returning headlines and concise summaries backed by sources.
 
@@ -339,42 +338,22 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 > _Note_ : Different Run Results: The output generated can vary with each execution due to their dynamic, probabilistic nature.     
 
 ### 1. Example Prompts: AI News AIDevSearchAgent     
--  AI news discovery `General discovery (clarification expected)`:    
-   - Ask: "What's the latest AI news about Google?" → After poviding a list of 3 headlines  → Should ask: “Which headline would you explore in more details”  
-   - Flow: RootAgent → AIDevSearchAgent → `google_search` → summarize & cite sources    
 
 ![Google_Search_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevsearch_1.jpeg)
 
 ![Google_Search_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevseach_2.jpeg)  
 
--  AI news discovery `Invalid prompts`:
-   - Ask: “What’s the weather today?”   → Should say:"My capabilities are limited only to AI developrs news. 
-
 ![Google_Search_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_Aidevsearch_3.jpeg)
-
->_Note_: **Workflow:**    
->         1. Clarify the number of items to retrieve  
->         2. Search and filter AI‑related content  
->         3. Present candidate headlines  
->         4. Summarize selected items  
 
 ---
 
 ### 2.  Example Prompts: Python Code Execution 
-- Python execution (`valid prompt):
-   - Ask: "Execute python code:→  Simple execution and Data handling
-   - Flow: RootAgent → CodeAgent → BuiltInCodeExecutor (sandbox) → return execution output (no extra commentary).
-- Python execution (`invalid prompt`):
-  - Ask: "Excute import os → Should cloarify the this operation is not allowed for secuirty reasons. 
      
 ![PythonDevelopr_Agent](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_agent_1.jpeg)
 
 ---
 
 ### 3.  Example Prompts: Python Explain Code   
--  Python explain code
-   - Ask :  "Explain this Python code:” →  Should explain the given code
-   - Flow: RootAgent → CodeExplainAgent  →  return explanation only (no execution).  
         
 ![PythonExplainCode_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_1.jpeg)
 
@@ -385,21 +364,13 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ---
 
 ### 4.  Example Prompts: HuggingFace 
-- Enrichment tests  
-  - "validi prompt": Ask :“Is this model available on Hugging Face: facebook/bart-large-cnn?” / Give me the Hugging Face link for mistralai/Mixtral-8x7B-Instruct-v0.1    →  return link    
-  - Flow: RootAgent → hugging_face_agent   →  *HF MCP Server"  →  return link     
- - `invalid prompt`: List HuggingFace for popularity  → Should clarify that this can not allowed. 
     
 ![HuggingFace_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_hf_agent_3.jpeg)
 
 ---
 
 ### 5.  Example Prompts: GitHub Code Execution    
--  Enrichment:
-   - RootAgent can request Hugging Face signals to rank or annotate discoveries. Ask:  Show me details about https://github.com/langchain-ai/langgraph? → Return overview github
-   - Flow: RootAgent → github_agent  →  GitHub MCP Server → return explanation only
-- - `invalid prompt` Ask : Show me the repo for Langchain      
-         
+             
 ![GitHub_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_github_agent_1.jpeg)   
 
 ![GitHub_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_github_agent_2.jpeg) 
@@ -408,29 +379,29 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 
 ## Limitations & Workarounds
 
-### ADK Tool Restrictions
+### ADK Tool Constraints  
 
-Some built-in ADK tools (for example `google_search` and code execution) typically **cannot be combined within a single agent instance**.
+Some built-in ADK tools (such as `google_search` and code execution) **cannot be combined within a single agent**.  
 
-**Workaround:**
+**Workaround:**  
 
-* Create **specialized agents** (e.g. `SearchAgent`, `CodeAgent`)
-* Orchestrate them exclusively via the **RootAgent**
-* Delegate requests using `AgentTool.create()`
+- Use **specialized agents** (e.g., `AIDevSearchAgent`, `CodeAgent`)    
+- Route all requests through a central **RootAgent**    
+- Delegate execution explicitly via AgentTool    
 
-This preserves architectural clarity while respecting ADK constraints.
+This approach respects ADK constraints while preserving clear separation of responsibilities.  
 
 ---
 
 ### Model Variability
 
-LLM responses may vary between runs, even with identical inputs.
+LLM outputs may vary between runs, even with identical inputs.
 
 **Mitigation:**
 
-* Avoid relying on implicit determinism
-* Explicitly test and validate determinism in **production-critical workflows**
-* Prefer structured outputs where possible
+- Do not assume implicit determinism  
+- Validate behavior explicitly in **production-critical paths**  
+- Prefer **structured outputs** and constrained instructions where possible  
 
 ---
 
@@ -440,9 +411,9 @@ Usage is subject to **Vertex AI / Google Cloud quotas and billing limits**.
 
 **Recommendation:**
 
-* Monitor usage and costs closely
-* Set budget alerts and quota thresholds
-* Test new agents or models in controlled environments first
+-  Monitor usage and costs closely    
+- Configure budget alerts and quota thresholds  
+- Test new agents and models in controlled environments before scaling  
 
 ---
 
