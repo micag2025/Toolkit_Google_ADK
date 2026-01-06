@@ -141,15 +141,6 @@ This section provides a **concise, authoritative mapping** between agents, tools
 
 ---
 
-## Design Principles
-
-* **Separation of concerns** – RootAgent routes, specialist agents execute
-* **Deterministic workflows** – Minimal LLM guesswork for critical steps
-* **Tool transparency** – Explicit tool usage and sources
-* **Developer‑first UX** – Safe code execution and predictable outputs
-
----
-
 ## Project Structure
 
 ```bash
@@ -260,45 +251,43 @@ This table highlights how different user roles can use the ADK Toolkit, along wi
 
 ## Testing and prompts
 
-Designated agents accept constrained prompt types:
+Each agent in the system accepts **strictly scoped prompt types**. Testing should include both **valid** and **invalid** prompts to verify correct routing, enforced guardrails, MCP usage, and safe failure behavior.
 
-- AIDevSearchAgent: news discovery and summarization (clarifies number of items, cites sources)
-- CodeAgent: safe Python execution only (no network/fs)
-- CodeExplainAgent: explanation and pedagogy (no execution)
-- hugging_face_agent and github_agent: read-only metadata lookups
+**Agent scopes (at a glance):**
 
-Include both valid and invalid prompt tests to verify routing, guardrails, and sandboxing.
+- **AIDevSearchAgent:** AI developer news discovery and summarization (via `google_search`)  
+- **CodeAgent:** sandboxed Python execution only (no network or filesystem)  
+- **CodeExplainAgent:** Python code explanation only (no execution)
+- **hugging_face_agent / github_agent:** read-only metadata lookups (no discovery or recommendations)
 
-
-### Testing Instructions  
-
-You can test the enhanced multi-agent system using both **valid** and **invalid** prompts. These tests are designed to validate routing, guardrails, MCP usage, and failure modes.  The below table gives an overview of the use of the valid prompts to confirm expected behavior, and the invalid prompts to verify that the system  **refuses** or **redirects** as intended.  Below follow an overview of valid and invalid prompts for  AIDevSearchAgent,  CodeAgent,  CodeExplainAgent hugging_face_agent and github_agent, respectively.
+Use valid prompts to confirm expected behavior, and invalid prompts to ensure the system **refuses, redirects, or degrades safely**.
 
 ---
-### AIDevSearchAgent — news discovery and summarization
 
-Searches developer‑focused AI news, returns a short list of headlines and concise summaries, and cites sources. The agent clarifies scope (for example, number of items or company focus) before running `google_search`.
+### AIDevSearchAgent — — AI developer news
 
-| ✅ Valid prompts (should get a response) | ❌ Invalid prompts (should be refused or redirected) |
-| --------------------------------------- | -------------------------------------------------- |
-| “Give me AI news for Google” - general request | “What’s the weather today?” |
-| “Give me 3 top AI news items for developers” - scoped request | “Give me sports news headlines” |
-| “Tell me more about the first one” (agent should fetch and summarize the selected item) - follow-up | “Tell me celebrity gossip” |
-| “Company‑focused** — “Recent AI developer news from Meta” - company focused| “Latest stock price of Apple” |
-| “AI tooling news for Python developers” - technology focused | “Movie releases this week” |
+Discovers and summarizes AI news relevant to developers, returning headlines and concise summaries backed by sources.
+
+| ✅ Valid prompts                              | ❌ Invalid prompts           |
+| -------------------------------------------- | --------------------------- |
+| “Give me AI news for Google”                 | “What’s the weather today?” |
+| “Give me 3 top AI news items for developers” | “Give me sports news”       |
+| “Tell me more about the first one”           | “Celebrity gossip”          |
+| “Recent AI developer news from Meta”         | “Apple stock price”         |
+| “AI tooling news for Python developers”      | “Movie releases this week”  |
 
 ---
 
 ### CodeAgent — Python execution (sandboxed)
 
-Executes user-provided Python in a restricted sandbox (no filesystem, no network). Returns raw stdout/stderr or execution errors; the agent does not add commentary.  
+Executes user-provided Python in a restricted environment and eeturns raw output or errors only.
 
-| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused or redirected) |
-| ----------------- | ---------------------- |
-| `Execute python code: print(sum(range(10)))` — simple output | `Execute python code: import os; os.listdir()` — filesystem access |
-| `Execute python code: import math; math.sqrt(16)` — math ops | `Execute python code: import requests; requests.get(...)` — network I/O |
-| `Execute python code: sum(i*i for i in range(10))` — computation | `Execute python code: while True: pass` — long‑running / infinite loops |
-| `Execute python code: [x*2 for x in range(5)]` — data structures | `Execute python code: open("file.txt")` — file I/O |
+| ✅ Valid prompts                                    | ❌ Invalid prompts                    |
+| -------------------------------------------------- | ------------------------------------ |
+| `Execute python code: print(sum(range(10)))`       | `import os; os.listdir()`            |
+| `Execute python code: import math; math.sqrt(16)`  | `import requests; requests.get(...)` |
+| `Execute python code: sum(i*i for i in range(10))` | `while True: pass`                   |
+| `Execute python code: [x*2 for x in range(5)]`     | `open("file.txt")`                   |
 
 ---
 
@@ -306,36 +295,37 @@ Executes user-provided Python in a restricted sandbox (no filesystem, no network
 
 Explains code logic, intent, and edge cases. Good for pedagogical, line‑by‑line, or conceptual explanations. This agent does not run code.
 
-| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused or redirected) |
-| ----------------- | ---------------------- |
-| “Explain this Python code:” — high‑level and line‑by‑line explanations | “Execute this code” — no execution allowed
-| “Explain this code line by line for a junior developer” — pedagogy | “Explain this JavaScript code” — language mismatch
-| “What does this loop do?” — conceptual explanation | “Optimize this code and rewrite it” — out of scope for explanation-only agent
-| “Explain possible pitfalls in this Python function” — edge cases | “Convert this code to Rust” — translation/rewriting not supported here
+| ✅ Valid prompts                                    | ❌ Invalid prompts                |
+| -------------------------------------------------- | -------------------------------- |
+| “Explain this Python code”                         | “Execute this code”              |
+| “Explain this line by line for a junior developer” | “Explain this JavaScript code”   |
+| “What does this loop do?”                          | “Rewrite and optimize this code” |
+| “Explain possible pitfalls in this function”       | “Convert this code to Rust”      |
 
 ---
 
-### Hugging Face agent — read-only model/dataset lookups
+### Hugging Face agent — exact ID lookups  
 
-Performs exact, read-only lookups (model IDs or dataset IDs). It is not a recommendation engine.
+Performs exact, read-only lookups for Hugging Face models or datasets. Not a recommendation engine.
 
-| ✅ Valid prompts (should get a response)  | ❌ Invalid prompts (should be refused or redirected) |
-| ----------------- | ---------------------- |
-| “Give me the Hugging Face link for `mistralai/Mixtral-8x7B-Instruct-v0.1`” — exact ID lookup | “Show popular Hugging Face models for text summarization” — discovery/recommendation
-| “Is `facebook/bart-large-cnn` available on Hugging Face?” — availability check | “Recommend a Hugging Face model for me” — subjective recommendation
-| “Hugging Face link for `google/pegasus-arxiv`” — direct lookup | “List Hugging Face models by popularity” — ranking/discovery
+| ✅ Valid prompts                                                | ❌ Invalid prompts           |
+| -------------------------------------------------------------- | --------------------------- |
+| “Hugging Face link for `mistralai/Mixtral-8x7B-Instruct-v0.1`” | “Show popular HF models”    |
+| “Is `facebook/bart-large-cnn` available?”                      | “Recommend a HF model”      |
+| “Link for `google/pegasus-arxiv`”                              | “Rank models by popularity” |
 
+---
 
-### GitHub agent — read-only repo inspection
+### GitHub agent — repository inspection
 
-Inspects explicit repositories or URLs and returns metadata and activity summaries. It does not perform broad repo discovery or recommend projects.
+Inspects explicitly referenced repositories and returns metadata and activity signals.  
 
-|✅ Valid prompts (should get a response) | ❌ Invalid prompts (should be refused or redirected) |
-| ----------------- | ---------------------- |
-| “Show me details of `langchain-ai/langchain`” — explicit repo lookup | “Find good GitHub repos for AI” — broad discovery
-| “Summarize `github.com/openai/evals`” — explicit URL summary | “Who maintains the best AI repos?” — subjective ranking
-| “Summarize activity for the LangChain repository” — activity summary | “Search GitHub for trending LLM projects” — discovery/search
-| “Give repo stats for `crewAIInc/crewAI`” — explicit stats lookup | “Which GitHub repo should I use?” — recommendation
+| ✅ Valid prompts                            | ❌ Invalid prompts               |
+| ------------------------------------------ | ---------------------------------- |
+| “Show details of `langchain-ai/langchain`” | “Find good GitHub repos for AI”    |
+| “Summarize `github.com/openai/evals`”      | “Who maintains the best AI repos?” |
+| “Summarize activity for LangChain”         | “Search GitHub for trending LLMs”  |
+| “Repo stats for `crewAIInc/crewAI`”        | “Which repo should I use?”         |
 
 ---
 
