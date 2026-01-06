@@ -261,8 +261,6 @@ Each agent in the system accepts **strictly scoped prompt types**. Testing shoul
 
 Use valid prompts to confirm expected behavior, and invalid prompts to ensure the system **refuses, redirects, or degrades safely**.
 
----
-
 ### AIDevSearchAgent — AI developer news
 
 Discovers and summarizes AI news relevant to developers, returning headlines and concise summaries backed by sources.
@@ -275,11 +273,10 @@ Discovers and summarizes AI news relevant to developers, returning headlines and
 | “Recent AI developer news from Meta”         | “Apple stock price”         |
 | “AI tooling news for Python developers”      | “Movie releases this week”  |
 
----
 
 ### CodeAgent — Python execution (sandboxed)
 
-Executes user-provided Python in a restricted environment and eeturns raw output or errors only.
+Executes user-provided Python in a restricted environment and returns raw output or errors only.
 
 | ✅ Valid prompts                                    | ❌ Invalid prompts                    |
 | -------------------------------------------------- | ------------------------------------ |
@@ -288,7 +285,6 @@ Executes user-provided Python in a restricted environment and eeturns raw output
 | `Execute python code: sum(i*i for i in range(10))` | `while True: pass`                   |
 | `Execute python code: [x*2 for x in range(5)]`     | `open("file.txt")`                   |
 
----
 
 ### CodeExplainAgent — Python explanation (no execution)
 
@@ -301,7 +297,6 @@ Explains code logic, intent, and edge cases. Good for pedagogical, line‑by‑l
 | “What does this loop do?”                          | “Rewrite and optimize this code” |
 | “Explain possible pitfalls in this function”       | “Convert this code to Rust”      |
 
----
 
 ### Hugging Face agent — exact ID lookups  
 
@@ -313,7 +308,6 @@ Performs exact, read-only lookups for Hugging Face models or datasets. Not a rec
 | “Is `facebook/bart-large-cnn` available?”                      | “Recommend a HF model”      |
 | “Link for `google/pegasus-arxiv`”                              | “Rank models by popularity” |
 
----
 
 ### GitHub agent — repository inspection
 
@@ -391,8 +385,6 @@ Some built-in ADK tools (such as `google_search` and code execution) **cannot be
 
 This approach respects ADK constraints while preserving clear separation of responsibilities.  
 
----
-
 ### Model Variability
 
 LLM outputs may vary between runs, even with identical inputs.
@@ -402,8 +394,6 @@ LLM outputs may vary between runs, even with identical inputs.
 - Do not assume implicit determinism  
 - Validate behavior explicitly in **production-critical paths**  
 - Prefer **structured outputs** and constrained instructions where possible  
-
----
 
 ### API Quotas & Billing
 
@@ -439,7 +429,7 @@ We actively welcome contributors who want to help **extend the system without co
 
 ### Intentional Model Selection
 
-The current implementation uses `gemini-2.5-flash` across agents. A promising improvement is to **intentionally mix Gemini models by responsibility**. For example, upgrading **AIDevSearchAgent** to `gemini-2.5-pro` and evaluating trade-offs:
+The current system uses gemini-2.5-flash for all agents. A natural next step is to select models by responsibility, rather than uniformly.  For example, upgrading AIDevSearchAgent to gemini-2.5-pro enables higher-quality summarization at a known trade-off:  
 
 | Aspect     | Expected Impact      |
 | ---------- | -------------------- |
@@ -448,53 +438,46 @@ The current implementation uses `gemini-2.5-flash` across agents. A promising im
 | Throughput | Lower                |
 | Quality    | Significantly higher |
 
-This enables controlled experimentation around **quality vs cost vs latency**, while preserving RootAgent orchestration.
+This enables controlled experimentation around **quality, cost and latency**, while preserving RootAgent centric orchestration.
 
----
 
 ### Additional AgentTools
 
 * Add new `AgentTool`s **without destabilizing** existing flows
-* Preserve RootAgent-only delegation
+* Preserve **RootAgent-only delegation**
 * Avoid agent-to-agent invocation chains
 
----
 
 ### Structured Outputs
 
 * Produce **machine-readable JSON outputs** for headlines and summaries
-* Enable downstream automation and evaluation pipelines
+* Enable downstream automation, evaluation and analytics pipelines  
 
----
 
 ### Session & State Management
 
 * Persistent session storage across restarts
-* Reproducible conversations and debugging support
+* Reproducible conversations for debugging and evaluation
 
----
 
 ### Search & Retrieval Refinements
 
-* Filters (e.g. *only open-source*)
+* Content filters (e.g. *open-source only*)
 * Date ranges and recency controls
-* Improved relevance scoring
+* Improved relevance  
 
----
 
 ### UI & Observability
 
-* UI buttons for explicit selection and confirmation
-* Debug / observability modes
-* Clear visibility into control vs data flow at runtime
+* Explicit UI controls for selection and confirmation  
+* Debug and observability modes  
+* Clear visibility into **control vs data flow** at runtime
 
----
 
 ### Stronger Execution Guardrails
-
 * Tighter resource limits
 * Enhanced sandbox policies
-* Explicit failure modes and reporting
+* Explicit failure modes and structured error reporting  
 
 
 Feel free to suggest more ideas by opening an issue or starting a discussion! For bug reports or feature requests, 
