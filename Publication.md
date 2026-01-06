@@ -49,18 +49,18 @@ The result is an **opinionated developer‑intelligence toolkit** that prioritiz
 
 This toolkit supports a broad range of users across the AI development lifecycle. By combining specialist agents with explicit tool constraints, users can retrieve high‑signal information, execute safe code, and access authoritative references without managing agent complexity directly.
 
-The following use cases illustrate how different user roles can leverage the toolkit to address role-specific needs, highlighting its flexibility, practical relevance, and applicability beyond expert AI practitioners.  
+The following table gives an overview of use cases that illustrate how different user roles can leverage the toolkit to address role-specific needs, highlighting its flexibility, practical relevance, and applicability beyond expert AI practitioners.  
 
-| User Type         | Core Value Provided                | Representative Usage Examples                               |
-| ----------------- | ---------------------------------- | ----------------------------------------------------------- |
-| ML Engineers      | Deep insights into AI tooling      | Discover open-source LLM tools; compare Hugging Face models |
-| Backend Engineers | AI relevance without ML overhead   | Identify AI tools suitable for backend services             |
-| MLOps Engineers   | Deployment and maintenance signals | Assess model maturity and on-prem deployability             |
-| Tech Leads        | High-level, actionable summaries   | Weekly AI developer trend summaries                         |
-| Dev Advocates     | Structured technical narratives    | Explain AI articles for non-experts                         |
-| Product Managers  | Strategic and competitive insight  | Identify proprietary vs open-source trends                  |
-| Researchers       | Bridge research and implementation | Find working implementations of research ideas              |
-| Students          | Guided learning and exploration    | Learn Python and AI tooling fundamentals                    |
+|  User Role        | Value Delivered                    | Example Use Cases                          |
+| ----------------- | ---------------------------------- | -------------------------------------------|
+| ML Engineers      | AI tooling insights                | Compare open‑source models, frameworks     |
+| Backend Engineers | AI relevance without ML overhead   | Identify deployable AI tools               |
+| MLOps Engineers   | Deployment signals                 | Assess model maturity and ops readiness    |
+| Tech Leads        | Strategic summaries                | Weekly AI trend overviews                  |
+| Dev Advocates     | Clear narratives                   | Explain AI articles to non‑experts         |
+| Product Managers  | Competitive insight                | Open‑source vs proprietary analysis        |
+| Researchers       | Research‑to‑practice bridge        | Discover implementations of papers         |
+| Students          | Guided learning                    | Learn Python and AI tooling                |
 
 ---
 ## Architecture & Agents & Tools
