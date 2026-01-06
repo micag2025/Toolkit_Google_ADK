@@ -5,13 +5,13 @@ _An extensible toolkit for AI news, code execution, and MCP-based enrichment_
 
 This repository contains the full implementation for the publication **Designing a Safe Multi-Agent Developer Assistant with ADK**, published on the [Ready Tensor](https://www.readytensor.ai/) platform.  
 
-The project is built using the **Google Agent Development Kit (ADK)** and provides a (multi-agent architecture, thus a ) reference **multi-agent developer intelligence toolkit** that demonstrates how to build, orchestrate, and deploy agent-based systems with strict routing and tool grounding. At its core, the system implements an **AI Developer Assistant** capable of: discovering and summarizing real-time AI news relevant to developers, executing Python code safely (in a sandboxed environment), explaining Python code clearly and step by step, and integrating transparently with developer platforms such as **Hugging Face** and **GitHub**
+The project is built using the **Google Agent Development Kit (ADK)** and provides a multi-agent architecture, thus a reference **multi-agent developer intelligence toolkit** that demonstrates how to build, orchestrate, and deploy agent-based systems with strict routing and tool grounding. At its core, the system implements an **AI Developer Assistant** capable of discovering and summarizing real-time AI news relevant to developers, executing and explaining Python code safely, and integrating transparently with developer platforms such as **Hugging Face** and **GitHub**.  
 
-The architecture is centered around a **RootAgent-based design** designed for developers..  The RootAgent never answers user queries directly. Instead, it performs deterministic intent detection and **routes each request to a specialized agent**, enforcing clear separation of responsibilities,  predictable, auditable behaviorand strong safety and tooling boundaries
+The architecture is centered around a **RootAgent-based design** designed for developers.  The RootAgent never answers user queries directly. Instead, it performs deterministic intent detection and **routes each request to a specialized agent**, enforcing clear separation of responsibilities,  predictable, auditable behaviorand strong safety and tooling boundaries
 
-This sysyem (toolkit)  is designed not only for AI developers, but also for a broader audience including Ready Tensor users,  ML Engineers and Researchers,  Backend and MLOps Engineers and Technical Writers.  
+This sysyem (toolkit)  is designed not only for AI developers, but also for a broader audience including Ready Tensor users,  ML Engineers and Researchers and Technical Writers.    
 
-Overall, this repository serves as an **extensible ADK toolkit** illustrating how to design safe, modular, and production-oriented multi-agent systems using Google ADK.  
+Overall, this repository serves as an **extensible ADK toolkit** illustrating how to design safe, modular, and production-oriented multi-agent systems using Google ADK.    
 
 ---
 
