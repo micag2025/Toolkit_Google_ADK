@@ -32,7 +32,8 @@ The result is an **opinionated developer‑intelligence toolkit** that prioritiz
 - Interactive **ADK Web UI** for agent experimentation  
 - **Central RootAgent** enforcing deterministic routing  
 - Real‑time web discovery using `google_search`  
-- Secure Python execution via ADK’s sandboxed executor  
+- Secure Python execution via ADK’s sandboxed executor
+- Explanation Python code   
 - Modular integrations with **Hugging Face** and **GitHub**    
 
 ---
@@ -70,7 +71,7 @@ The application is built using a state-aware, **RootAgent-centric multi-agent ar
 At a high level, the system consists of:  
 
 1. **ADK Web UI**: Handles user input, headline selection, and explicit execution requests.  
-2. **Session state**: Maintains lightweight UI state, such as:Retrieved headlines, User selections and Interaction context (No business logic or routing decisions are stored here.)  
+2. **Session state**: Maintains lightweight UI state, such as retrieved headlines, user selections and interaction context.   
 3. **RootAgent (Router / Orchestrator)**: Performs deterministic intent classification and delegates requests to specialist agents.
 4. **Specialist agents**: Purpose-built agents responsible for a single, well-defined task:   
    - AIDevSearchAgent — AI developer news discovery  
@@ -201,7 +202,7 @@ This section provides a **concise, authoritative mapping** between agents, tools
 **Why this matters:**
 
 * Makes **agent–tool attachment explicit**
-* Clarifies **execution vs transport vs authority**
+* Clarifies **execution, transport and authority**
 * Supports audits, reviews, and future extension
 * Prevents accidental agent autonomy or tool misuse
 
@@ -268,7 +269,7 @@ pkill -f "adk web"
 
 This enhanced instruction pattern includes:
 
-- **Clear Identity**: Explicitly defines the agent's sole purpose
+- **Clear Identity**: Explicitly defines the agent's role purpose
 - **Refusal Mechanism**: Provides exact phrases for rejecting off-topic requests  
 - **Workflow Requirements**: Forces the agent to use tools and cite sources
 - **Behavioral Boundaries**: Sets expectations for valid vs. invalid requests
