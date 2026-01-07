@@ -3,7 +3,7 @@ _An extensible toolkit for AI news, code execution, and MCP-based enrichment_
 
 ## Overview
 
-This repository contains the full implementation for the publication **Designing a Safe Multi-Agent Developer Assistant with ADK**, published on the [Ready Tensor](https://www.readytensor.ai/) platform.  
+This repository contains the full implementation for the publication [**Designing a Safe Multi-Agent Developer Assistant with ADK**](https://app.readytensor.ai/publications/designing-a-safe-multi-agent-developer-assistant-with-google-adk-ZOmQk5uBpON7), published on the [Ready Tensor](https://www.readytensor.ai/) platform.  
 
 This project is built with the **Google Agent Development Kit (ADK)** and serves as a reference **multi-agent developer intelligence toolkit**. It demonstrates how to design, orchestrate, and deploy agent-based systems with strict routing, tool grounding, and safety boundaries.
 
