@@ -107,7 +107,6 @@ Toolkit_Google_ADK/                     # Root project directory
 │   ├── Screenshot_CodeExplainAgent3.jpeg
 │   ├── Screenshot_HuggingFaceAgent1.jpeg
 │   ├── Screenshot_HuggingFaceAgent2.jpeg
-│   ├── Screenshot_HuggingFaceAgent3.jpeg
 │   ├── Screenshot_GitHubAgent1.jpeg
 │   ├── Screenshot_GitHubAgent2.jpeg
 
@@ -292,8 +291,6 @@ After selecting the appropriate app (`app_01`) from the dropdown menu from the A
 ![PythonExplainCode_Agent_1](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_1.jpeg)
 
 ![PythonExplainCode_Agent_2](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_2.jpeg)  
-
-![PythonExplainCode_Agent_3](https://github.com/micag2025/Toolkit_Google_ADK/blob/7f9f9847b6f6e58bc90626556ab965c883c994d6/Screenshots_Examples_Usage/Screenshot_code_explain_agent_3.jpeg)  
 
 ---
 
